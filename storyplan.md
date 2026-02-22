@@ -375,16 +375,21 @@ For every competency row:
 - ML model training  
 - Classification tests  
 
-### **Phase 3 — API**
-- Competency endpoints  
-- Report generation  
-- Self‑eval endpoints  
+### **Phase 3 — API** 🔄 **PARTIALLY COMPLETED**
+- Connector configuration endpoints ✅
+- Competency endpoints ❌ (Not yet implemented)
+- Report generation ❌ (Not yet implemented)  
+- Self‑eval endpoints ❌ (Not yet implemented)
 
-### **Phase 4 — Web Interface**
-- Dashboard  
-- Matrix view  
-- Self‑evaluation  
-- Team overview  
+### **Phase 4 — Web Interface** 🔄 **PARTIALLY COMPLETED**
+- Dashboard ✅ (Basic overview with connector stats)
+- Matrix view ❌ (Actual competency matrix not yet implemented)
+- Self‑evaluation ✅ (Configuration pages for connectors)
+- Team overview ✅ (Connectors management page)
+- React + TypeScript + Tailwind CSS ✅
+- Routing between pages ✅
+- API client integration ✅
+- CORS configuration ✅  
 
 ### **Phase 5 — Quiz & Remediation (Part 2B)**
 - Adaptive quiz engine and domain question bank

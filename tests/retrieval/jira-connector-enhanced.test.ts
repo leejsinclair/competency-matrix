@@ -1,8 +1,8 @@
-import { JiraConnectorEnhanced } from "../../src/retrieval/jira-connector-enhanced";
 import { afterEach, beforeEach, describe, expect, it, jest } from "@jest/globals";
+import axios from "axios";
+import { JiraConnectorEnhanced } from "../../src/retrieval/jira-connector-enhanced";
 
 jest.mock("axios");
-import axios from "axios";
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe("JiraConnectorEnhanced", () => {

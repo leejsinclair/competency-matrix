@@ -1,8 +1,8 @@
+import axios from "axios";
 import { BitbucketConnector } from "../../src/retrieval/bitbucket-connector";
 import { ArtifactStore } from "../../src/types/artifact";
 
 jest.mock("axios");
-import axios from "axios";
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe("BitbucketConnector", () => {

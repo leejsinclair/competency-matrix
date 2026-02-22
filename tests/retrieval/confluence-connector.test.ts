@@ -1,9 +1,9 @@
+import { afterEach, beforeEach, describe, expect, it, jest } from "@jest/globals";
+import axios from "axios";
 import { ConfluenceConnector } from "../../src/retrieval/confluence-connector";
 import { ArtifactStore } from "../../src/types/artifact";
-import { afterEach, beforeEach, describe, expect, it, jest } from "@jest/globals";
 
 jest.mock("axios");
-import axios from "axios";
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe("ConfluenceConnector", () => {

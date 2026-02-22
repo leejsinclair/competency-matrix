@@ -1,4 +1,6 @@
+import cors from "@fastify/cors";
 import fastify from "fastify";
+import path from "path";
 import {
   ConnectorConfigController,
   registerConnectorConfigRoutes,
@@ -9,7 +11,7 @@ export class ApiServer {
   private port: number;
   private host: string;
 
-  constructor(port: number = 3000, host: string = "localhost") {
+  constructor(port: number = 3001, host: string = "localhost") {
     this.port = port;
     this.host = host;
     this.server = fastify({
@@ -21,6 +23,13 @@ export class ApiServer {
 
   async start(): Promise<void> {
     try {
+      // Register CORS
+      await this.server.register(cors, {
+        origin: ["http://localhost:5173", "http://localhost:3000"],
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+      });
+
       // Register connector configuration routes
       const connectorController = new ConnectorConfigController();
       registerConnectorConfigRoutes(this.server, connectorController);
@@ -54,6 +63,25 @@ export class ApiServer {
         };
       });
 
+      // Serve static files from frontend
+      this.server.register(require("@fastify/static"), {
+        root: path.join(__dirname, "../../frontend/dist"),
+        prefix: "/",
+      });
+
+      // Serve index.html for all non-API routes (SPA support)
+      this.server.setNotFoundHandler(async (request, reply) => {
+        if (request.url.startsWith("/api") || request.url === "/health") {
+          reply.code(404).send({ error: "Not Found" });
+        } else {
+          const indexPath = path.join(
+            __dirname,
+            "../../frontend/dist/index.html"
+          );
+          return reply.sendFile(indexPath);
+        }
+      });
+
       // Start server
       await this.server.listen({ port: this.port, host: this.host });
       console.log(`🚀 API Server running on http://${this.host}:${this.port}`);
@@ -81,7 +109,7 @@ export class ApiServer {
 // Start server if this file is executed directly
 if (require.main === module) {
   const server = new ApiServer(
-    parseInt(process.env.API_PORT || "3000", 10),
+    parseInt(process.env.API_PORT || "3001", 10),
     process.env.API_HOST || "localhost"
   );
 

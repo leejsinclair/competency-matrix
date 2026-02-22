@@ -1,0 +1,405 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "1.1: Rule Engine Tests",
+      "detail": "Test rule-based labeling system for CircleCI competency matrix",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "./scripts/with-nvm.sh npm test -- tests/processing/rule-engine.test.ts"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [
+        {
+          "owner": "jest",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": [
+            {
+              "regexp": "^\\s+at\\s+.*\\((.*):(\\d+):(\\d+)\\)$",
+              "file": 1,
+              "line": 2,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "1.2: Processor Rules Tests",
+      "detail": "Test processor rule management for CircleCI competency categories",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "./scripts/with-nvm.sh npm test -- tests/processing/processor-rules.test.ts"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [
+        {
+          "owner": "jest",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": [
+            {
+              "regexp": "^\\s+at\\s+.*\\((.*):(\\d+):(\\d+)\\)$",
+              "file": 1,
+              "line": 2,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "1.3: ML Processor Tests",
+      "detail": "Test TensorFlow ML processor for CircleCI competency classification",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "./scripts/with-nvm.sh npm test -- tests/processing/ml-processor.test.ts"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [
+        {
+          "owner": "jest",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": [
+            {
+              "regexp": "^\\s+at\\s+.*\\((.*):(\\d+):(\\d+)\\)$",
+              "file": 1,
+              "line": 2,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "1.4: Core Processor Tests",
+      "detail": "Test integrated processor combining rule engine and ML processor",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "./scripts/with-nvm.sh npm test -- tests/processing/"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [
+        {
+          "owner": "jest",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": [
+            {
+              "regexp": "^\\s+at\\s+.*\\((.*):(\\d+):(\\d+)\\)$",
+              "file": 1,
+              "line": 2,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "2.1: JIRA Connector Tests",
+      "detail": "Test JIRA integration for retrieving developer activities",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "./scripts/with-nvm.sh npm test -- tests/retrieval/jira-connector.test.ts"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [
+        {
+          "owner": "jest",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": [
+            {
+              "regexp": "^\\s+at\\s+.*\\((.*):(\\d+):(\\d+)\\)$",
+              "file": 1,
+              "line": 2,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "2.2: Artifact Store Tests",
+      "detail": "Test storage system for processed competency artifacts",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "./scripts/with-nvm.sh npm test -- tests/retrieval/local-fs-artifact-store.test.ts"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [
+        {
+          "owner": "jest",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": [
+            {
+              "regexp": "^\\s+at\\s+.*\\((.*):(\\d+):(\\d+)\\)$",
+              "file": 1,
+              "line": 2,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "3.1: Full Assessment System",
+      "detail": "Run complete assessment of CircleCI competency labeling accuracy",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "./scripts/with-nvm.sh npm run assessment:full"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "3.2: Assessment by Category",
+      "detail": "Run assessment for specific CircleCI competency category",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "./scripts/with-nvm.sh npm run assessment:category"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "3.3: Assessment by Level",
+      "detail": "Run assessment for specific competency level (1-5)",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "./scripts/with-nvm.sh npm run assessment:level"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "4.1: Full Test Suite",
+      "detail": "Run all tests for complete CircleCI competency matrix system",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "./scripts/with-nvm.sh npm test"
+      ],
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [
+        {
+          "owner": "jest",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": [
+            {
+              "regexp": "^\\s+at\\s+.*\\((.*):(\\d+):(\\d+)\\)$",
+              "file": 1,
+              "line": 2,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Quick: Run Rule Engine Only",
+      "detail": "Quick test of rule engine for CircleCI competency labeling",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "./scripts/with-nvm.sh npm test -- tests/processing/rule-engine.test.ts"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": [
+        {
+          "owner": "jest",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": [
+            {
+              "regexp": "^\\s+at\\s+.*\\((.*):(\\d+):(\\d+)\\)$",
+              "file": 1,
+              "line": 2,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Quick: Run Assessment",
+      "detail": "Quick assessment of CircleCI competency labeling accuracy",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "./scripts/with-nvm.sh npm run assessment:full"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    }
+  ]
+}

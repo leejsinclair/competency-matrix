@@ -1,0 +1,31 @@
+{
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.organizeImports": true
+  },
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/coverage": true,
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/coverage": true
+  },
+  "jest.jestCommandLine": "npm test",
+  "typescript.preferences.includePackageJsonAutoImports": "on",
+  "editor.suggest.insertMode": "replace",
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "editor.bracketPairColorization.enabled": {
+    "enabled": true,
+    "useEditorLanguageService": true
+  }
+}

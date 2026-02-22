@@ -1,0 +1,60 @@
+{
+  "name": "competency-intelligence-platform",
+  "version": "1.0.0",
+  "description": "Engineering competency intelligence platform with automated activity analysis",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "./scripts/with-nvm.sh tsc",
+    "start": "./scripts/with-nvm.sh node dist/index.js",
+    "dev": "./scripts/with-nvm.sh ts-node-dev --respawn --transpile-only src/index.ts",
+    "test": "./scripts/with-nvm.sh jest",
+    "test:watch": "./scripts/with-nvm.sh jest --watch",
+    "test:coverage": "./scripts/with-nvm.sh jest --coverage",
+    "test:processor": "./scripts/with-nvm.sh jest tests/processing/processor-*.test.ts",
+    "lint": "./scripts/with-nvm.sh eslint src/**/*.ts",
+    "lint:fix": "./scripts/with-nvm.sh eslint src/**/*.ts --fix",
+    "format": "./scripts/with-nvm.sh prettier --write src/**/*.ts",
+    "assessment:full": "./scripts/with-nvm.sh ts-node tests/assessment/run-assessment.ts full",
+    "assessment:category": "./scripts/with-nvm.sh ts-node tests/assessment/run-assessment.ts category",
+    "assessment:level": "./scripts/with-nvm.sh ts-node tests/assessment/run-assessment.ts level"
+  },
+  "keywords": [
+    "competency",
+    "engineering",
+    "analysis",
+    "ml",
+    "automation"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@tensorflow/tfjs-node": "^4.22.0",
+    "axios": "^1.13.5",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "fastify": "^5.7.4",
+    "joi": "^18.0.2",
+    "mssql": "^12.2.0",
+    "simple-git": "^3.32.1",
+    "uuid": "^13.0.0",
+    "winston": "^3.19.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.3.0",
+    "@types/supertest": "^6.0.3",
+    "@types/uuid": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.56.0",
+    "@typescript-eslint/parser": "^8.56.0",
+    "eslint": "^10.0.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "jest": "^30.2.0",
+    "prettier": "^3.8.1",
+    "supertest": "^7.2.2",
+    "ts-jest": "^29.4.6",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  }
+}

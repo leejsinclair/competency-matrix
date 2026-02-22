@@ -1,0 +1,6 @@
+if [ -s "$HOME/.nvm/nvm.sh" ]; then
+	. "$HOME/.nvm/nvm.sh"
+	nvm use >/dev/null
+fi
+
+npm test

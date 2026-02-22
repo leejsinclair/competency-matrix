@@ -16,7 +16,8 @@
     "format": "./scripts/with-nvm.sh prettier --write src/**/*.ts",
     "assessment:full": "./scripts/with-nvm.sh ts-node tests/assessment/run-assessment.ts full",
     "assessment:category": "./scripts/with-nvm.sh ts-node tests/assessment/run-assessment.ts category",
-    "assessment:level": "./scripts/with-nvm.sh ts-node tests/assessment/run-assessment.ts level"
+    "assessment:level": "./scripts/with-nvm.sh ts-node tests/assessment/run-assessment.ts level",
+    "prepare": "husky"
   },
   "keywords": [
     "competency",
@@ -50,6 +51,7 @@
     "eslint": "^10.0.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
+    "husky": "^9.1.7",
     "jest": "^30.2.0",
     "prettier": "^3.8.1",
     "supertest": "^7.2.2",

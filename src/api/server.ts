@@ -1,10 +1,15 @@
 import cors from "@fastify/cors";
 import fastify from "fastify";
 import path from "path";
+import { DatabaseConnection } from "../database/connection";
 import {
   ConnectorConfigController,
   registerConnectorConfigRoutes,
 } from "./connector-config-routes";
+import {
+  registerSimpleProcessingRoutes,
+  SimpleProcessingController,
+} from "./processing-routes-simple";
 import { competencyRoutes } from "./routes/competency-routes";
 
 export class ApiServer {
@@ -37,6 +42,12 @@ export class ApiServer {
 
       // Register competency routes
       await competencyRoutes(this.server);
+
+      // TODO: Add processing routes once import issues are resolved
+      const db = DatabaseConnection.getInstance();
+      await db.connect();
+      const processingController = new SimpleProcessingController(db);
+      registerSimpleProcessingRoutes(this.server, processingController);
 
       // Add health check endpoint
       this.server.get("/health", async () => {

@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { TabPanelProps } from '../types';
-import JiraConfigTab from '../components/JiraConfigTab';
-import ConfluenceConfigTab from '../components/ConfluenceConfigTab';
 import BitbucketConfigTab from '../components/BitbucketConfigTab';
+import ConfluenceConfigTab from '../components/ConfluenceConfigTab';
+import JiraConfigTab from '../components/JiraConfigTab';
+import ProcessingTab from '../components/ProcessingTab';
+import { TabPanelProps } from '../types';
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -72,6 +73,16 @@ export default function Configuration() {
             >
               Bitbucket Configuration
             </button>
+            <button
+              onClick={() => handleTabChange(3)}
+              className={`${
+                tabValue === 3
+                  ? 'border-primary-500 text-primary-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
+            >
+              Processing & Analysis
+            </button>
           </nav>
         </div>
 
@@ -84,6 +95,9 @@ export default function Configuration() {
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
           <BitbucketConfigTab />
+        </TabPanel>
+        <TabPanel value={tabValue} index={3}>
+          <ProcessingTab />
         </TabPanel>
       </div>
     </div>

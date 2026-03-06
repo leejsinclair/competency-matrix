@@ -85,6 +85,18 @@ export const connectorApi = {
     const response = await api.post(`/api/connector-configs/${id}/test`);
     return response.data;
   },
+
+  // Generic GET method for other endpoints
+  get: async (url: string): Promise<any> => {
+    const response = await api.get(url);
+    return response.data;
+  },
+
+  // Generic POST method for other endpoints
+  post: async (url: string, data?: any): Promise<any> => {
+    const response = await api.post(url, data);
+    return response.data;
+  },
 };
 
 export const healthApi = {

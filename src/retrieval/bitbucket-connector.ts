@@ -1,11 +1,17 @@
-import axios, { AxiosInstance } from 'axios';
-import { ActivityEvent, BitbucketActivityEvent, BitbucketEventMetadata, BITBUCKET_EVENT_TYPES } from '../types/activity';
-import { ArtifactStore } from '../types/artifact';
+import axios, { AxiosInstance } from "axios";
+import {
+  ActivityEvent,
+  BITBUCKET_EVENT_TYPES,
+  BitbucketActivityEvent,
+  BitbucketEventMetadata,
+} from "../types/activity";
+import { ArtifactStore } from "../types/artifact";
 
 export interface BitbucketConfig {
   baseUrl: string;
   username: string;
-  appPassword: string;
+  apiToken: string; // Changed from appPassword to apiToken for clarity
+  workspace?: string; // Added workspace for better organization
 }
 
 export interface BitbucketRetrievalOptions {
@@ -36,7 +42,7 @@ interface BitbucketPullRequest {
   id: number;
   title: string;
   description: string;
-  state: 'OPEN' | 'MERGED' | 'DECLINED' | 'SUPERSEDED';
+  state: "OPEN" | "MERGED" | "DECLINED" | "SUPERSEDED";
   author: {
     display_name: string;
     nickname: string;
@@ -139,21 +145,33 @@ export class BitbucketConnector {
   private artifactStore: ArtifactStore;
 
   constructor(config: BitbucketConfig, artifactStore: ArtifactStore) {
+    // Create Basic Auth header with base64 encoding for API token
+    const authHeader =
+      "Basic " +
+      Buffer.from(`${config.username}:${config.apiToken}`).toString("base64");
+
+    console.log("🔧 Bitbucket config:", {
+      username: config.username,
+      baseUrl: config.baseUrl,
+      workspace: config.workspace,
+      hasApiToken: !!config.apiToken,
+    });
+    console.log(`🔑 Bitbucket Auth header: ${authHeader}`);
+
     this.client = axios.create({
       baseURL: config.baseUrl,
-      auth: {
-        username: config.username,
-        password: config.appPassword,
-      },
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        Authorization: authHeader,
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
     });
     this.artifactStore = artifactStore;
   }
 
-  async retrievePullRequests(options: BitbucketRetrievalOptions = {}): Promise<ActivityEvent[]> {
+  async retrievePullRequests(
+    options: BitbucketRetrievalOptions = {}
+  ): Promise<ActivityEvent[]> {
     const events: ActivityEvent[] = [];
     const { since, repositories } = options;
 
@@ -162,30 +180,58 @@ export class BitbucketConnector {
     for (const repo of repos) {
       try {
         const pullRequests = await this.getRepositoryPullRequests(repo, since);
-        
+
         for (const pr of pullRequests) {
           // Store raw PR data as artifact
           const artifactKey = `bitbucket/pullrequests/${repo}/${pr.id}`;
           const jsonString = JSON.stringify(pr, null, 2);
           await this.artifactStore.put(artifactKey, jsonString, {
-            contentType: 'application/json',
-            source: 'bitbucket',
+            contentType: "application/json",
+            source: "bitbucket",
             timestamp: new Date(pr.created_on),
           });
 
           // Create PR creation event
-          events.push(this.createPullRequestEvent(repo, pr, BITBUCKET_EVENT_TYPES.PULL_REQUEST_CREATED, pr.created_on));
+          events.push(
+            this.createPullRequestEvent(
+              repo,
+              pr,
+              BITBUCKET_EVENT_TYPES.PULL_REQUEST_CREATED,
+              pr.created_on
+            )
+          );
 
           // Create PR update event
           if (pr.updated_on !== pr.created_on) {
-            events.push(this.createPullRequestEvent(repo, pr, BITBUCKET_EVENT_TYPES.PULL_REQUEST_UPDATED, pr.updated_on));
+            events.push(
+              this.createPullRequestEvent(
+                repo,
+                pr,
+                BITBUCKET_EVENT_TYPES.PULL_REQUEST_UPDATED,
+                pr.updated_on
+              )
+            );
           }
 
           // Create PR merge/decline events
-          if (pr.state === 'MERGED') {
-            events.push(this.createPullRequestEvent(repo, pr, BITBUCKET_EVENT_TYPES.PULL_REQUEST_MERGED, pr.updated_on));
-          } else if (pr.state === 'DECLINED') {
-            events.push(this.createPullRequestEvent(repo, pr, BITBUCKET_EVENT_TYPES.PULL_REQUEST_DECLINED, pr.updated_on));
+          if (pr.state === "MERGED") {
+            events.push(
+              this.createPullRequestEvent(
+                repo,
+                pr,
+                BITBUCKET_EVENT_TYPES.PULL_REQUEST_MERGED,
+                pr.updated_on
+              )
+            );
+          } else if (pr.state === "DECLINED") {
+            events.push(
+              this.createPullRequestEvent(
+                repo,
+                pr,
+                BITBUCKET_EVENT_TYPES.PULL_REQUEST_DECLINED,
+                pr.updated_on
+              )
+            );
           }
 
           // Get comments for this PR
@@ -207,35 +253,40 @@ export class BitbucketConnector {
         for (const pipeline of pipelines) {
           events.push(this.createPipelineEvent(repo, pipeline));
         }
-
       } catch (error) {
         // Continue with other repositories if one fails
         continue;
       }
     }
 
-    return events.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+    return events.sort(
+      (a, b) =>
+        new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+    );
   }
 
   private async getRepositories(): Promise<string[]> {
     try {
-      const response = await this.client.get('/repositories', {
+      const response = await this.client.get("/repositories", {
         params: {
-          role: 'member',
+          role: "member",
           pagelen: 100,
         },
       });
-      
+
       return response.data.values.map((repo: any) => repo.full_name);
     } catch (error) {
       throw new Error(`Failed to retrieve repositories: ${error}`);
     }
   }
 
-  private async getRepositoryPullRequests(repo: string, since?: Date): Promise<BitbucketPullRequest[]> {
+  private async getRepositoryPullRequests(
+    repo: string,
+    since?: Date
+  ): Promise<BitbucketPullRequest[]> {
     try {
       const params: any = {
-        state: 'all',
+        state: "all",
         pagelen: 100,
       };
 
@@ -243,9 +294,12 @@ export class BitbucketConnector {
         params.q = `updated_on >= ${since.toISOString()}`;
       }
 
-      const response = await this.client.get(`/repositories/${repo}/pullrequests`, {
-        params,
-      });
+      const response = await this.client.get(
+        `/repositories/${repo}/pullrequests`,
+        {
+          params,
+        }
+      );
 
       return response.data.values || [];
     } catch (error) {
@@ -253,13 +307,19 @@ export class BitbucketConnector {
     }
   }
 
-  private async getPullRequestComments(repo: string, prId: number): Promise<BitbucketComment[]> {
+  private async getPullRequestComments(
+    repo: string,
+    prId: number
+  ): Promise<BitbucketComment[]> {
     try {
-      const response = await this.client.get(`/repositories/${repo}/pullrequests/${prId}/comments`, {
-        params: {
-          pagelen: 100,
-        },
-      });
+      const response = await this.client.get(
+        `/repositories/${repo}/pullrequests/${prId}/comments`,
+        {
+          params: {
+            pagelen: 100,
+          },
+        }
+      );
 
       return response.data.values || [];
     } catch (error) {
@@ -267,7 +327,10 @@ export class BitbucketConnector {
     }
   }
 
-  private async getRepositoryPipelines(repo: string, since?: Date): Promise<BitbucketPipeline[]> {
+  private async getRepositoryPipelines(
+    repo: string,
+    since?: Date
+  ): Promise<BitbucketPipeline[]> {
     try {
       const params: any = {
         pagelen: 100,
@@ -277,9 +340,12 @@ export class BitbucketConnector {
         params.q = `created_on >= ${since.toISOString()}`;
       }
 
-      const response = await this.client.get(`/repositories/${repo}/pipelines`, {
-        params,
-      });
+      const response = await this.client.get(
+        `/repositories/${repo}/pipelines`,
+        {
+          params,
+        }
+      );
 
       return response.data.values || [];
     } catch (error) {
@@ -288,14 +354,14 @@ export class BitbucketConnector {
   }
 
   private createPullRequestEvent(
-    repo: string, 
-    pr: BitbucketPullRequest, 
-    eventType: string, 
+    repo: string,
+    pr: BitbucketPullRequest,
+    eventType: string,
     timestamp: string
   ): BitbucketActivityEvent {
     const metadata: BitbucketEventMetadata = {
       repository: repo,
-      project: repo.split('/')[0],
+      project: repo.split("/")[0],
       pullRequestId: pr.id,
       pullRequestTitle: pr.title,
       sourceBranch: pr.source.branch.name,
@@ -303,12 +369,12 @@ export class BitbucketConnector {
       state: pr.state,
       commitHash: pr.source.commit.hash,
       author: pr.author.nickname,
-      reviewers: pr.reviewers.map(r => r.nickname),
+      reviewers: pr.reviewers.map((r) => r.nickname),
     };
 
     return {
       id: `bitbucket-${repo}-pr-${pr.id}-${eventType}-${Date.now()}`,
-      source: 'bitbucket',
+      source: "bitbucket",
       timestamp,
       actor: pr.author.nickname,
       type: eventType,
@@ -318,13 +384,13 @@ export class BitbucketConnector {
   }
 
   private createCommentEvent(
-    repo: string, 
-    pr: BitbucketPullRequest, 
+    repo: string,
+    pr: BitbucketPullRequest,
     comment: BitbucketComment
   ): BitbucketActivityEvent {
     const metadata: BitbucketEventMetadata = {
       repository: repo,
-      project: repo.split('/')[0],
+      project: repo.split("/")[0],
       pullRequestId: pr.id,
       pullRequestTitle: pr.title,
       commentId: comment.id.toString(),
@@ -334,7 +400,7 @@ export class BitbucketConnector {
 
     return {
       id: `bitbucket-${repo}-pr-${pr.id}-comment-${comment.id}`,
-      source: 'bitbucket',
+      source: "bitbucket",
       timestamp: comment.created_on,
       actor: comment.user.nickname,
       type: BITBUCKET_EVENT_TYPES.COMMENT_ADDED,
@@ -344,13 +410,13 @@ export class BitbucketConnector {
   }
 
   private createApprovalEvent(
-    repo: string, 
-    pr: BitbucketPullRequest, 
+    repo: string,
+    pr: BitbucketPullRequest,
     participant: any
   ): BitbucketActivityEvent {
     const metadata: BitbucketEventMetadata = {
       repository: repo,
-      project: repo.split('/')[0],
+      project: repo.split("/")[0],
       pullRequestId: pr.id,
       pullRequestTitle: pr.title,
       commitHash: pr.source.commit.hash,
@@ -360,7 +426,7 @@ export class BitbucketConnector {
 
     return {
       id: `bitbucket-${repo}-pr-${pr.id}-approval-${participant.user.account_id}`,
-      source: 'bitbucket',
+      source: "bitbucket",
       timestamp: pr.updated_on, // Use PR update time as approval time
       actor: participant.user.nickname,
       type: BITBUCKET_EVENT_TYPES.APPROVAL_GRANTED,
@@ -368,10 +434,13 @@ export class BitbucketConnector {
     };
   }
 
-  private createPipelineEvent(repo: string, pipeline: BitbucketPipeline): BitbucketActivityEvent {
+  private createPipelineEvent(
+    repo: string,
+    pipeline: BitbucketPipeline
+  ): BitbucketActivityEvent {
     const metadata: BitbucketEventMetadata = {
       repository: repo,
-      project: repo.split('/')[0],
+      project: repo.split("/")[0],
       pipelineUuid: pipeline.uuid,
       pipelineState: pipeline.state.name,
       commitHash: pipeline.target.commit?.hash,
@@ -379,9 +448,9 @@ export class BitbucketConnector {
 
     return {
       id: `bitbucket-${repo}-pipeline-${pipeline.uuid}`,
-      source: 'bitbucket',
+      source: "bitbucket",
       timestamp: pipeline.created_on,
-      actor: 'system', // Pipelines are typically automated
+      actor: "system", // Pipelines are typically automated
       type: BITBUCKET_EVENT_TYPES.PIPELINE_COMPLETED,
       metadata,
     };
@@ -392,7 +461,7 @@ export class BitbucketConnector {
    */
   async testConnection(): Promise<boolean> {
     try {
-      const response = await this.client.get('/user');
+      const response = await this.client.get("/user");
       return response.status === 200;
     } catch (error) {
       return false;
@@ -404,13 +473,13 @@ export class BitbucketConnector {
    */
   async getUserRepositories(): Promise<BitbucketRepository[]> {
     try {
-      const response = await this.client.get('/repositories', {
+      const response = await this.client.get("/repositories", {
         params: {
-          role: 'member',
+          role: "member",
           pagelen: 100,
         },
       });
-      
+
       return response.data.values || [];
     } catch (error) {
       throw new Error(`Failed to retrieve user repositories: ${error}`);
@@ -420,7 +489,10 @@ export class BitbucketConnector {
   /**
    * Get commits for a repository
    */
-  async getRepositoryCommits(repo: string, since?: Date): Promise<ActivityEvent[]> {
+  async getRepositoryCommits(
+    repo: string,
+    since?: Date
+  ): Promise<ActivityEvent[]> {
     try {
       const params: any = {
         pagelen: 100,
@@ -440,14 +512,14 @@ export class BitbucketConnector {
       for (const commit of commits) {
         const metadata: BitbucketEventMetadata = {
           repository: repo,
-          project: repo.split('/')[0],
+          project: repo.split("/")[0],
           commitHash: commit.hash,
           author: commit.author?.user?.nickname || commit.author?.raw,
         };
 
         events.push({
           id: `bitbucket-${repo}-commit-${commit.hash}`,
-          source: 'bitbucket',
+          source: "bitbucket",
           timestamp: commit.date,
           actor: commit.author?.user?.nickname || commit.author?.raw,
           type: BITBUCKET_EVENT_TYPES.COMMIT_PUSHED,

@@ -1,0 +1,753 @@
+{
+  "name": "Root",
+  "children": [
+    {
+      "name": "Software Engineering",
+      "children": [
+        {
+          "name": "Programming Languages",
+          "terms": [
+            {
+              "canonical": "Java",
+              "variants": ["java", "Java SE", "Java EE"]
+            },
+            {
+              "canonical": "Kotlin",
+              "variants": ["kotlin"]
+            },
+            {
+              "canonical": "Python",
+              "variants": ["python", "CPython"]
+            },
+            {
+              "canonical": "JavaScript",
+              "variants": ["javascript", "js", "ECMAScript", "ES6", "ES2015"]
+            },
+            {
+              "canonical": "TypeScript",
+              "variants": ["typescript", "ts"]
+            },
+            {
+              "canonical": "Go",
+              "variants": ["go", "golang"]
+            },
+            {
+              "canonical": "C#",
+              "variants": ["csharp", "c#", ".NET", ".NET Core", ".NET 6"]
+            }
+          ]
+        },
+        {
+          "name": "Architecture & Design",
+          "terms": [
+            {
+              "canonical": "Microservices",
+              "variants": ["microservice", "microservices architecture"]
+            },
+            {
+              "canonical": "Monolith",
+              "variants": ["monolithic", "monolithic application"]
+            },
+            {
+              "canonical": "Event-driven architecture",
+              "variants": ["event driven", "event-driven", "EDA"]
+            },
+            {
+              "canonical": "Hexagonal architecture",
+              "variants": ["hexagonal architecture", "ports and adapters"]
+            },
+            {
+              "canonical": "Domain-driven design",
+              "variants": ["domain driven design", "DDD"]
+            },
+            {
+              "canonical": "CQRS",
+              "variants": ["cqrs", "command query responsibility segregation"]
+            },
+            {
+              "canonical": "Event sourcing",
+              "variants": ["event sourcing", "event-sourced"]
+            }
+          ]
+        },
+        {
+          "name": "Testing & Quality",
+          "terms": [
+            {
+              "canonical": "Unit testing",
+              "variants": ["unit test", "unit tests", "unit testing"]
+            },
+            {
+              "canonical": "Integration testing",
+              "variants": ["integration test", "integration tests", "integration testing"]
+            },
+            {
+              "canonical": "End-to-end testing",
+              "variants": ["e2e test", "e2e tests", "end to end test", "end-to-end test"]
+            },
+            {
+              "canonical": "Test-driven development",
+              "variants": ["tdd", "test driven development"]
+            },
+            {
+              "canonical": "Behavior-driven development",
+              "variants": ["bdd", "behavior driven development", "behaviour driven development"]
+            },
+            {
+              "canonical": "Code coverage",
+              "variants": ["coverage", "test coverage", "code coverage"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Web Development",
+      "children": [
+        {
+          "name": "Frontend",
+          "terms": [
+            {
+              "canonical": "HTML",
+              "variants": ["html", "html5"]
+            },
+            {
+              "canonical": "CSS",
+              "variants": ["css", "css3"]
+            },
+            {
+              "canonical": "React",
+              "variants": ["react", "reactjs", "react.js"]
+            },
+            {
+              "canonical": "Vue",
+              "variants": ["vue", "vuejs", "vue.js"]
+            },
+            {
+              "canonical": "Angular",
+              "variants": ["angular", "angularjs", "angular.js"]
+            },
+            {
+              "canonical": "SPA",
+              "variants": ["single page app", "single-page application", "spa"]
+            }
+          ]
+        },
+        {
+          "name": "Backend",
+          "terms": [
+            {
+              "canonical": "REST API",
+              "variants": ["rest", "rest api", "restful api", "restful service"]
+            },
+            {
+              "canonical": "GraphQL",
+              "variants": ["graphql"]
+            },
+            {
+              "canonical": "gRPC",
+              "variants": ["grpc"]
+            },
+            {
+              "canonical": "WebSocket",
+              "variants": ["websocket", "web sockets", "web socket"]
+            },
+            {
+              "canonical": "Spring Boot",
+              "variants": ["spring boot", "spring-boot"]
+            },
+            {
+              "canonical": "Express",
+              "variants": ["express", "expressjs", "express.js"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DevOps & Platform Engineering",
+      "children": [
+        {
+          "name": "CI/CD",
+          "terms": [
+            {
+              "canonical": "Continuous integration",
+              "variants": ["continuous integration", "ci pipeline", "ci pipelines"]
+            },
+            {
+              "canonical": "Continuous delivery",
+              "variants": ["continuous delivery", "cd pipeline", "cd pipelines"]
+            },
+            {
+              "canonical": "CircleCI",
+              "variants": ["circleci", "circle ci"]
+            },
+            {
+              "canonical": "GitHub Actions",
+              "variants": ["github actions", "gh actions"]
+            },
+            {
+              "canonical": "GitLab CI",
+              "variants": ["gitlab ci", "gitlab-ci", "gitlab pipeline", "gitlab pipelines"]
+            },
+            {
+              "canonical": "Jenkins",
+              "variants": ["jenkins", "jenkins pipeline", "jenkinsfile"]
+            }
+          ]
+        },
+        {
+          "name": "Observability",
+          "terms": [
+            {
+              "canonical": "Logging",
+              "variants": ["logs", "logging", "application logs"]
+            },
+            {
+              "canonical": "Metrics",
+              "variants": ["metrics", "time series metrics"]
+            },
+            {
+              "canonical": "Tracing",
+              "variants": ["distributed tracing", "traces", "trace ids"]
+            },
+            {
+              "canonical": "Prometheus",
+              "variants": ["prometheus", "prom metrics"]
+            },
+            {
+              "canonical": "Grafana",
+              "variants": ["grafana", "grafana dashboards"]
+            },
+            {
+              "canonical": "OpenTelemetry",
+              "variants": ["opentelemetry", "otel"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Infrastructure & Cloud",
+      "children": [
+        {
+          "name": "Compute",
+          "terms": [
+            {
+              "canonical": "Virtual machine",
+              "variants": ["vm", "virtual machine", "virtual machines"]
+            },
+            {
+              "canonical": "Autoscaling",
+              "variants": ["auto scaling", "autoscaling", "auto-scaling"]
+            },
+            {
+              "canonical": "Serverless",
+              "variants": ["serverless", "serverless compute"]
+            }
+          ]
+        },
+        {
+          "name": "Networking",
+          "terms": [
+            {
+              "canonical": "VPC",
+              "variants": ["vpc", "virtual private cloud"]
+            },
+            {
+              "canonical": "Subnet",
+              "variants": ["subnet", "subnets"]
+            },
+            {
+              "canonical": "Load balancer",
+              "variants": ["load balancer", "lb", "application load balancer", "network load balancer"]
+            },
+            {
+              "canonical": "DNS",
+              "variants": ["dns", "domain name system"]
+            },
+            {
+              "canonical": "VPN",
+              "variants": ["vpn", "virtual private network"]
+            }
+          ]
+        },
+        {
+          "name": "Storage & Databases",
+          "terms": [
+            {
+              "canonical": "Relational database",
+              "variants": ["relational database", "rdbms", "sql database"]
+            },
+            {
+              "canonical": "NoSQL database",
+              "variants": ["nosql", "nosql database"]
+            },
+            {
+              "canonical": "Object storage",
+              "variants": ["object storage", "blob storage"]
+            }
+          ]
+        },
+        {
+          "name": "Messaging & Eventing",
+          "terms": [
+            {
+              "canonical": "Message queue",
+              "variants": ["message queue", "mq", "message broker"]
+            },
+            {
+              "canonical": "Kafka",
+              "variants": ["kafka", "apache kafka"]
+            },
+            {
+              "canonical": "RabbitMQ",
+              "variants": ["rabbitmq"]
+            },
+            {
+              "canonical": "MQTT",
+              "variants": ["mqtt"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Containers & Orchestration",
+      "children": [
+        {
+          "name": "Docker",
+          "terms": [
+            {
+              "canonical": "Docker",
+              "variants": ["docker", "docker engine"]
+            },
+            {
+              "canonical": "Docker image",
+              "variants": ["docker image", "container image", "images"]
+            },
+            {
+              "canonical": "Docker container",
+              "variants": ["docker container", "container", "containers"]
+            },
+            {
+              "canonical": "Dockerfile",
+              "variants": ["dockerfile", "docker file"]
+            },
+            {
+              "canonical": "docker build",
+              "variants": ["docker build", "docker buildx"]
+            },
+            {
+              "canonical": "docker run",
+              "variants": ["docker run"]
+            },
+            {
+              "canonical": "docker compose",
+              "variants": ["docker compose", "docker-compose", "docker-compose.yml"]
+            },
+            {
+              "canonical": "Container registry",
+              "variants": ["container registry", "docker registry", "image registry"]
+            }
+          ]
+        },
+        {
+          "name": "Kubernetes",
+          "terms": [
+            {
+              "canonical": "Kubernetes",
+              "variants": ["kubernetes", "k8s"]
+            },
+            {
+              "canonical": "Pod",
+              "variants": ["pod", "pods"]
+            },
+            {
+              "canonical": "Deployment",
+              "variants": ["deployment", "deployments"]
+            },
+            {
+              "canonical": "StatefulSet",
+              "variants": ["statefulset", "stateful set"]
+            },
+            {
+              "canonical": "DaemonSet",
+              "variants": ["daemonset", "daemon set"]
+            },
+            {
+              "canonical": "Service",
+              "variants": ["kubernetes service", "service", "clusterip", "nodeport", "loadbalancer service"]
+            },
+            {
+              "canonical": "Ingress",
+              "variants": ["ingress", "ingress controller"]
+            },
+            {
+              "canonical": "ConfigMap",
+              "variants": ["configmap", "config map"]
+            },
+            {
+              "canonical": "Secret",
+              "variants": ["kubernetes secret", "secret", "secrets"]
+            },
+            {
+              "canonical": "Helm",
+              "variants": ["helm", "helm chart", "helm charts"]
+            },
+            {
+              "canonical": "kubectl",
+              "variants": ["kubectl", "kubectl apply", "kubectl get", "kubectl describe", "kubectl logs"]
+            },
+            {
+              "canonical": "Kubeconfig",
+              "variants": ["kubeconfig", "kube config"]
+            },
+            {
+              "canonical": "RBAC",
+              "variants": ["rbac", "role based access control"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AWS Services",
+      "children": [
+        {
+          "name": "Compute",
+          "terms": [
+            {
+              "canonical": "EC2",
+              "variants": ["ec2", "elastic compute cloud"]
+            },
+            {
+              "canonical": "ECS",
+              "variants": ["ecs", "elastic container service"]
+            },
+            {
+              "canonical": "EKS",
+              "variants": ["eks", "elastic kubernetes service"]
+            },
+            {
+              "canonical": "Lambda",
+              "variants": ["lambda", "aws lambda", "lambda function", "lambda functions"]
+            },
+            {
+              "canonical": "Fargate",
+              "variants": ["fargate", "ecs fargate", "aws fargate"]
+            }
+          ]
+        },
+        {
+          "name": "Networking & Delivery",
+          "terms": [
+            {
+              "canonical": "VPC",
+              "variants": ["vpc", "aws vpc"]
+            },
+            {
+              "canonical": "Route 53",
+              "variants": ["route 53", "route53"]
+            },
+            {
+              "canonical": "API Gateway",
+              "variants": ["api gateway", "aws api gateway"]
+            },
+            {
+              "canonical": "Application Load Balancer",
+              "variants": ["alb", "application load balancer"]
+            },
+            {
+              "canonical": "Network Load Balancer",
+              "variants": ["nlb", "network load balancer"]
+            }
+          ]
+        },
+        {
+          "name": "Storage & Databases",
+          "terms": [
+            {
+              "canonical": "S3",
+              "variants": ["s3", "simple storage service", "s3 bucket", "s3 buckets"]
+            },
+            {
+              "canonical": "RDS",
+              "variants": ["rds", "relational database service"]
+            },
+            {
+              "canonical": "Aurora",
+              "variants": ["aurora", "amazon aurora"]
+            },
+            {
+              "canonical": "DynamoDB",
+              "variants": ["dynamodb", "amazon dynamodb"]
+            },
+            {
+              "canonical": "EFS",
+              "variants": ["efs", "elastic file system"]
+            }
+          ]
+        },
+        {
+          "name": "Messaging & Integration",
+          "terms": [
+            {
+              "canonical": "SQS",
+              "variants": ["sqs", "simple queue service"]
+            },
+            {
+              "canonical": "SNS",
+              "variants": ["sns", "simple notification service"]
+            },
+            {
+              "canonical": "AmazonMQ",
+              "variants": ["amazonmq", "amazon mq", "aws amazonmq"]
+            },
+            {
+              "canonical": "EventBridge",
+              "variants": ["eventbridge", "amazon eventbridge", "cloudwatch events"]
+            },
+            {
+              "canonical": "Kinesis",
+              "variants": ["kinesis", "kinesis streams", "kinesis firehose"]
+            }
+          ]
+        },
+        {
+          "name": "Security & Secrets",
+          "terms": [
+            {
+              "canonical": "IAM",
+              "variants": ["iam", "identity and access management", "iam role", "iam roles", "iam policy", "iam policies"]
+            },
+            {
+              "canonical": "KMS",
+              "variants": ["kms", "key management service"]
+            },
+            {
+              "canonical": "Secrets Manager",
+              "variants": ["secrets manager", "aws secrets manager"]
+            },
+            {
+              "canonical": "SSM Parameter Store",
+              "variants": ["parameter store", "ssm parameter store", "systems manager parameter store"]
+            }
+          ]
+        },
+        {
+          "name": "DevOps & Management",
+          "terms": [
+            {
+              "canonical": "CloudFormation",
+              "variants": ["cloudformation", "cfn", "cloud formation"]
+            },
+            {
+              "canonical": "CDK",
+              "variants": ["cdk", "aws cdk", "cloud development kit"]
+            },
+            {
+              "canonical": "CodePipeline",
+              "variants": ["codepipeline", "code pipeline"]
+            },
+            {
+              "canonical": "CodeBuild",
+              "variants": ["codebuild", "code build"]
+            },
+            {
+              "canonical": "CodeDeploy",
+              "variants": ["codedeploy", "code deploy"]
+            },
+            {
+              "canonical": "CloudWatch",
+              "variants": ["cloudwatch", "cloud watch", "cloudwatch logs", "cloudwatch metrics"]
+            },
+            {
+              "canonical": "CloudTrail",
+              "variants": ["cloudtrail", "cloud trail"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Atlassian",
+      "children": [
+        {
+          "name": "Jira",
+          "terms": [
+            {
+              "canonical": "Jira",
+              "variants": ["jira", "JIRA"]
+            },
+            {
+              "canonical": "Jira project",
+              "variants": ["jira project", "jira projects"]
+            },
+            {
+              "canonical": "Jira issue",
+              "variants": ["jira issue", "jira issues", "jira ticket", "jira tickets"]
+            },
+            {
+              "canonical": "Epic",
+              "variants": ["epic", "epics", "jira epic", "jira epics"]
+            },
+            {
+              "canonical": "Story",
+              "variants": ["story", "stories", "user story", "user stories"]
+            },
+            {
+              "canonical": "Sub-task",
+              "variants": ["subtask", "sub-task", "sub task", "jira subtask"]
+            },
+            {
+              "canonical": "Jira workflow",
+              "variants": ["jira workflow", "workflow", "workflows"]
+            },
+            {
+              "canonical": "Jira board",
+              "variants": ["jira board", "scrum board", "kanban board"]
+            },
+            {
+              "canonical": "JQL",
+              "variants": ["jql", "jira query language"]
+            },
+            {
+              "canonical": "Sprint",
+              "variants": ["sprint", "sprints", "jira sprint"]
+            },
+            {
+              "canonical": "Backlog",
+              "variants": ["backlog", "jira backlog"]
+            }
+          ]
+        },
+        {
+          "name": "Bitbucket",
+          "terms": [
+            {
+              "canonical": "Bitbucket",
+              "variants": ["bitbucket"]
+            },
+            {
+              "canonical": "Bitbucket repository",
+              "variants": ["bitbucket repo", "bitbucket repos", "bitbucket repository", "bitbucket repositories"]
+            },
+            {
+              "canonical": "Pull request",
+              "variants": ["pull request", "pull requests", "pr", "prs", "bitbucket pull request"]
+            },
+            {
+              "canonical": "Bitbucket Pipelines",
+              "variants": ["bitbucket pipelines", "bitbucket pipeline", "pipelines yaml", "bitbucket-pipelines.yml"]
+            },
+            {
+              "canonical": "Merge check",
+              "variants": ["merge check", "merge checks"]
+            },
+            {
+              "canonical": "Branch permissions",
+              "variants": ["branch permission", "branch permissions"]
+            }
+          ]
+        },
+        {
+          "name": "Confluence",
+          "terms": [
+            {
+              "canonical": "Confluence",
+              "variants": ["confluence"]
+            },
+            {
+              "canonical": "Confluence page",
+              "variants": ["confluence page", "confluence pages"]
+            },
+            {
+              "canonical": "Confluence space",
+              "variants": ["confluence space", "confluence spaces"]
+            },
+            {
+              "canonical": "Confluence macro",
+              "variants": ["confluence macro", "confluence macros"]
+            },
+            {
+              "canonical": "Confluence template",
+              "variants": ["confluence template", "confluence templates"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Collaboration & Process",
+      "children": [
+        {
+          "name": "Git & Version Control",
+          "terms": [
+            {
+              "canonical": "Git",
+              "variants": ["git"]
+            },
+            {
+              "canonical": "Git branch",
+              "variants": ["git branch", "branches", "feature branch", "release branch"]
+            },
+            {
+              "canonical": "Git commit",
+              "variants": ["git commit", "commit", "commits"]
+            },
+            {
+              "canonical": "Git merge",
+              "variants": ["git merge", "merge commit"]
+            },
+            {
+              "canonical": "Git rebase",
+              "variants": ["git rebase", "rebase"]
+            },
+            {
+              "canonical": "Git tag",
+              "variants": ["git tag", "tags"]
+            },
+            {
+              "canonical": "Pull request",
+              "variants": ["pull request", "pull requests", "pr", "prs"]
+            },
+            {
+              "canonical": "Code review",
+              "variants": ["code review", "code reviews", "review comments"]
+            }
+          ]
+        },
+        {
+          "name": "Agile & Delivery",
+          "terms": [
+            {
+              "canonical": "Scrum",
+              "variants": ["scrum"]
+            },
+            {
+              "canonical": "Kanban",
+              "variants": ["kanban"]
+            },
+            {
+              "canonical": "Standup",
+              "variants": ["standup", "stand-up", "daily standup", "daily scrum"]
+            },
+            {
+              "canonical": "Retrospective",
+              "variants": ["retro", "retrospective", "sprint retrospective"]
+            },
+            {
+              "canonical": "Sprint planning",
+              "variants": ["sprint planning", "planning session"]
+            },
+            {
+              "canonical": "Backlog refinement",
+              "variants": ["backlog refinement", "backlog grooming"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

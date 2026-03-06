@@ -1,0 +1,368 @@
+{
+  "rules": [
+    {
+      "id": "programming-language-detection",
+      "name": "Programming Language Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "Java",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "programming-languages",
+          "competencyRow": "software-engineering",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates practical knowledge of Java programming"
+          },
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "javascript-detection",
+      "name": "JavaScript Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "JavaScript",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "programming-languages",
+          "competencyRow": "software-engineering",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates practical knowledge of JavaScript programming"
+          },
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "python-detection",
+      "name": "Python Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "Python",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "programming-languages",
+          "competencyRow": "software-engineering",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates practical knowledge of Python programming"
+          },
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "react-detection",
+      "name": "React Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "React",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "web-development",
+          "competencyRow": "frontend",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates practical knowledge of React framework"
+          },
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "docker-detection",
+      "name": "Docker Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "Docker",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "containers-orchestration",
+          "competencyRow": "devops-platform-engineering",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates practical knowledge of Docker containers"
+          },
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "kubernetes-detection",
+      "name": "Kubernetes Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "Kubernetes",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "containers-orchestration",
+          "competencyRow": "devops-platform-engineering",
+          "level": {
+            "level": 3,
+            "name": "Advanced",
+            "description": "Demonstrates advanced knowledge of Kubernetes orchestration"
+          },
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "aws-services-detection",
+      "name": "AWS Services Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "EC2",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "infrastructure-cloud",
+          "competencyRow": "infrastructure-cloud",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates knowledge of AWS EC2 compute services"
+          },
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "jira-detection",
+      "name": "Jira Detection",
+      "category": "tool-proficiency",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "Jira",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "collaboration-tools",
+          "competencyRow": "atlassian",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates practical knowledge of Jira project management"
+          },
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "git-detection",
+      "name": "Git Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "Git",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "collaboration-process",
+          "competencyRow": "git-version-control",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates practical knowledge of Git version control"
+          },
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "microservices-detection",
+      "name": "Microservices Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "microservices",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "architecture-design",
+          "competencyRow": "software-engineering",
+          "level": {
+            "level": 3,
+            "name": "Advanced",
+            "description": "Demonstrates knowledge of microservices architecture"
+          },
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "testing-detection",
+      "name": "Testing Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "unit test",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "testing-quality",
+          "competencyRow": "software-engineering",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates knowledge of unit testing practices"
+          },
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "agile-detection",
+      "name": "Agile Detection",
+      "category": "process-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "Scrum",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "agile-delivery",
+          "competencyRow": "collaboration-process",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates knowledge of Scrum methodology"
+          },
+          "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "code-review-detection",
+      "name": "Code Review Detection",
+      "category": "process-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "code review",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "collaboration-process",
+          "competencyRow": "git-version-control",
+          "level": {
+            "level": 3,
+            "name": "Advanced",
+            "description": "Demonstrates advanced code review practices"
+          },
+          "confidence": 0.9
+        }
+      }
+    }
+  ]
+}

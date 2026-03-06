@@ -1,8 +1,8 @@
-import { ApiServer } from './api/server';
+import { ApiServer } from "./api/server";
 
 // Start the API server
 const server = new ApiServer(
-  parseInt(process.env.API_PORT || "3000", 10),
+  parseInt(process.env.API_PORT || "3001", 10),
   process.env.API_HOST || "localhost"
 );
 

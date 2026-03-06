@@ -1,17 +1,42 @@
-import { useState } from 'react';
+import { Plus, Save, TestTube, Trash2, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { connectorApi } from '../services/api';
-import { BitbucketConfig } from '../types';
-import { Plus, X, Save } from 'lucide-react';
+import { BitbucketConfig, ConnectorConfig } from '../types';
 
 export default function BitbucketConfigTab() {
+  const [connectors, setConnectors] = useState<ConnectorConfig[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState<BitbucketConfig>({
     baseUrl: '',
     username: '',
-    appPassword: '',
+    apiToken: '',
+    workspace: '',
     repositories: [''],
   });
   const [loading, setLoading] = useState(false);
+  const [loadingConnectors, setLoadingConnectors] = useState(true);
+  const [testingConnector, setTestingConnector] = useState<number | null>(null);
+
+  useEffect(() => {
+    loadBitbucketConnectors();
+  }, []);
+
+  const loadBitbucketConnectors = async () => {
+    try {
+      const response = await connectorApi.getAll();
+      if (response.success) {
+        // Filter only bitbucket connectors
+        const bitbucketConnectors = response.data?.filter(
+          (connector: ConnectorConfig) => connector.connector_type === 'bitbucket'
+        ) || [];
+        setConnectors(bitbucketConnectors);
+      }
+    } catch (error) {
+      console.error('Failed to load Bitbucket connectors:', error);
+    } finally {
+      setLoadingConnectors(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,10 +52,13 @@ export default function BitbucketConfigTab() {
       setFormData({
         baseUrl: '',
         username: '',
-        appPassword: '',
+        apiToken: '',
+        workspace: '',
         repositories: [''],
       });
       setShowForm(false);
+      // Reload connectors to show the newly created one
+      loadBitbucketConnectors();
     } catch (error) {
       console.error('Failed to create Bitbucket config:', error);
     } finally {
@@ -41,24 +69,52 @@ export default function BitbucketConfigTab() {
   const addRepository = () => {
     setFormData({
       ...formData,
-      repositories: [...formData.repositories, ''],
+      repositories: [...(formData.repositories || []), ''],
     });
   };
 
   const removeRepository = (index: number) => {
     setFormData({
       ...formData,
-      repositories: formData.repositories.filter((_, i) => i !== index),
+      repositories: (formData.repositories || []).filter((_, i) => i !== index),
     });
   };
 
   const updateRepository = (index: number, value: string) => {
-    const newRepositories = [...formData.repositories];
+    const newRepositories = [...(formData.repositories || [])];
     newRepositories[index] = value;
     setFormData({
       ...formData,
       repositories: newRepositories,
     });
+  };
+
+  const deleteConnector = async (id: number) => {
+    if (window.confirm('Are you sure you want to delete this Bitbucket configuration?')) {
+      try {
+        await connectorApi.delete(id);
+        loadBitbucketConnectors();
+      } catch (error) {
+        console.error('Failed to delete connector:', error);
+      }
+    }
+  };
+
+  const testConnector = async (id: number) => {
+    setTestingConnector(id);
+    try {
+      const response = await connectorApi.test(id);
+      if (response.success) {
+        alert(`✅ Connection test successful!\n\n${response.message}`);
+      } else {
+        alert(`❌ Connection test failed!\n\n${response.error || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Failed to test connector:', error);
+      alert('❌ Connection test failed. Please check the console for details.');
+    } finally {
+      setTestingConnector(null);
+    }
   };
 
   return (
@@ -107,15 +163,28 @@ export default function BitbucketConfigTab() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                App Password
+                API Token
               </label>
               <input
                 type="password"
-                value={formData.appPassword}
-                onChange={(e) => setFormData({ ...formData, appPassword: e.target.value })}
+                value={formData.apiToken}
+                onChange={(e) => setFormData({ ...formData, apiToken: e.target.value })}
                 className="input"
-                placeholder="Your Bitbucket app password"
+                placeholder="Your Bitbucket API token"
                 required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Workspace
+              </label>
+              <input
+                type="text"
+                value={formData.workspace || ''}
+                onChange={(e) => setFormData({ ...formData, workspace: e.target.value })}
+                className="input"
+                placeholder="creditsense"
               />
             </div>
 
@@ -123,7 +192,7 @@ export default function BitbucketConfigTab() {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Repositories
               </label>
-              {formData.repositories.map((repo, index) => (
+              {(formData.repositories || []).map((repo, index) => (
                 <div key={index} className="flex gap-2 mb-2">
                   <input
                     type="text"
@@ -133,7 +202,7 @@ export default function BitbucketConfigTab() {
                     placeholder="workspace/repository-name"
                     required
                   />
-                  {formData.repositories.length > 1 && (
+                  {(formData.repositories || []).length > 1 && (
                     <button
                       type="button"
                       onClick={() => removeRepository(index)}
@@ -166,9 +235,66 @@ export default function BitbucketConfigTab() {
         </div>
       )}
 
-      <div className="text-sm text-gray-500">
-        No Bitbucket configurations found. Add your first configuration above.
-      </div>
+      {/* Display existing Bitbucket configurations */}
+      {loadingConnectors ? (
+        <div className="flex justify-center items-center h-32">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+        </div>
+      ) : connectors.length > 0 ? (
+        <div className="space-y-4">
+          {connectors.map((connector) => {
+            const config = JSON.parse(connector.config) as BitbucketConfig;
+            return (
+              <div key={connector.id} className="bg-white border border-gray-200 rounded-lg p-4">
+                <div className="flex justify-between items-start">
+                  <div className="flex-1">
+                    <h4 className="text-lg font-medium text-gray-900">{connector.name}</h4>
+                    <div className="mt-2 space-y-1">
+                      <p className="text-sm text-gray-600">
+                        <strong>Base URL:</strong> {config.baseUrl}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        <strong>Username:</strong> {config.username}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        <strong>Workspace:</strong> {config.workspace || 'Not configured'}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        <strong>Repositories:</strong> {config.repositories?.join(', ') || 'None configured'}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        <strong>Status:</strong> {connector.is_active ? 'Active' : 'Inactive'} | 
+                        <strong> Created:</strong> {new Date(connector.created_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2 ml-4">
+                    <button
+                      onClick={() => testConnector(connector.id)}
+                      disabled={testingConnector === connector.id}
+                      className="btn btn-secondary flex items-center gap-2"
+                    >
+                      <TestTube className="h-4 w-4" />
+                      {testingConnector === connector.id ? 'Testing...' : 'Test'}
+                    </button>
+                    <button
+                      onClick={() => deleteConnector(connector.id)}
+                      className="p-2 text-red-600 hover:bg-red-50 rounded-md"
+                      title="Delete"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="text-sm text-gray-500">
+          No Bitbucket configurations found. Add your first configuration above.
+        </div>
+      )}
     </div>
   );
 }

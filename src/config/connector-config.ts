@@ -15,9 +15,9 @@ export interface ConfluenceConfig {
 export interface BitbucketConfig {
   baseUrl: string; // Changed from 'url' to match existing connector
   username: string;
-  appPassword: string;
-  workspaces: string[];
-  repositories: string[];
+  apiToken: string; // Changed from appPassword to apiToken
+  workspace?: string; // Added workspace for better organization
+  repositories?: string[]; // Made optional since workspace might be primary
 }
 
 export interface ConnectorConfig {
@@ -74,12 +74,12 @@ export class ConnectorConfigManager {
     }
 
     // Bitbucket configuration
-    if (process.env.BITBUCKET_USERNAME && process.env.BITBUCKET_APP_PASSWORD) {
+    if (process.env.BITBUCKET_USERNAME && process.env.BITBUCKET_API_TOKEN) {
       config.bitbucket = {
         baseUrl: process.env.BITBUCKET_URL || "https://api.bitbucket.org/2.0",
         username: process.env.BITBUCKET_USERNAME,
-        appPassword: process.env.BITBUCKET_APP_PASSWORD,
-        workspaces: process.env.BITBUCKET_WORKSPACES?.split(",") || [],
+        apiToken: process.env.BITBUCKET_API_TOKEN,
+        workspace: process.env.BITBUCKET_WORKSPACE,
         repositories: process.env.BITBUCKET_REPOS?.split(",") || [],
       };
     }
@@ -131,13 +131,10 @@ export class ConnectorConfigManager {
     if (config.bitbucket) {
       if (!config.bitbucket.username)
         errors.push("Bitbucket username is required");
-      if (!config.bitbucket.appPassword)
-        errors.push("Bitbucket app password is required");
-      if (
-        !config.bitbucket.workspaces ||
-        config.bitbucket.workspaces.length === 0
-      ) {
-        errors.push("At least one Bitbucket workspace is required");
+      if (!config.bitbucket.apiToken)
+        errors.push("Bitbucket API token is required");
+      if (!config.bitbucket.workspace) {
+        errors.push("Bitbucket workspace is required");
       }
       if (
         !config.bitbucket.repositories ||

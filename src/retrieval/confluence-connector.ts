@@ -1,6 +1,11 @@
-import axios, { AxiosInstance } from 'axios';
-import { ActivityEvent, ConfluenceActivityEvent, ConfluenceEventMetadata, CONFLUENCE_EVENT_TYPES } from '../types/activity';
-import { ArtifactStore } from '../types/artifact';
+import axios, { AxiosError, AxiosInstance } from "axios";
+import {
+  ActivityEvent,
+  CONFLUENCE_EVENT_TYPES,
+  ConfluenceActivityEvent,
+  ConfluenceEventMetadata,
+} from "../types/activity";
+import { ArtifactStore } from "../types/artifact";
 
 export interface ConfluenceConfig {
   baseUrl: string;
@@ -92,42 +97,49 @@ export class ConfluenceConnector {
   private artifactStore: ArtifactStore;
 
   constructor(config: ConfluenceConfig, artifactStore: ArtifactStore) {
+    // Create Basic Auth header with base64 encoding
+    const authHeader =
+      "Basic " +
+      Buffer.from(`${config.username}:${config.apiToken}`).toString("base64");
+
+    console.log(config);
+    console.log(`Auth header: ${authHeader}`);
+
     this.client = axios.create({
       baseURL: config.baseUrl,
-      auth: {
-        username: config.username,
-        password: config.apiToken,
-      },
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        Authorization: authHeader,
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
     });
     this.artifactStore = artifactStore;
   }
 
-  async retrievePages(options: ConfluenceRetrievalOptions = {}): Promise<ActivityEvent[]> {
+  async retrievePages(
+    options: ConfluenceRetrievalOptions = {}
+  ): Promise<ActivityEvent[]> {
     const events: ActivityEvent[] = [];
     const { since, spaces, limit = 100 } = options;
 
     // Build CQL (Confluence Query Language) query
     const cqlParts: string[] = [];
-    
+
     if (since) {
       cqlParts.push(`lastModified >= "${since.toISOString()}"`);
     }
-    
+
     if (spaces && spaces.length > 0) {
-      cqlParts.push(`space in (${spaces.map(s => `"${s}"`).join(', ')})`);
+      cqlParts.push(`space in (${spaces.map((s) => `"${s}"`).join(", ")})`);
     }
 
-    const cql = cqlParts.length > 0 ? cqlParts.join(' AND ') : '';
+    const cql = cqlParts.length > 0 ? cqlParts.join(" AND ") : "";
 
     // Retrieve pages using CQL
-    const searchResponse = await this.client.get('/rest/api/content/search', {
+    const searchResponse = await this.client.get("/rest/api/content/search", {
       params: {
         cql,
-        expand: 'version,author,space,labels,ancestors,body.storage,body.view',
+        expand: "version,author,space,labels,ancestors,body.storage,body.view",
         limit,
       },
     });
@@ -139,17 +151,29 @@ export class ConfluenceConnector {
       const artifactKey = `confluence/pages/${page.id}`;
       const jsonString = JSON.stringify(page, null, 2);
       await this.artifactStore.put(artifactKey, jsonString, {
-        contentType: 'application/json',
-        source: 'confluence',
+        contentType: "application/json",
+        source: "confluence",
         timestamp: new Date(page.version.when),
       });
 
       // Create page creation event
-      events.push(this.createPageEvent(page, CONFLUENCE_EVENT_TYPES.PAGE_CREATED, page.created));
+      events.push(
+        this.createPageEvent(
+          page,
+          CONFLUENCE_EVENT_TYPES.PAGE_CREATED,
+          page.created
+        )
+      );
 
       // Create page update event
       if (page.version.when !== page.created) {
-        events.push(this.createPageEvent(page, CONFLUENCE_EVENT_TYPES.PAGE_UPDATED, page.version.when));
+        events.push(
+          this.createPageEvent(
+            page,
+            CONFLUENCE_EVENT_TYPES.PAGE_UPDATED,
+            page.version.when
+          )
+        );
       }
 
       // Get comments for this page
@@ -166,17 +190,23 @@ export class ConfluenceConnector {
       }
     }
 
-    return events.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+    return events.sort(
+      (a, b) =>
+        new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+    );
   }
 
   private async getPageComments(pageId: string): Promise<ConfluenceComment[]> {
     try {
-      const response = await this.client.get(`/rest/api/content/${pageId}/child/comment`, {
-        params: {
-          expand: 'body.storage,body.view,author',
-          limit: 200,
-        },
-      });
+      const response = await this.client.get(
+        `/rest/api/content/${pageId}/child/comment`,
+        {
+          params: {
+            expand: "body.storage,body.view,author",
+            limit: 200,
+          },
+        }
+      );
       return response.data.results || [];
     } catch (error) {
       // If comments can't be retrieved, return empty array
@@ -184,22 +214,26 @@ export class ConfluenceConnector {
     }
   }
 
-  private createPageEvent(page: ConfluencePage, eventType: string, timestamp: string): ConfluenceActivityEvent {
-    const content = page.body?.storage?.value || page.body?.view?.value || '';
-    
+  private createPageEvent(
+    page: ConfluencePage,
+    eventType: string,
+    timestamp: string
+  ): ConfluenceActivityEvent {
+    const content = page.body?.storage?.value || page.body?.view?.value || "";
+
     const metadata: ConfluenceEventMetadata = {
       pageId: page.id,
       spaceKey: page.space.key,
       title: page.title,
       version: page.version.number,
-      contentType: 'page',
+      contentType: "page",
       parentPageId: page.ancestors?.[page.ancestors.length - 1]?.id,
-      labels: page.labels?.results?.map(l => l.name) || [],
+      labels: page.labels?.results?.map((l) => l.name) || [],
     };
 
     return {
       id: `confluence-page-${page.id}-${eventType}-${Date.now()}`,
-      source: 'confluence',
+      source: "confluence",
       timestamp,
       actor: page.author.emailAddress,
       type: eventType,
@@ -208,21 +242,25 @@ export class ConfluenceConnector {
     };
   }
 
-  private createCommentEvent(page: ConfluencePage, comment: ConfluenceComment): ConfluenceActivityEvent {
-    const content = comment.body?.storage?.value || comment.body?.view?.value || '';
-    
+  private createCommentEvent(
+    page: ConfluencePage,
+    comment: ConfluenceComment
+  ): ConfluenceActivityEvent {
+    const content =
+      comment.body?.storage?.value || comment.body?.view?.value || "";
+
     const metadata: ConfluenceEventMetadata = {
       pageId: page.id,
       spaceKey: page.space.key,
       title: page.title,
       version: 1, // Comments don't have versions
       commentId: comment.id,
-      contentType: 'comment',
+      contentType: "comment",
     };
 
     return {
       id: `confluence-comment-${comment.id}`,
-      source: 'confluence',
+      source: "confluence",
       timestamp: comment.created,
       actor: comment.author.emailAddress,
       type: CONFLUENCE_EVENT_TYPES.COMMENT_ADDED,
@@ -231,19 +269,23 @@ export class ConfluenceConnector {
     };
   }
 
-  private createLabelEvent(page: ConfluencePage, label: any, timestamp: string): ConfluenceActivityEvent {
+  private createLabelEvent(
+    page: ConfluencePage,
+    label: any,
+    timestamp: string
+  ): ConfluenceActivityEvent {
     const metadata: ConfluenceEventMetadata = {
       pageId: page.id,
       spaceKey: page.space.key,
       title: page.title,
       version: page.version.number,
-      contentType: 'page',
+      contentType: "page",
       labels: [label.name],
     };
 
     return {
       id: `confluence-label-${page.id}-${label.name}`,
-      source: 'confluence',
+      source: "confluence",
       timestamp,
       actor: page.version.by.emailAddress,
       type: CONFLUENCE_EVENT_TYPES.LABEL_ADDED,
@@ -254,11 +296,11 @@ export class ConfluenceConnector {
   private stripHtml(html: string): string {
     // Simple HTML stripping - in production, you might want to use a proper HTML parser
     return html
-      .replace(/<[^>]*>/g, '')
-      .replace(/&nbsp;/g, ' ')
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
+      .replace(/<[^>]*>/g, "")
+      .replace(/&nbsp;/g, " ")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
       .replace(/&quot;/g, '"')
       .replace(/&#39;/g, "'")
       .trim();
@@ -269,9 +311,28 @@ export class ConfluenceConnector {
    */
   async testConnection(): Promise<boolean> {
     try {
-      const response = await this.client.get('/rest/api/user/current');
+      console.log("🧪 Testing Confluence connection...");
+      console.log("📡 Base URL:", this.client.defaults.baseURL);
+      console.log(
+        "🔑 Auth Header:",
+        this.client.defaults.headers.Authorization
+      );
+
+      const response = await this.client.get("/rest/api/user/current");
+
+      console.log("📊 Response status:", response.status);
+      console.log("📊 Response data:", response.data);
+      console.log("📊 Response headers:", response.headers);
+
       return response.status === 200;
     } catch (error) {
+      console.error("❌ Confluence connection test failed:", error);
+      const err = error as AxiosError;
+      if (err.response) {
+        console.error("📊 Error status:", err.status);
+        console.error("📊 Error data:", err.response.data);
+        console.error("📊 Error headers:", err.response.headers);
+      }
       return false;
     }
   }
@@ -281,10 +342,10 @@ export class ConfluenceConnector {
    */
   async getSpaces(): Promise<Array<{ key: string; name: string }>> {
     try {
-      const response = await this.client.get('/rest/api/space', {
+      const response = await this.client.get("/rest/api/space", {
         params: {
           limit: 200,
-          type: 'global',
+          type: "global",
         },
       });
       return response.data.results.map((space: any) => ({
@@ -299,7 +360,10 @@ export class ConfluenceConnector {
   /**
    * Get recent updates from a specific space
    */
-  async getSpaceUpdates(spaceKey: string, since?: Date): Promise<ActivityEvent[]> {
+  async getSpaceUpdates(
+    spaceKey: string,
+    since?: Date
+  ): Promise<ActivityEvent[]> {
     const options: ConfluenceRetrievalOptions = { spaces: [spaceKey] };
     if (since) {
       options.since = since;
@@ -310,18 +374,21 @@ export class ConfluenceConnector {
   /**
    * Search for pages containing specific content
    */
-  async searchPages(query: string, spaces?: string[]): Promise<ConfluencePage[]> {
+  async searchPages(
+    query: string,
+    spaces?: string[]
+  ): Promise<ConfluencePage[]> {
     try {
       const cqlParts = [`~"${query}"`];
-      
+
       if (spaces && spaces.length > 0) {
-        cqlParts.push(`space in (${spaces.map(s => `"${s}"`).join(', ')})`);
+        cqlParts.push(`space in (${spaces.map((s) => `"${s}"`).join(", ")})`);
       }
 
-      const response = await this.client.get('/rest/api/content/search', {
+      const response = await this.client.get("/rest/api/content/search", {
         params: {
-          cql: cqlParts.join(' AND '),
-          expand: 'version,author,space,labels,ancestors,body.storage',
+          cql: cqlParts.join(" AND "),
+          expand: "version,author,space,labels,ancestors,body.storage",
           limit: 100,
         },
       });

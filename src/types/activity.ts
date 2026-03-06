@@ -1,10 +1,10 @@
-export type ActivitySource = 'jira' | 'confluence' | 'bitbucket' | 'git';
+export type ActivitySource = "jira" | "confluence" | "bitbucket" | "git";
 
 export interface ActivityEvent {
   id: string;
   source: ActivitySource;
   timestamp: string; // ISO 8601 timestamp
-  actor: string; // User identifier (email or username)
+  actor?: string; // User identifier (email or username) - made optional
   type: string; // Event type specific to source
   metadata: Record<string, any>; // Source-specific metadata
   content?: string; // Text content for NLP/keyword analysis
@@ -40,7 +40,7 @@ export interface ConfluenceEventMetadata {
   title?: string;
   version?: number;
   commentId?: string;
-  contentType?: 'page' | 'comment' | 'attachment';
+  contentType?: "page" | "comment" | "attachment";
   parentPageId?: string | undefined;
   labels?: string[];
 }
@@ -53,7 +53,7 @@ export interface BitbucketEventMetadata {
   pullRequestTitle?: string;
   sourceBranch?: string;
   destinationBranch?: string;
-  state?: 'OPEN' | 'MERGED' | 'DECLINED' | 'SUPERSEDED';
+  state?: "OPEN" | "MERGED" | "DECLINED" | "SUPERSEDED";
   commentId?: string;
   pipelineUuid?: string;
   pipelineState?: string;
@@ -79,81 +79,85 @@ export interface GitEventMetadata {
 
 // Extended ActivityEvent with source-specific metadata
 export type JiraActivityEvent = ActivityEvent & {
-  source: 'jira';
+  source: "jira";
   metadata: JiraEventMetadata;
 };
 
 export type ConfluenceActivityEvent = ActivityEvent & {
-  source: 'confluence';
+  source: "confluence";
   metadata: ConfluenceEventMetadata;
 };
 
 export type BitbucketActivityEvent = ActivityEvent & {
-  source: 'bitbucket';
+  source: "bitbucket";
   metadata: BitbucketEventMetadata;
 };
 
 export type GitActivityEvent = ActivityEvent & {
-  source: 'git';
+  source: "git";
   metadata: GitEventMetadata;
 };
 
-export type TypedActivityEvent = 
-  | JiraActivityEvent 
-  | ConfluenceActivityEvent 
-  | BitbucketActivityEvent 
+export type TypedActivityEvent =
+  | JiraActivityEvent
+  | ConfluenceActivityEvent
+  | BitbucketActivityEvent
   | GitActivityEvent;
 
 // Event type constants for each source
 export const JIRA_EVENT_TYPES = {
-  ISSUE_CREATED: 'issue_created',
-  ISSUE_UPDATED: 'issue_updated',
-  ISSUE_ASSIGNED: 'issue_assigned',
-  COMMENT_ADDED: 'comment_added',
-  STATUS_CHANGED: 'status_changed',
-  WORKLOG_ADDED: 'worklog_added',
-  RESOLUTION_CHANGED: 'resolution_changed',
+  ISSUE_CREATED: "issue_created",
+  ISSUE_UPDATED: "issue_updated",
+  ISSUE_ASSIGNED: "issue_assigned",
+  COMMENT_ADDED: "comment_added",
+  STATUS_CHANGED: "status_changed",
+  WORKLOG_ADDED: "worklog_added",
+  RESOLUTION_CHANGED: "resolution_changed",
 } as const;
 
 export const CONFLUENCE_EVENT_TYPES = {
-  PAGE_CREATED: 'page_created',
-  PAGE_UPDATED: 'page_updated',
-  COMMENT_ADDED: 'comment_added',
-  ATTACHMENT_ADDED: 'attachment_added',
-  LABEL_ADDED: 'label_added',
+  PAGE_CREATED: "page_created",
+  PAGE_UPDATED: "page_updated",
+  COMMENT_ADDED: "comment_added",
+  ATTACHMENT_ADDED: "attachment_added",
+  LABEL_ADDED: "label_added",
 } as const;
 
 export const BITBUCKET_EVENT_TYPES = {
-  PULL_REQUEST_CREATED: 'pull_request_created',
-  PULL_REQUEST_UPDATED: 'pull_request_updated',
-  PULL_REQUEST_MERGED: 'pull_request_merged',
-  PULL_REQUEST_DECLINED: 'pull_request_declined',
-  COMMENT_ADDED: 'comment_added',
-  APPROVAL_GRANTED: 'approval_granted',
-  PIPELINE_COMPLETED: 'pipeline_completed',
-  COMMIT_PUSHED: 'commit_pushed',
+  PULL_REQUEST_CREATED: "pull_request_created",
+  PULL_REQUEST_UPDATED: "pull_request_updated",
+  PULL_REQUEST_MERGED: "pull_request_merged",
+  PULL_REQUEST_DECLINED: "pull_request_declined",
+  COMMENT_ADDED: "comment_added",
+  APPROVAL_GRANTED: "approval_granted",
+  PIPELINE_COMPLETED: "pipeline_completed",
+  COMMIT_PUSHED: "commit_pushed",
 } as const;
 
 export const GIT_EVENT_TYPES = {
-  COMMIT_CREATED: 'commit_created',
-  BRANCH_CREATED: 'branch_created',
-  BRANCH_MERGED: 'branch_merged',
-  TAG_CREATED: 'tag_created',
+  COMMIT_CREATED: "commit_created",
+  BRANCH_CREATED: "branch_created",
+  BRANCH_MERGED: "branch_merged",
+  TAG_CREATED: "tag_created",
 } as const;
 
 // Utility functions for type guards
 export function isJiraEvent(event: ActivityEvent): event is JiraActivityEvent {
-  return event.source === 'jira';
+  return event.source === "jira";
 }
 
-export function isConfluenceEvent(event: ActivityEvent): event is ConfluenceActivityEvent {
-  return event.source === 'confluence';
+export function isConfluenceEvent(
+  event: ActivityEvent
+): event is ConfluenceActivityEvent {
+  return event.source === "confluence";
 }
 
-export function isBitbucketEvent(event: ActivityEvent): event is BitbucketActivityEvent {
-  return event.source === 'bitbucket';
+export function isBitbucketEvent(
+  event: ActivityEvent
+): event is BitbucketActivityEvent {
+  return event.source === "bitbucket";
 }
 
 export function isGitEvent(event: ActivityEvent): event is GitActivityEvent {
-  return event.source === 'git';
+  return event.source === "git";
 }

@@ -5,6 +5,7 @@ import {
   ConnectorConfigController,
   registerConnectorConfigRoutes,
 } from "./connector-config-routes";
+import { competencyRoutes } from "./routes/competency-routes";
 
 export class ApiServer {
   private server: any;
@@ -33,6 +34,9 @@ export class ApiServer {
       // Register connector configuration routes
       const connectorController = new ConnectorConfigController();
       registerConnectorConfigRoutes(this.server, connectorController);
+
+      // Register competency routes
+      await competencyRoutes(this.server);
 
       // Add health check endpoint
       this.server.get("/health", async () => {

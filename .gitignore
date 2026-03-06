@@ -74,3 +74,6 @@ temp/
 # Test files
 test-results/
 playwright-report/
+
+# Confluence content
+_content/confluence/

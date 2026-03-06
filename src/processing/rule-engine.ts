@@ -1,11 +1,14 @@
+import { RuleService } from "../services/rule-service";
 import { ActivityEvent } from "../types/activity";
-import { Rule, RuleCondition, RuleAction, Label, FeatureVector } from "./types";
+import { FeatureVector, Label, Rule, RuleAction, RuleCondition } from "./types";
 
 export class RuleEngine {
+  private ruleService: RuleService;
   private rules: Rule[] = [];
 
-  constructor(rules: Rule[] = []) {
-    this.rules = rules.sort((a, b) => b.priority - a.priority);
+  constructor(rules?: Rule[]) {
+    this.ruleService = new RuleService();
+    this.rules = rules || this.ruleService.getRules();
   }
 
   addRule(rule: Rule): void {
@@ -35,8 +38,15 @@ export class RuleEngine {
     for (const rule of this.rules) {
       if (!rule.enabled) continue;
 
-      if (this.evaluateConditions(rule.conditions, event)) {
-        const result = this.executeAction(rule.action, event, rule);
+      // Use expanded rule with taxonomy terms
+      const expandedRule = this.ruleService.expandRuleWithTaxonomy(rule);
+
+      if (this.evaluateConditions(expandedRule.conditions, event)) {
+        const result = this.executeAction(
+          expandedRule.action,
+          event,
+          expandedRule
+        );
 
         if (result.labels) labels.push(...result.labels);
         if (result.features) features.push(...result.features);

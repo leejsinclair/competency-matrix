@@ -1,10 +1,10 @@
-import { Plus, Save, TestTube, X } from 'lucide-react';
-import { useState } from 'react';
+import { Plus, Save, TestTube, Trash2, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { connectorApi } from '../services/api';
-import { JiraConfig } from '../types';
+import { ConnectorConfig, JiraConfig } from '../types';
 
 export default function JiraConfigTab() {
-  const [configs, setConfigs] = useState<JiraConfig[]>([]);
+  const [connectors, setConnectors] = useState<ConnectorConfig[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState<JiraConfig>({
     url: '',
@@ -13,6 +13,29 @@ export default function JiraConfigTab() {
     boards: [''],
   });
   const [loading, setLoading] = useState(false);
+  const [loadingConnectors, setLoadingConnectors] = useState(true);
+  const [testingConnector, setTestingConnector] = useState<number | null>(null);
+
+  useEffect(() => {
+    loadJiraConnectors();
+  }, []);
+
+  const loadJiraConnectors = async () => {
+    try {
+      const response = await connectorApi.getAll();
+      if (response.success) {
+        // Filter only jira connectors
+        const jiraConnectors = response.data?.filter(
+          (connector: ConnectorConfig) => connector.connector_type === 'jira'
+        ) || [];
+        setConnectors(jiraConnectors);
+      }
+    } catch (error) {
+      console.error('Failed to load Jira connectors:', error);
+    } finally {
+      setLoadingConnectors(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,8 +56,8 @@ export default function JiraConfigTab() {
         boards: [''],
       });
       setShowForm(false);
-      // Reload configs
-      loadConfigs();
+      // Reload connectors to show the newly created one
+      loadJiraConnectors();
     } catch (error) {
       console.error('Failed to create Jira config:', error);
     } finally {
@@ -42,17 +65,31 @@ export default function JiraConfigTab() {
     }
   };
 
-  const loadConfigs = async () => {
+  const deleteConnector = async (id: number) => {
+    if (window.confirm('Are you sure you want to delete this Jira configuration?')) {
+      try {
+        await connectorApi.delete(id);
+        loadJiraConnectors();
+      } catch (error) {
+        console.error('Failed to delete connector:', error);
+      }
+    }
+  };
+
+  const testConnector = async (id: number) => {
+    setTestingConnector(id);
     try {
-      const response = await connectorApi.getByType('jira');
+      const response = await connectorApi.test(id);
       if (response.success) {
-        const jiraConfigs = response.data.map(config => 
-          JSON.parse(config.config) as JiraConfig
-        );
-        setConfigs(jiraConfigs);
+        alert(`✅ Connection test successful!\n\n${response.message}`);
+      } else {
+        alert(`❌ Connection test failed!\n\n${response.error || 'Unknown error'}`);
       }
     } catch (error) {
-      console.error('Failed to load Jira configs:', error);
+      console.error('Failed to test connector:', error);
+      alert('❌ Connection test failed. Please check the console for details.');
+    } finally {
+      setTestingConnector(null);
     }
   };
 
@@ -190,31 +227,54 @@ export default function JiraConfigTab() {
         )}
 
         {/* Configurations List */}
-        <div className="space-y-3">
-          {configs.map((config, index) => (
-            <div key={index} className="bg-white p-4 border border-gray-200 rounded-lg">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h4 className="font-medium text-gray-900">{config.url}</h4>
-                  <p className="text-sm text-gray-600">User: {config.username}</p>
-                  <p className="text-sm text-gray-600">
-                    Boards: {config.boards.filter(b => b).join(', ')}
-                  </p>
+        {loadingConnectors ? (
+          <div className="flex justify-center items-center h-32">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+          </div>
+        ) : connectors.length > 0 ? (
+          <div className="space-y-3">
+            {connectors.map((connector) => {
+              const config = JSON.parse(connector.config) as JiraConfig;
+              return (
+                <div key={connector.id} className="bg-white p-4 border border-gray-200 rounded-lg">
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1">
+                      <h4 className="font-medium text-gray-900">{connector.name}</h4>
+                      <p className="text-sm text-gray-600">URL: {config.url}</p>
+                      <p className="text-sm text-gray-600">User: {config.username}</p>
+                      <p className="text-sm text-gray-600">
+                        Boards: {config.boards.filter(b => b).join(', ') || 'None configured'}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        <strong>Status:</strong> {connector.is_active ? 'Active' : 'Inactive'} | 
+                        <strong> Created:</strong> {new Date(connector.created_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <div className="flex items-center space-x-2 ml-4">
+                      <button
+                        onClick={() => testConnector(connector.id)}
+                        disabled={testingConnector === connector.id}
+                        className="btn btn-secondary flex items-center gap-2"
+                      >
+                        <TestTube className="h-4 w-4" />
+                        {testingConnector === connector.id ? 'Testing...' : 'Test'}
+                      </button>
+                      <button
+                        onClick={() => deleteConnector(connector.id)}
+                        className="p-2 text-red-600 hover:bg-red-50 rounded-md"
+                        title="Delete"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <button
-                  onClick={() => {/* Test connection */}}
-                  className="btn btn-secondary flex items-center gap-2"
-                >
-                  <TestTube className="h-4 w-4" />
-                  Test
-                </button>
-              </div>
-            </div>
-          ))}
-          {configs.length === 0 && (
-            <p className="text-sm text-gray-500">No Jira configurations found.</p>
-          )}
-        </div>
+              );
+            })}
+          </div>
+        ) : (
+          <p className="text-sm text-gray-500">No Jira configurations found.</p>
+        )}
       </div>
     </div>
   );

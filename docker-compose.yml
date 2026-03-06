@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: competency-matrix-db
+    network_mode: host
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=sa-Password@01
+      - MSSQL_PID=Express
+    volumes:
+      - mssql_data:/var/opt/mssql
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/mssql-tools18/bin/sqlcmd -No -S localhost,1433 -U sa -P sa-Password@01 -Q 'SELECT 1'",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    restart: unless-stopped
+
+volumes:
+  mssql_data:

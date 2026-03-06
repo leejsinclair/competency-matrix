@@ -27,8 +27,9 @@ export interface ConfluenceConfig {
 export interface BitbucketConfig {
   baseUrl: string;
   username: string;
-  appPassword: string;
-  repositories: string[];
+  apiToken: string; // Changed from appPassword to apiToken
+  workspace?: string; // Added workspace for better organization
+  repositories?: string[]; // Made optional since workspace might be primary
 }
 
 export interface ApiResponse<T> {

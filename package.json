@@ -15,6 +15,7 @@
     "lint": "./scripts/with-nvm.sh eslint src/**/*.ts",
     "lint:frontend": "./scripts/with-nvm.sh npm --prefix frontend run lint",
     "lint:all": "./scripts/with-nvm.sh npm run lint && ./scripts/with-nvm.sh npm run lint:frontend",
+    "process:confluence": "./scripts/with-nvm.sh ts-node scripts/process-confluence-content.ts",
     "lint:fix": "./scripts/with-nvm.sh eslint src/**/*.ts --fix",
     "format": "./scripts/with-nvm.sh prettier --write src/**/*.ts",
     "assessment:full": "./scripts/with-nvm.sh ts-node tests/assessment/run-assessment.ts full",
@@ -31,6 +32,9 @@
     "api:start": "./scripts/with-nvm.sh ts-node src/api/server.ts",
     "demo:api": "./scripts/with-nvm.sh ts-node src/demo/api-demo.ts",
     "test:integration": "./scripts/run-integration-tests.sh",
+    "db:start": "./scripts/start-db.sh",
+    "db:stop": "docker stop competency-matrix-db",
+    "db:logs": "docker logs -f competency-matrix-db",
     "prepare": "husky"
   },
   "keywords": [

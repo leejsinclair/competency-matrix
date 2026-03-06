@@ -316,9 +316,9 @@ export class ConnectorConfigService {
     const errors: string[] = [];
 
     if (!config.username) errors.push("Bitbucket username is required");
-    if (!config.appPassword) errors.push("Bitbucket app password is required");
-    if (!config.workspaces || config.workspaces.length === 0) {
-      errors.push("At least one Bitbucket workspace is required");
+    if (!config.apiToken) errors.push("Bitbucket API token is required");
+    if (!config.workspace) {
+      errors.push("Bitbucket workspace is required");
     }
     if (!config.repositories || config.repositories.length === 0) {
       errors.push("At least one Bitbucket repository is required");

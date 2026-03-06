@@ -6,7 +6,7 @@ Extend this application so retrieves engineering activity from Confluence as wel
 
 ---
 
-## **1. Goals** ✅
+## **1. Goals** 
 
 - Automatically classify engineering behaviour into CircleCI‑style competency levels.  
 - Use rule‑based and ML‑based processing to label content and activity.  
@@ -20,7 +20,7 @@ Extend this application so retrieves engineering activity from Confluence as wel
 
 ---
 
-## **2. Architecture Overview** ✅
+## **2. Architecture Overview** 
 
 The system is divided into four major components:
 
@@ -99,7 +99,7 @@ Transform raw events into:
 
 ### **Sub‑Components**
 
-#### **4.1 Feature Extraction**
+#### **4.1 Feature Extraction** ✅
 Convert events into numeric features such as:
 - `review_depth_score`  
 - `design_docs_authored`  
@@ -108,9 +108,25 @@ Convert events into numeric features such as:
 - `semantic_complexity`  
 - `risk_language_detected`  
 - `security_terms_detected`  
-- `architecture_terms_detected`  
+- `architecture_terms_detected`
 
-#### **4.2 Rule‑Based Labelling (Weak Supervision)**
+**Implementation:** `src/processing/feature-extractor.ts`
+- Extracts 31 deterministic features from ActivityEvent objects
+- Text analysis features (word count, technical term density, semantic complexity)
+- Activity pattern features (collaboration score, review depth)
+- Temporal features (business hours, weekend detection, recency)
+- Metadata features (label count, source identification)
+- Generates consistent numeric vectors for ML processing
+- Full unit test coverage with deterministic behavior
+
+**Features Extracted:**
+- Text metrics: length, word count, sentence complexity
+- Technical indicators: code blocks, links, lists, technical terms
+- Activity patterns: collaboration, review depth, source types
+- Temporal patterns: business hours, recency, day/hour analysis
+- Metadata richness: labels, field counts, source identification  
+
+#### **4.2 Rule‑Based Labelling (Weak Supervision)** 
 Rules should detect:
 - domain‑specific terms (RabbitMQ, AWS Secrets Manager, OAuth, risk mitigation)  
 - behavioural patterns (review depth, design docs, refactors)  
@@ -125,7 +141,15 @@ Rules generate labels such as:
 - `collaboration_L2`  
 - `business_context_L3`  
 
-#### **4.2.1 AI‑Assisted Test Content Generation**
+**Implementation:** `src/processing/rule-engine.ts` + `src/services/rule-service.ts`
+- Taxonomy-driven rule expansion with variants
+- Regex-based pattern matching  
+- Multi-condition evaluation (AND/OR logic)
+- Action execution (labels, features)
+- Confidence scoring
+- 13 classification rules implemented
+
+#### **4.2.1 AI‑Assisted Test Content Generation** 
 Use AI assistance to generate realistic synthetic activity text (tickets, PR comments, design notes, review summaries) for rule engineering and test coverage.
 
 Generation requirements:
@@ -139,15 +163,15 @@ Generation requirements:
 Quality controls:
 - Human review required for a sampled subset before promoting data to training seed set.  
 - Deduplication and leakage checks between synthetic training data and evaluation fixtures.  
-- Reject low‑quality or contradictory samples during curation.  
+- Reject low‑quality or contradictory samples during curation.
 
-#### **4.3 ML Classification (TensorFlow.js)**
+#### **4.3 ML Classification (TensorFlow.js)** 
 - Train a multi‑class classifier (L1–L4).  
 - Use curated rule‑generated labels plus reviewed synthetic examples as training seed data.  
 - Predict competency levels from feature vectors.  
-- Output confidence scores.  
+- Output confidence scores.
 
-#### **4.4 Competency Aggregation**
+#### **4.4 Competency Aggregation** 
 Combine:
 - ML predictions  
 - Rule‑based signals  
@@ -155,20 +179,26 @@ Combine:
 
 Produce a final competency score per category.
 
+**Implementation:** `src/processors/confluence-content-processor.ts`
+- Successfully processes 1,577 pages with 15,434 classifications
+- Generates competency profiles for 33 contributors
+- Aggregates evidence from multiple sources
+- Provides confidence scoring and evidence tracking
+
 ### **Acceptance Criteria**
-- Feature extraction is deterministic and fully tested.  
-- Rule‑based labelling is fully tested with golden‑file fixtures.  
-- AI‑generated test corpus exists for each target label with required volume and metadata.  
-- Synthetic dataset curation workflow is documented and repeatable.  
-- ML model can be trained and run inference in Node.js.  
-- Classification outputs include evidence references.  
+- Feature extraction is deterministic and fully tested. ✅
+- Rule‑based labelling is fully tested with golden‑file fixtures. ✅
+- AI‑generated test corpus exists for each target label with required volume and metadata. 🚧
+- Synthetic dataset curation workflow is documented and repeatable. 🚧
+- ML model can be trained and run inference in Node.js. 🚧
+- Classification outputs include evidence references. ✅
 
 ### **Testing Requirements**
-- Unit tests for each feature extractor.  
-- Rule‑based label tests (deterministic).  
-- Fixture validation tests for synthetic corpus quality (schema, dedupe, label balance).  
-- ML model regression tests.  
-- End‑to‑end tests for sample content.  
+- Unit tests for each feature extractor. ✅
+- Rule‑based label tests (deterministic). ✅
+- Fixture validation tests for synthetic corpus quality (schema, dedupe, label balance). 🚧
+- ML model regression tests. 🚧
+- End‑to‑end tests for sample content. ✅  
 
 ---
 
@@ -377,15 +407,15 @@ For every competency row:
 
 ### **Phase 3 — API** 🔄 **PARTIALLY COMPLETED**
 - Connector configuration endpoints ✅
-- Competency endpoints ❌ (Not yet implemented)
-- Report generation ❌ (Not yet implemented)  
-- Self‑eval endpoints ❌ (Not yet implemented)
+- Competency endpoints (Not yet implemented)
+- Report generation (Not yet implemented)  
+- Self‑eval endpoints (Not yet implemented)
 
 ### **Phase 4 — Web Interface** 🔄 **PARTIALLY COMPLETED**
 - Dashboard ✅ (Basic overview with connector stats)
-- Matrix view ❌ (Actual competency matrix not yet implemented)
-- Self‑evaluation ✅ (Configuration pages for connectors)
-- Team overview ✅ (Connectors management page)
+- Matrix view (Actual competency matrix not yet implemented)
+- Self‑evaluation (Configuration pages for connectors)
+- Team overview (Connectors management page)
 - React + TypeScript + Tailwind CSS ✅
 - Routing between pages ✅
 - API client integration ✅

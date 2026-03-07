@@ -14,34 +14,44 @@ interface ProcessingResult {
   failed: number;
   totalEvents: number;
   totalLabels: number;
-  results: Array<{
-    connectorId: number;
-    connectorName: string;
-    connectorType: string;
-    eventsProcessed?: number;
-    labelsGenerated?: number;
-    errors?: number;
-    processingTime?: number;
-    error?: string;
-  }>;
+  results: any[];
+}
+
+interface CompetencyScore {
+  id: number;
+  connector_id: number;
+  competency_category: string;
+  competency_row: string;
+  actor: string;
+  level: number;
+  confidence: number;
+  evidence_count: number;
+  last_updated: string;
 }
 
 export default function ProcessingTab() {
   const [status, setStatus] = useState<ProcessingStatus | null>(null);
+  const [scores, setScores] = useState<CompetencyScore[]>([]);
   const [loading, setLoading] = useState(false);
   const [processing, setProcessing] = useState(false);
+  const [regenerating, setRegenerating] = useState(false);
   const [lastResult, setLastResult] = useState<ProcessingResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadStatus();
+    loadScores();
   }, []);
+
+  useEffect(() => {
+    console.log('🔄 Scores state changed:', scores?.length, 'items');
+  }, [scores]);
 
   const loadStatus = async () => {
     try {
       setLoading(true);
       const response = await connectorApi.get('/api/processing/status');
-      setStatus(response.data);
+      setStatus(response.data.data);
       setError(null);
     } catch (err) {
       setError('Failed to load processing status');
@@ -51,18 +61,59 @@ export default function ProcessingTab() {
     }
   };
 
+  const loadScores = async () => {
+    try {
+      const response = await connectorApi.get('/api/processing/scores?connectorId=2');
+      console.log('🔍 Full API Response:', response);
+      console.log('🔍 Response data:', response);
+      
+      // API returns data directly, not wrapped in success/data structure
+      if (response && response.data && Array.isArray(response.data)) {
+        console.log('✅ Setting scores:', response.data.length, 'items');
+        setScores(response.data);
+      } else {
+        console.log('❌ Invalid response structure - setting empty array');
+        setScores([]);
+      }
+      setError(null);
+    } catch (err) {
+      setError('Failed to load competency scores');
+      setScores([]);
+      console.error('Failed to load scores:', err);
+    }
+  };
+
+  const regenerateScores = async () => {
+    try {
+      setRegenerating(true);
+      setError(null);
+      
+      const response = await connectorApi.post('/api/processing/regenerate-scores');
+      console.log('Scores regenerated:', response.data);
+      
+      // Reload scores after regeneration
+      await loadScores();
+      await loadStatus();
+    } catch (err) {
+      setError('Failed to regenerate competency scores');
+      console.error('Failed to regenerate scores:', err);
+    } finally {
+      setRegenerating(false);
+    }
+  };
+
   const startProcessing = async () => {
     try {
       setProcessing(true);
       setError(null);
       
       const response = await connectorApi.post('/api/processing/process', {
-        connectorIds: [5, 6], // Process Bitbucket connectors
+        connectorIds: [2], // Use Confluence connector ID
         limit: 50
       });
       
       console.log('Processing result:', response.data);
-      setLastResult(response.data);
+      setLastResult(response.data.data);
       
       await loadStatus();
     } catch (err) {
@@ -129,8 +180,108 @@ export default function ProcessingTab() {
               {processing ? 'Processing...' : 'Run Demo Processing'}
             </button>
           </div>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">
+                Regenerate competency scores with updated algorithms.
+              </p>
+            </div>
+            <button
+              onClick={regenerateScores}
+              disabled={regenerating}
+              className="btn btn-secondary"
+            >
+              {regenerating ? 'Regenerating...' : 'Regenerate Scores'}
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Competency Scores */}
+      {scores && scores.length > 0 ? (
+        <div className="bg-white p-6 border border-gray-200 rounded-lg">
+          <h4 className="text-md font-medium text-gray-900 mb-4">
+            Competency Scores ({scores.length} assessments)
+          </h4>
+          <div className="space-y-3">
+            {/* Top contributors by score */}
+            <div className="border-b pb-4">
+              <h5 className="text-sm font-medium text-gray-700 mb-2">Top Contributors</h5>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {scores
+                  .reduce((acc: any[], score) => {
+                    const existing = acc.find(item => item.actor === score.actor);
+                    if (existing) {
+                      existing.scores.push(score);
+                      existing.avgScore = (existing.avgScore * (existing.scores.length - 1) + score.confidence) / existing.scores.length;
+                    } else {
+                      acc.push({
+                        actor: score.actor,
+                        scores: [score],
+                        avgScore: score.confidence,
+                        categories: [score.competency_category]
+                      });
+                    }
+                    return acc;
+                  }, [])
+                  .sort((a, b) => b.avgScore - a.avgScore)
+                  .slice(0, 6)
+                  .map((contributor) => (
+                    <div key={contributor.actor} className="border rounded p-3">
+                      <div className="font-medium text-gray-900">{contributor.actor}</div>
+                      <div className="text-sm text-gray-600">
+                        Avg Score: {(contributor.avgScore * 100).toFixed(1)}%
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        {contributor.scores.length} competencies
+                      </div>
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {contributor.categories.slice(0, 3).map((cat: string, i: number) => (
+                          <span key={i} className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
+                            {cat.split('-')[0]}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+
+            {/* Category distribution */}
+            <div>
+              <h5 className="text-sm font-medium text-gray-700 mb-2">Category Distribution</h5>
+              <div className="space-y-2">
+                {Object.entries(
+                  scores.reduce((acc: Record<string, number>, score) => {
+                    acc[score.competency_category] = (acc[score.competency_category] || 0) + 1;
+                    return acc;
+                  }, {})
+                )
+                  .sort(([, a], [, b]) => (b as number) - (a as number))
+                  .map(([category, count]) => (
+                    <div key={category} className="flex items-center justify-between">
+                      <span className="text-sm text-gray-700">{category}</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-24 bg-gray-200 rounded-full h-2">
+                          <div
+                            className="bg-blue-600 h-2 rounded-full"
+                            style={{ width: `${((count as number) / scores.length) * 100}%` }}
+                          ></div>
+                        </div>
+                        <span className="text-sm text-gray-600 w-8">{count as number}</span>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : scores && scores.length === 0 ? (
+        <div className="bg-white p-6 border border-gray-200 rounded-lg">
+          <h4 className="text-md font-medium text-gray-900 mb-4">Competency Scores</h4>
+          <p className="text-sm text-gray-600">No competency scores available. Run processing to generate scores.</p>
+        </div>
+      ) : null}
 
       {/* Last Processing Result */}
       {lastResult && (

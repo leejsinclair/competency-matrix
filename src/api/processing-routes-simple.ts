@@ -4,6 +4,10 @@ import { DatabaseConnection } from "../database/connection";
 export interface ProcessingController {
   processConnectorData(request: any): Promise<any>;
   getProcessingStatus(): Promise<any>;
+  getCompetencyLabels(connectorId?: number, category?: string): Promise<any>;
+  getCompetencyScores(query: any): Promise<any>;
+  clearCompetencyScores(connectorId: number): Promise<any>;
+  getProcessingSummary(): Promise<any>;
 }
 
 export class SimpleProcessingController implements ProcessingController {
@@ -83,6 +87,92 @@ export class SimpleProcessingController implements ProcessingController {
       };
     } catch (error) {
       console.error("Processing failed:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  async getCompetencyLabels(connectorId?: number, category?: string) {
+    try {
+      let query = "SELECT * FROM competency_labels WHERE 1=1";
+      const params: any[] = [];
+      let paramIndex = 0;
+
+      if (connectorId) {
+        query += ` AND connector_id = @param${paramIndex}`;
+        params.push(connectorId);
+        paramIndex++;
+      }
+
+      if (category) {
+        query += ` AND competency_category = @param${paramIndex}`;
+        params.push(category);
+        paramIndex++;
+      }
+
+      query += " ORDER BY created_at DESC";
+
+      const results = await this.db.query(query, params);
+
+      return {
+        success: true,
+        data: results,
+        count: results.length,
+      };
+    } catch (error) {
+      console.error("Failed to get competency labels:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  async clearCompetencyScores(connectorId: number) {
+    try {
+      await this.db.query(
+        "DELETE FROM competency_scores WHERE connector_id = @param0",
+        [connectorId]
+      );
+      return { success: true };
+    } catch (error) {
+      console.error("Failed to clear competency scores:", error);
+      return {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      };
+    }
+  }
+
+  async getCompetencyScores(query: any) {
+    console.log("🎯 getCompetencyScores called with query:", query);
+    try {
+      const { connectorId } = query;
+      let sql = "SELECT * FROM competency_scores";
+      const params: any[] = [];
+
+      if (connectorId) {
+        sql += " WHERE connector_id = @param0";
+        params.push(connectorId);
+      }
+
+      sql += " ORDER BY confidence DESC";
+
+      const results = await this.db.query(sql, params);
+      console.log(`📊 Found ${results.length} competency scores`);
+
+      return {
+        success: true,
+        data: results,
+        count: results.length,
+      };
+    } catch (error) {
+      console.error("Failed to get competency scores:", error);
       return {
         success: false,
         error:
@@ -191,7 +281,7 @@ export class SimpleProcessingController implements ProcessingController {
     }
   }
 
-  private async getProcessingSummary(): Promise<any> {
+  async getProcessingSummary(): Promise<any> {
     try {
       const _result = await this.db.query(
         "SELECT COUNT(*) as count FROM connector_configs WHERE is_active = 1"
@@ -277,13 +367,74 @@ export function registerSimpleProcessingRoutes(
     }
   });
 
+  // Get competency scores
+  fastify.get("/api/processing/scores", async (request, _reply) => {
+    return controller.getCompetencyScores(request.query as any);
+  });
+
+  // Regenerate competency scores
+  fastify.post(
+    "/api/processing/regenerate-scores",
+    async (_request, _reply) => {
+      try {
+        console.log(" Regenerating competency scores...");
+
+        // Clear existing scores
+        await controller.clearCompetencyScores(2);
+
+        // Generate new scores
+        const { spawn } = require("child_process");
+        const result = await new Promise((resolve, reject) => {
+          const childProcess = spawn(
+            "node",
+            ["scripts/generate-competency-scores.js"],
+            {
+              cwd: process.cwd(),
+              stdio: "pipe",
+            }
+          );
+
+          let output = "";
+          childProcess.stdout.on("data", (data) => {
+            output += data.toString();
+          });
+
+          childProcess.on("close", (code) => {
+            if (code === 0) {
+              resolve({ success: true, output });
+            } else {
+              reject(new Error(`Script failed with code ${code}`));
+            }
+          });
+
+          childProcess.on("error", (error) => {
+            reject(error);
+          });
+        });
+
+        return {
+          success: true,
+          message: "Competency scores regenerated successfully",
+          data: result,
+        };
+      } catch (error) {
+        console.error("Failed to regenerate competency scores:", error);
+        return {
+          success: false,
+          error:
+            error instanceof Error ? error.message : "Unknown error occurred",
+        };
+      }
+    }
+  );
+
   // Health check for processing service
   fastify.get("/api/processing/health", async () => {
     return {
       status: "healthy",
       services: {
         ruleEngine: true,
-        mlProcessor: false, // Disabled for now
+        mlProcessor: true, // Now enabled!
         database: true,
         artifactStore: true,
       },

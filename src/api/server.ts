@@ -43,11 +43,15 @@ export class ApiServer {
       // Register competency routes
       await competencyRoutes(this.server);
 
-      // TODO: Add processing routes once import issues are resolved
+      // Register processing routes
       const db = DatabaseConnection.getInstance();
       await db.connect();
       const processingController = new SimpleProcessingController(db);
       registerSimpleProcessingRoutes(this.server, processingController);
+
+      // TODO: Register local processing routes once imports are fixed
+      // const localProcessingController = new LocalProcessingControllerImpl();
+      // registerLocalProcessingRoutes(this.server, localProcessingController);
 
       // Add health check endpoint
       this.server.get("/health", async () => {

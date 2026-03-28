@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { DeveloperMatrix, getLevelName } from '../types/matrix';
+import React, { useEffect, useState } from 'react';
+import { getLevelName } from '../types/matrix';
 
 interface TrendData {
   date: string;
@@ -96,7 +96,6 @@ const TrendVisualization: React.FC<TrendVisualizationProps> = ({
   const renderTrendChart = () => {
     if (trendData.length === 0) return null;
 
-    const maxConfidence = Math.max(...trendData.map(d => d.confidence));
     const maxEvidence = Math.max(...trendData.map(d => d.evidenceCount));
     const chartHeight = 200;
     const chartWidth = 600;

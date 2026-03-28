@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { COMPETENCY_CATEGORIES, DeveloperMatrix, formatConfidenceColor, getLevelName } from '../types/matrix';
 
 interface ComparisonMatrixProps {
@@ -20,11 +20,7 @@ const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [selectedCell, setSelectedCell] = useState<any>(null);
 
-  useEffect(() => {
-    fetchComparisonData();
-  }, [developers]);
-
-  const fetchComparisonData = async () => {
+  const fetchComparisonData = useCallback(async () => {
     setLoading(true);
     setError(null);
     
@@ -38,18 +34,23 @@ const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({
             developer,
             matrix: result.data
           };
+        } else {
+          throw new Error(result.error || 'Failed to fetch developer matrix');
         }
-        throw new Error(result.error || 'Failed to fetch developer data');
       });
-
+      
       const results = await Promise.all(promises);
       setComparisonData(results);
     } catch (err) {
-      setError('Failed to load comparison data');
+      setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
     }
-  };
+  }, [developers]);
+
+  useEffect(() => {
+    fetchComparisonData();
+  }, [fetchComparisonData]);
 
   const renderComparisonCell = (comparison: ComparisonData, category: string, row: any, level: number) => {
     // Add null checks and array validation

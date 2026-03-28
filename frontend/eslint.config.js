@@ -9,7 +9,7 @@ module.exports = [
     ignores: ['dist/**', 'node_modules/**']
   },
   {
-    files: ['src/**/*.{ts,tsx}'],
+    files: ['src/**/*.{ts,tsx}', 'tests/**/*.{ts,tsx}'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {

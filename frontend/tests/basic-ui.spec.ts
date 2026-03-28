@@ -361,7 +361,7 @@ test.describe("Competency Matrix Basic UI Tests", () => {
     await page.waitForTimeout(1000);
 
     // Verify no errors during view switching
-    const errorLogs = [];
+    const errorLogs: any[] = [];
     page.on("console", (msg) => {
       if (msg.type() === "error") {
         errorLogs.push(msg.text());
@@ -400,7 +400,7 @@ test.describe("Competency Matrix Basic UI Tests", () => {
     }
 
     // Verify no errors
-    const errorLogs = [];
+    const errorLogs: any[] = [];
     page.on("console", (msg) => {
       if (msg.type() === "error") {
         errorLogs.push(msg.text());
@@ -447,7 +447,7 @@ test.describe("Competency Matrix Basic UI Tests", () => {
     await page.waitForTimeout(1000);
 
     // Verify no layout errors
-    const errorLogs = [];
+    const errorLogs: any[] = [];
     page.on("console", (msg) => {
       if (msg.type() === "error") {
         errorLogs.push(msg.text());
@@ -470,7 +470,7 @@ test.describe("Dashboard Page Tests", () => {
     await page.waitForTimeout(2000);
 
     // Check for console errors
-    const errorLogs = [];
+    const errorLogs: any[] = [];
     page.on("console", (msg) => {
       if (msg.type() === "error") {
         errorLogs.push(msg.text());
@@ -493,7 +493,7 @@ test.describe("Analytics Page Tests", () => {
     await page.waitForTimeout(2000);
 
     // Check for console errors
-    const errorLogs = [];
+    const errorLogs: any[] = [];
     page.on("console", (msg) => {
       if (msg.type() === "error") {
         errorLogs.push(msg.text());
@@ -516,7 +516,7 @@ test.describe("Configuration Page Tests", () => {
     await page.waitForTimeout(2000);
 
     // Check for console errors
-    const errorLogs = [];
+    const errorLogs: any[] = [];
     page.on("console", (msg) => {
       if (msg.type() === "error") {
         errorLogs.push(msg.text());
@@ -539,7 +539,7 @@ test.describe("Connectors Page Tests", () => {
     await page.waitForTimeout(2000);
 
     // Check for console errors
-    const errorLogs = [];
+    const errorLogs: any[] = [];
     page.on("console", (msg) => {
       if (msg.type() === "error") {
         errorLogs.push(msg.text());

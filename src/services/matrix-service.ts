@@ -1,20 +1,19 @@
-import { DatabaseConnection } from '../database/connection';
-import { 
-  DeveloperMatrix, 
-  TeamMatrix, 
-  MatrixOverview, 
-  MatrixCategory, 
-  MatrixRow,
+import { DatabaseConnection } from "../database/connection";
+import {
   COMPETENCY_CATEGORIES,
-  COMPETENCY_LEVELS 
-} from '../types/matrix';
+  DeveloperMatrix,
+  MatrixCategory,
+  MatrixOverview,
+  MatrixRow,
+  TeamMatrix,
+} from "../types/matrix";
 
 export class MatrixService {
   private db = DatabaseConnection.getInstance();
 
   async getDeveloperMatrix(actor: string): Promise<DeveloperMatrix> {
     await this.db.connect();
-    
+
     try {
       const result = await this.db.query(`
         SELECT 
@@ -30,7 +29,7 @@ export class MatrixService {
       `);
 
       const scores = Array.isArray(result) ? result : result.recordset || [];
-      
+
       // Build matrix structure
       const categories: MatrixCategory[] = [];
       let totalScores = 0;
@@ -38,62 +37,78 @@ export class MatrixService {
       const levelDistribution: Record<number, number> = {};
 
       // Process each category
-      Object.entries(COMPETENCY_CATEGORIES).forEach(([categoryKey, categoryDef]) => {
-        const categoryScores = scores.filter(s => s.competency_category === categoryKey);
-        
-        const rows: MatrixRow[] = categoryDef.rows.map(rowDef => {
-          const score = categoryScores.find(s => s.competency_row === rowDef.id);
-          
-          if (score) {
-            totalScores++;
-            totalConfidence += score.confidence;
-            levelDistribution[score.level] = (levelDistribution[score.level] || 0) + 1;
-            
-            return {
-              row: rowDef.id,
-              displayName: rowDef.displayName,
-              levels: {
-                [score.level]: {
-                  category: categoryKey,
-                  row: rowDef.id,
-                  level: score.level,
-                  confidence: score.confidence,
-                  evidenceCount: score.evidence_count,
-                  lastUpdated: score.last_updated
-                }
-              }
-            };
-          } else {
-            return {
-              row: rowDef.id,
-              displayName: rowDef.displayName,
-              levels: {}
-            };
-          }
-        });
+      Object.entries(COMPETENCY_CATEGORIES).forEach(
+        ([categoryKey, categoryDef]) => {
+          const categoryScores = scores.filter(
+            (s) => s.competency_category === categoryKey
+          );
 
-        const categorySummary = {
-          totalScores: categoryScores.length,
-          averageConfidence: categoryScores.length > 0 
-            ? categoryScores.reduce((sum, s) => sum + s.confidence, 0) / categoryScores.length 
-            : 0,
-          averageLevel: categoryScores.length > 0 
-            ? categoryScores.reduce((sum, s) => sum + s.level, 0) / categoryScores.length 
-            : 0
-        };
+          const rows: MatrixRow[] = categoryDef.rows.map((rowDef) => {
+            const score = categoryScores.find(
+              (s) => s.competency_row === rowDef.id
+            );
 
-        categories.push({
-          category: categoryKey,
-          displayName: categoryDef.displayName,
-          rows,
-          summary: categorySummary
-        });
-      });
+            if (score) {
+              totalScores++;
+              totalConfidence += score.confidence;
+              levelDistribution[score.level] =
+                (levelDistribution[score.level] || 0) + 1;
 
-      const averageConfidence = totalScores > 0 ? totalConfidence / totalScores : 0;
-      const averageLevel = totalScores > 0 
-        ? Object.entries(levelDistribution).reduce((sum, [level, count]) => sum + (parseInt(level) * count), 0) / totalScores 
-        : 0;
+              return {
+                row: rowDef.id,
+                displayName: rowDef.displayName,
+                levels: {
+                  [score.level]: {
+                    category: categoryKey,
+                    row: rowDef.id,
+                    level: score.level,
+                    confidence: score.confidence,
+                    evidenceCount: score.evidence_count,
+                    lastUpdated: score.last_updated,
+                  },
+                },
+              };
+            } else {
+              return {
+                row: rowDef.id,
+                displayName: rowDef.displayName,
+                levels: {},
+              };
+            }
+          });
+
+          const categorySummary = {
+            totalScores: categoryScores.length,
+            averageConfidence:
+              categoryScores.length > 0
+                ? categoryScores.reduce((sum, s) => sum + s.confidence, 0) /
+                  categoryScores.length
+                : 0,
+            averageLevel:
+              categoryScores.length > 0
+                ? categoryScores.reduce((sum, s) => sum + s.level, 0) /
+                  categoryScores.length
+                : 0,
+          };
+
+          categories.push({
+            category: categoryKey,
+            displayName: categoryDef.displayName,
+            rows,
+            summary: categorySummary,
+          });
+        }
+      );
+
+      const averageConfidence =
+        totalScores > 0 ? totalConfidence / totalScores : 0;
+      const averageLevel =
+        totalScores > 0
+          ? Object.entries(levelDistribution).reduce(
+              (sum, [level, count]) => sum + parseInt(level) * count,
+              0
+            ) / totalScores
+          : 0;
 
       return {
         actor,
@@ -102,9 +117,9 @@ export class MatrixService {
           totalScores,
           averageConfidence,
           averageLevel,
-          levelDistribution
+          levelDistribution,
         },
-        generatedAt: new Date().toISOString()
+        generatedAt: new Date().toISOString(),
       };
     } finally {
       await this.db.disconnect();
@@ -113,7 +128,7 @@ export class MatrixService {
 
   async getTeamMatrix(): Promise<TeamMatrix> {
     await this.db.connect();
-    
+
     try {
       const result = await this.db.query(`
         SELECT DISTINCT actor
@@ -126,18 +141,23 @@ export class MatrixService {
 
       // Get matrix for each developer
       for (const actorRecord of actors) {
-        const developerMatrix = await this.getDeveloperMatrix(actorRecord.actor);
+        const developerMatrix = await this.getDeveloperMatrix(
+          actorRecord.actor
+        );
         developerMatrices.push(developerMatrix);
       }
 
-      const totalScores = developerMatrices.reduce((sum, dev) => sum + dev.summary.totalScores, 0);
+      const totalScores = developerMatrices.reduce(
+        (sum, dev) => sum + dev.summary.totalScores,
+        0
+      );
 
       return {
         developers: developerMatrices,
         totalDevelopers: developerMatrices.length,
         totalScores,
         categories: Object.keys(COMPETENCY_CATEGORIES),
-        generatedAt: new Date().toISOString()
+        generatedAt: new Date().toISOString(),
       };
     } finally {
       await this.db.disconnect();
@@ -146,7 +166,7 @@ export class MatrixService {
 
   async getMatrixOverview(): Promise<MatrixOverview> {
     await this.db.connect();
-    
+
     try {
       const summaryResult = await this.db.query(`
         SELECT 
@@ -180,9 +200,15 @@ export class MatrixService {
         ORDER BY level
       `);
 
-      const summary = Array.isArray(summaryResult) ? summaryResult[0] : summaryResult.recordset?.[0];
-      const categories = Array.isArray(categoryBreakdown) ? categoryBreakdown : categoryBreakdown.recordset || [];
-      const levels = Array.isArray(levelDistribution) ? levelDistribution : levelDistribution.recordset || [];
+      const summary = Array.isArray(summaryResult)
+        ? summaryResult[0]
+        : summaryResult.recordset?.[0];
+      const categories = Array.isArray(categoryBreakdown)
+        ? categoryBreakdown
+        : categoryBreakdown.recordset || [];
+      const levels = Array.isArray(levelDistribution)
+        ? levelDistribution
+        : levelDistribution.recordset || [];
 
       return {
         summary: {
@@ -190,11 +216,11 @@ export class MatrixService {
           totalDevelopers: summary?.total_developers || 0,
           totalCategories: summary?.total_categories || 0,
           averageConfidence: summary?.avg_confidence || 0,
-          averageLevel: summary?.avg_level || 0
+          averageLevel: summary?.avg_level || 0,
         },
         categoryBreakdown: categories,
         levelDistribution: levels,
-        generatedAt: new Date().toISOString()
+        generatedAt: new Date().toISOString(),
       };
     } finally {
       await this.db.disconnect();

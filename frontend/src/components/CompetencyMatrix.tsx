@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import type { DeveloperMatrix, MatrixCategory, MatrixRow } from '../types/matrix';
-import { formatConfidenceColor, getLevelColor, getLevelName } from '../types/matrix';
+import { COMPETENCY_CATEGORIES, formatConfidenceColor, getLevelColor, getLevelName } from '../types/matrix';
 import EvidenceModal from './EvidenceModal';
 
 interface CompetencyMatrixProps {
@@ -120,7 +120,7 @@ const CompetencyMatrix: React.FC<CompetencyMatrixProps> = ({
     return finalResult;
   };
 
-  const fetchAvailableDevelopers = async () => {
+  const fetchAvailableDevelopers = useCallback(async () => {
     try {
       console.log('🔍 Fetching available developers...');
       const response = await fetch('/api/matrix/overview');
@@ -134,7 +134,7 @@ const CompetencyMatrix: React.FC<CompetencyMatrixProps> = ({
       console.log('📡 Overview API Response:', result);
       
       if (result.success) {
-        // Extract developers from the team matrix API
+        // Extract developers from team matrix API
         const teamResponse = await fetch('/api/matrix/team');
         
         if (!teamResponse.ok) {
@@ -162,9 +162,9 @@ const CompetencyMatrix: React.FC<CompetencyMatrixProps> = ({
     } catch (err) {
       console.error('Failed to fetch developers:', err);
     }
-  };
+  }, [selectedDeveloper]);
 
-  const fetchMatrixData = async () => {
+  const fetchMatrixData = useCallback(async () => {
     setLoading(true);
     setError(null);
     
@@ -206,19 +206,19 @@ const CompetencyMatrix: React.FC<CompetencyMatrixProps> = ({
     } catch (err) {
       console.error('❌ fetchMatrixData failed:', err);
       console.error('❌ Error details:', {
-        message: err.message,
-        stack: err.stack,
+        message: (err as Error).message,
+        stack: (err as Error).stack,
         selectedDeveloper,
         viewMode,
         endpoint: viewMode === 'individual' && selectedDeveloper 
           ? `/api/matrix/developer/${selectedDeveloper}` 
           : '/api/matrix/team'
       });
-      setError('Network error loading matrix data');
+      setError('Failed to load matrix data');
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedDeveloper, developerId, viewMode]);
 
   const renderMatrixCell = (category: string, row: MatrixRow, level: number) => {
     const cell = row.levels[level];

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import TrendVisualization from './TrendVisualization';
 
 interface EvidenceModalProps {
   isOpen: boolean;
@@ -24,66 +25,10 @@ const EvidenceModal: React.FC<EvidenceModalProps> = ({
   cell, 
   developer 
 }) => {
-  const [evidence, setEvidence] = useState<Evidence[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [evidence, _setEvidence] = useState<Evidence[]>([]);
+  const [loading, _setLoading] = useState(false);
+  const [error, _setError] = useState<string | null>(null);
   const [showTrends, setShowTrends] = useState(false);
-
-  useEffect(() => {
-    if (isOpen && cell) {
-      fetchEvidence();
-    }
-  }, [isOpen, cell, developer]);
-
-  const fetchEvidence = async () => {
-    setLoading(true);
-    setError(null);
-    
-    try {
-      // Mock API call - in real implementation this would fetch actual evidence
-      // For now, generate mock evidence based on the cell data
-      const mockEvidence: Evidence[] = [
-        {
-          id: '1',
-          type: 'jira',
-          title: `Completed ${cell.row} implementation in project`,
-          description: `Successfully implemented advanced ${cell.row} features with high quality code and comprehensive testing.`,
-          url: 'https://example.atlassian.net/browse/PROJ-123',
-          timestamp: '2026-03-15T10:30:00Z',
-          confidence: 0.85,
-          relevanceScore: 0.92
-        },
-        {
-          id: '2',
-          type: 'confluence',
-          title: `Technical documentation for ${cell.row}`,
-          description: `Created comprehensive documentation covering best practices and implementation guidelines for ${cell.row}.`,
-          url: 'https://example.atlassian.net/wiki/display/TECH/RowGuide',
-          timestamp: '2026-03-10T14:20:00Z',
-          confidence: 0.78,
-          relevanceScore: 0.88
-        },
-        {
-          id: '3',
-          type: 'bitbucket',
-          title: `Pull request: ${cell.row} improvements`,
-          description: `Submitted pull request with significant improvements to ${cell.row} functionality and performance optimizations.`,
-          url: 'https://bitbucket.org/example/project/pull-requests/45',
-          timestamp: '2026-03-08T09:15:00Z',
-          confidence: 0.91,
-          relevanceScore: 0.95
-        }
-      ];
-
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 500));
-      setEvidence(mockEvidence);
-    } catch (err) {
-      setError('Failed to load evidence');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const getEvidenceIcon = (type: string) => {
     switch (type) {
@@ -98,7 +43,7 @@ const EvidenceModal: React.FC<EvidenceModalProps> = ({
       default:
         return '📋';
     }
-  };
+  }
 
   const getEvidenceTypeColor = (type: string) => {
     switch (type) {

@@ -9,14 +9,12 @@ interface TeamMatrixProps {
   searchTerm?: string;
 }
 
-const TeamMatrix: React.FC<TeamMatrixProps> = ({ viewMode = 'overview' }) => {
+const TeamMatrix: React.FC<TeamMatrixProps> = ({ viewMode: _viewMode = 'overview' }) => {
   const [teamMatrix, setTeamMatrix] = useState<TeamMatrixType | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedDeveloper, setSelectedDeveloper] = useState<string | null>(null);
   const [selectedCell, setSelectedCell] = useState<any>(null);
   const [comparisonMode, setComparisonMode] = useState(false);
-  const [selectedDevelopers, setSelectedDevelopers] = useState<string[]>([]);
 
   useEffect(() => {
     fetchTeamMatrix();

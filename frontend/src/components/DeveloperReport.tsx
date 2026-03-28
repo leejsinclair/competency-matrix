@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { DeveloperMatrix, getLevelName } from '../types/matrix';
 
 interface DeveloperReportProps {
@@ -24,13 +24,7 @@ const DeveloperReport: React.FC<DeveloperReportProps> = ({
   const [reportSections, setReportSections] = useState<ReportSection[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  useEffect(() => {
-    if (isOpen && developer) {
-      generateReport();
-    }
-  }, [isOpen, developer]);
-
-  const generateReport = async () => {
+  const generateReport = useCallback(async () => {
     setLoading(true);
     setError(null);
     setIsGenerating(true);
@@ -48,7 +42,7 @@ const DeveloperReport: React.FC<DeveloperReportProps> = ({
           {
             title: 'Executive Summary',
             type: 'summary',
-            data: generateExecutiveSummary(result.data)
+            data: generateExecutiveSummary(matrix!)
           },
           {
             title: 'Competency Matrix Analysis',
@@ -77,7 +71,13 @@ const DeveloperReport: React.FC<DeveloperReportProps> = ({
       setLoading(false);
       setIsGenerating(false);
     }
-  };
+  }, [developer, matrix]);
+
+  useEffect(() => {
+    if (isOpen && developer) {
+      generateReport();
+    }
+  }, [isOpen, developer, generateReport]);
 
   const generateExecutiveSummary = (data: DeveloperMatrix) => {
     const topCategories = data.categories

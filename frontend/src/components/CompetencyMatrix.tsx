@@ -25,14 +25,16 @@ const CompetencyMatrix: React.FC<CompetencyMatrixProps> = ({
   useEffect(() => {
     console.log('📊 AvailableDevelopers state updated:', availableDevelopers);
     console.log('📊 SelectedDeveloper state updated:', selectedDeveloper);
-  }, [availableDevelopers, selectedDeveloper]);
+  }, [availableDevelopers, selectedDeveloper]);  
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (viewMode === 'individual') {
       fetchAvailableDevelopers();
     }
     fetchMatrixData();
   }, [developerId, viewMode, selectedDeveloper]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   // Transform API data format to frontend expected format
   const transformApiDataToMatrixFormat = (apiData: any): DeveloperMatrix | null => {

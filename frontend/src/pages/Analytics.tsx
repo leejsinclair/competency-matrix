@@ -179,7 +179,7 @@ export default function Analytics() {
       <div className="bg-white shadow rounded-lg p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Contributors</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {topContributors.map((contributor: any, index: any) => (
+          {topContributors.map((contributor: any, _index: any) => (
             <div key={contributor.actor} className="border rounded-lg p-4">
               <h4 className="font-medium text-gray-900 mb-2 truncate">{contributor.actor}</h4>
               <div className="space-y-2">

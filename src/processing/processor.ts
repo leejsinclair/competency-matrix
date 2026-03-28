@@ -1,19 +1,20 @@
 import { ActivityEvent } from "../types/activity";
+import { ArtifactStore } from "../types/artifact";
+import { MLProcessor } from "./ml-processor";
+import { RuleEngine } from "./rule-engine";
 import {
-  ProcessingResult,
-  Label,
   FeatureVector,
+  Label,
   ProcessingError,
+  ProcessingResult,
   Rule,
   SyntheticTestData,
 } from "./types";
-import { RuleEngine } from "./rule-engine";
-import { MLProcessor } from "./ml-processor";
-import { ArtifactStore } from "../types/artifact";
 
 export interface ProcessingConfig {
   enableRuleEngine: boolean;
   enableMLProcessor: boolean;
+  rules?: Rule[]; // Optional custom rules for testing
   ruleEngineConfig?: {
     rulesPath?: string;
     autoUpdate?: boolean;
@@ -35,7 +36,7 @@ export class Processor {
     this.config = config;
     this.artifactStore = artifactStore;
 
-    this.ruleEngine = new RuleEngine();
+    this.ruleEngine = new RuleEngine(config.rules); // Pass custom rules if provided
     this.mlProcessor = new MLProcessor();
 
     this.initialize();

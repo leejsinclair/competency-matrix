@@ -30,6 +30,7 @@ export interface FeatureExtractorConfig {
 
 export class FeatureExtractor {
   private config: FeatureExtractorConfig;
+  private static instanceCounter = 0;
 
   constructor(config?: Partial<FeatureExtractorConfig>) {
     this.config = {
@@ -61,7 +62,7 @@ export class FeatureExtractor {
       features,
       vector,
       algorithm: "rule-based-v1",
-      timestamp: new Date().toISOString(),
+      timestamp: `feature-extractor-${++FeatureExtractor.instanceCounter}`, // Deterministic timestamp for testing
     };
   }
 

@@ -94,6 +94,7 @@ export function createProcessorSetup(): ProcessorTestSetup {
     {
       enableRuleEngine: true,
       enableMLProcessor: true,
+      rules: [], // Start with empty rules for clean testing
     },
     mockArtifactStore
   );

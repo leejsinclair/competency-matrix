@@ -22,7 +22,7 @@ describe("RuleEngine", () => {
   let mockEvent: ActivityEvent;
 
   beforeEach(() => {
-    ruleEngine = new RuleEngine();
+    ruleEngine = new RuleEngine([]); // Start with empty rules for clean testing
 
     mockEvent = {
       id: "test-event-1",

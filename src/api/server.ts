@@ -11,6 +11,7 @@ import {
   SimpleProcessingController,
 } from "./processing-routes-simple";
 import { competencyRoutes } from "./routes/competency-routes";
+import { reportRoutes } from "./routes/report-routes";
 
 export class ApiServer {
   private server: any;
@@ -42,6 +43,9 @@ export class ApiServer {
 
       // Register competency routes
       await competencyRoutes(this.server);
+
+      // Register report routes
+      await reportRoutes(this.server);
 
       // Register processing routes
       const db = DatabaseConnection.getInstance();
@@ -78,6 +82,17 @@ export class ApiServer {
               "Test connector configuration",
             "GET /api/connector-configs/type/:connectorType":
               "Get configurations by type",
+            "GET /api/reports/health": "Report service health check",
+            "GET /api/reports/developer/:id/report":
+              "Generate developer competency report",
+            "GET /api/reports/developer/:id/competencies":
+              "Get developer competency profiles",
+            "POST /api/reports/developer/:id/self-eval":
+              "Store developer self-evaluation",
+            "GET /api/reports/matrix": "Get full team competency matrix",
+            "GET /api/reports/history": "Get report generation history",
+            "GET /api/reports/:reportId/export":
+              "Export report in different formats",
           },
         };
       });

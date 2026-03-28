@@ -1,9 +1,91 @@
 {
-  "generatedAt": "2026-03-06T22:29:40.685Z",
-  "totalPages": 0,
-  "totalContributors": 0,
-  "totalClassifications": 0,
-  "topCompetencyAreas": [],
-  "averageCompetenciesPerContributor": 0,
-  "contributorsByContributionType": []
+  "generatedAt": "2026-03-28T01:59:55.367Z",
+  "totalPages": 1,
+  "totalContributors": 1,
+  "totalClassifications": 12,
+  "topCompetencyAreas": [
+    {
+      "area": "programming-languages/software-engineering",
+      "count": 3,
+      "category": "programming-languages",
+      "row": "software-engineering"
+    },
+    {
+      "area": "containers-orchestration/devops-platform-engineering",
+      "count": 2,
+      "category": "containers-orchestration",
+      "row": "devops-platform-engineering"
+    },
+    {
+      "area": "web-development/frontend",
+      "count": 1,
+      "category": "web-development",
+      "row": "frontend"
+    },
+    {
+      "area": "infrastructure-cloud/infrastructure-cloud",
+      "count": 1,
+      "category": "infrastructure-cloud",
+      "row": "infrastructure-cloud"
+    },
+    {
+      "area": "collaboration-tools/atlassian",
+      "count": 1,
+      "category": "collaboration-tools",
+      "row": "atlassian"
+    },
+    {
+      "area": "collaboration-process/git-version-control",
+      "count": 1,
+      "category": "collaboration-process",
+      "row": "git-version-control"
+    },
+    {
+      "area": "architecture-design/software-engineering",
+      "count": 1,
+      "category": "architecture-design",
+      "row": "software-engineering"
+    },
+    {
+      "area": "testing-quality/software-engineering",
+      "count": 1,
+      "category": "testing-quality",
+      "row": "software-engineering"
+    },
+    {
+      "area": "agile-delivery/collaboration-process",
+      "count": 1,
+      "category": "agile-delivery",
+      "row": "collaboration-process"
+    }
+  ],
+  "averageCompetenciesPerContributor": 9,
+  "contributorsByContributionType": [
+    {
+      "email": "john.doe@company.com",
+      "displayName": "john.doe",
+      "totalCompetencies": 9,
+      "contributionsByType": {
+        "created": 1,
+        "edited": 0
+      },
+      "topAreas": [
+        {
+          "area": "programming-languages/software-engineering",
+          "count": 1,
+          "percentage": 11.11111111111111
+        },
+        {
+          "area": "web-development/frontend",
+          "count": 1,
+          "percentage": 11.11111111111111
+        },
+        {
+          "area": "containers-orchestration/devops-platform-engineering",
+          "count": 1,
+          "percentage": 11.11111111111111
+        }
+      ]
+    }
+  ]
 }

@@ -77,3 +77,7 @@ playwright-report/
 
 # Confluence content
 _content/confluence/
+
+# Test data with sensitive information
+test-data/*.json
+test-data/confluence/

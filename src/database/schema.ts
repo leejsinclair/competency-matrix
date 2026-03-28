@@ -63,6 +63,18 @@ export class DatabaseSchema {
 
     // Create processed artifacts table
     await this.createArtifactsTable();
+
+    // Create competency scores table
+    await this.createCompetencyScoresTable();
+
+    // Create reports table
+    await this.createReportsTable();
+
+    // Create self_evaluations table
+    await this.createSelfEvaluationsTable();
+
+    // Create performance indexes
+    await this.createIndexes();
   }
 
   private async createConnectorConfigTable(): Promise<void> {
@@ -131,6 +143,80 @@ export class DatabaseSchema {
 
     // Create indexes separately
     const indexQueries = [
+      `CREATE INDEX idx_artifacts_type ON artifacts(type)`,
+      `CREATE INDEX idx_artifacts_source ON artifacts(source)`,
+    ];
+
+    for (const indexQuery of indexQueries) {
+      try {
+        await this.db.query(indexQuery);
+      } catch (error) {
+        // Ignore index creation errors if they already exist
+        console.log("Index creation warning (may already exist):", error);
+      }
+    }
+  }
+
+  private async createCompetencyScoresTable(): Promise<void> {
+    const query = `
+      IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='competency_scores' AND xtype='U')
+      CREATE TABLE competency_scores (
+        id INT IDENTITY(1,1) PRIMARY KEY,
+        connector_id INT NOT NULL,
+        competency_category NVARCHAR(100) NOT NULL,
+        competency_row NVARCHAR(200) NOT NULL,
+        actor NVARCHAR(255) NOT NULL,
+        level INT NOT NULL,
+        confidence DECIMAL(5,2) NOT NULL,
+        evidence_count INT DEFAULT 0,
+        last_updated DATETIME2 DEFAULT GETDATE()
+      );
+    `;
+    await this.db.query(query);
+  }
+
+  private async createReportsTable(): Promise<void> {
+    const query = `
+      IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='reports' AND xtype='U')
+      CREATE TABLE reports (
+        id INT IDENTITY(1,1) PRIMARY KEY,
+        developer_id NVARCHAR(255) NOT NULL,
+        report_type NVARCHAR(50) NOT NULL,
+        title NVARCHAR(200) NOT NULL,
+        content NVARCHAR(MAX) NOT NULL,
+        format NVARCHAR(20) DEFAULT 'json',
+        generated_at DATETIME2 DEFAULT GETDATE(),
+        metadata NVARCHAR(MAX)
+      );
+    `;
+    await this.db.query(query);
+  }
+
+  private async createSelfEvaluationsTable(): Promise<void> {
+    const query = `
+      IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='self_evaluations' AND xtype='U')
+      CREATE TABLE self_evaluations (
+        id INT IDENTITY(1,1) PRIMARY KEY,
+        developer_id NVARCHAR(255) NOT NULL,
+        competency_category NVARCHAR(100) NOT NULL,
+        competency_row NVARCHAR(200) NOT NULL,
+        self_level INT NOT NULL,
+        self_confidence DECIMAL(5,2) NOT NULL,
+        evidence TEXT,
+        submitted_at DATETIME2 DEFAULT GETDATE(),
+        metadata NVARCHAR(MAX)
+      );
+    `;
+    await this.db.query(query);
+  }
+
+  // Create indexes for performance
+  private async createIndexes(): Promise<void> {
+    const indexQueries = [
+      `CREATE INDEX idx_competency_scores_actor ON competency_scores(actor)`,
+      `CREATE INDEX idx_competency_scores_category ON competency_scores(competency_category)`,
+      `CREATE INDEX idx_reports_developer ON reports(developer_id)`,
+      `CREATE INDEX idx_self_evaluations_developer ON self_evaluations(developer_id)`,
       `CREATE INDEX idx_artifacts_type ON artifacts(type)`,
       `CREATE INDEX idx_artifacts_source ON artifacts(source)`,
     ];

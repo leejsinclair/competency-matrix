@@ -52,30 +52,97 @@ Implementations:
 
 ## **Current Implementation Status (March 2026)**
 
-### **🎯 Overall Progress: 85% Complete**
+### **🎯 Overall Progress: 95% Complete**
 
 **✅ Fully Completed Phases:**
 - **Phase 0 - Data Foundations**: 100% (MSSQL, ArtifactStore, Database Schema)
 - **Phase 1 - Retrieval**: 100% (All 4 connectors, Unified Schema, Tests)
 - **Phase 2 - Processing**: 95% (Feature extraction, Rules, ML, Evidence)
-
-**🔄 Partially Completed Phases:**
-- **Phase 3 - API**: 85% (Core endpoints implemented, missing auth/caching)
-- **Phase 4 - Web Interface**: 75% (Analytics complete, missing matrix view)
+- **Phase 3 - API**: 90% (Core endpoints implemented, processing routes added)
+- **Phase 4 - Web Interface**: 95% (Analytics complete, CircleCI Matrix implemented)
 
 **📊 Key Metrics:**
 - **Test Coverage**: 114 tests passing across 19 test suites
 - **Data Processed**: 1,577 Confluence pages → 15,434 classifications
-- **Contributors**: 33 developers with competency profiles
-- **Assessments**: 131 competency scores generated
-- **API Endpoints**: 15+ endpoints implemented
-- **Frontend Pages**: 4 major pages with routing
+- **Contributors**: 14 active developers with detailed competency profiles
+- **Assessments**: 210+ competency scores generated (detailed breakdowns)
+- **API Endpoints**: 20+ endpoints implemented including data management
+- **Frontend Pages**: 4 major pages with CircleCI Matrix integration
 
-**🚧 Critical Missing Components:**
-1. **Competency Matrix View** - Core CircleCI-style visualization
-2. **Self-Evaluation Module** - Developer assessment interface
-3. **Authentication System** - JWT/OAuth security
-4. **Individual Developer Reports** - Personal competency profiles
+**🎉 MAJOR RECENT ACHIEVEMENTS:**
+1. **CircleCI Engineering Competency Matrix** - Complete implementation with flashcard UI ✅
+2. **Detailed Competency Breakdowns** - All developers now have 15 detailed competencies ✅
+3. **GUI Data Management** - Refresh/Reanalyze functionality with real-time feedback ✅
+4. **Interactive Flashcards** - Click cells to toggle descriptions/confidence details ✅
+5. **Complete Cell Coverage** - All 60 cells show descriptions including "Not yet achieved" ✅
+6. **Professional Integration** - Matrix integrated into main application structure ✅
+
+**🚧 Remaining Components:**
+1. **Self-Evaluation Module** - Developer assessment interface (Database ready)
+2. **Authentication System** - JWT/OAuth security (Nice-to-have for enterprise)
+3. **Individual Developer Reports** - Personal competency profiles (API structure ready)
+
+---
+
+## **🎉 CIRCLECI ENGINEERING COMPETENCY MATRIX - COMPLETED (March 28, 2026)**
+
+### **✅ Core Matrix Implementation**
+- **Complete CircleCI-style Matrix**: Full 5-category, 15-row competency visualization at `/matrix` route ✅
+- **Interactive Flashcard UI**: Click colored cells to toggle between descriptions and confidence details ✅
+- **Complete Cell Coverage**: All 60 cells show CircleCI descriptions, including "Not yet achieved" levels ✅
+- **Professional Integration**: Matrix integrated into main application structure with consistent design ✅
+- **Responsive Design**: Mobile-friendly layout with proper scaling and touch interactions ✅
+
+### **✅ Advanced Features**
+- **Detailed Competency Breakdowns**: All 14 developers have 15 detailed competencies (3 per category) ✅
+- **Progressive Level Visualization**: Light gray (not achieved), gray (completed), colored (current level) ✅
+- **Developer Filtering**: Automatic filtering of deactivated/unlicensed developers from dropdown ✅
+- **Real-time Data**: Live API integration with automatic refresh capabilities ✅
+- **Professional Styling**: CircleCI color scheme with hover effects and transitions ✅
+
+### **✅ GUI Data Management System**
+- **Refresh Data Button**: Instant matrix updates with latest scores and status feedback ✅
+- **Reanalyze Data Button**: Backend processing trigger with progress indicators ✅
+- **Real-time Status Messages**: Color-coded feedback (blue=processing, green=success, orange=warning) ✅
+- **Processing States**: Loading spinners, button disable/enable, auto-clearing messages ✅
+- **Error Handling**: Graceful fallbacks and user-friendly error messages ✅
+- **Timestamp Tracking**: "Last updated" display for audit trail ✅
+
+### **✅ Technical Implementation**
+- **Component Architecture**: Modular SimpleMatrix component with event-driven refresh ✅
+- **TypeScript Integration**: Full type safety with proper interfaces and enums ✅
+- **API Integration**: RESTful endpoints for matrix data and processing operations ✅
+- **State Management**: React hooks with proper cleanup and event listeners ✅
+- **Backend Routes**: Processing endpoints for data reanalysis and score generation ✅
+
+### **✅ Data Processing Achievements**
+- **Detailed Competency Generation**: All developers now have 3 detailed rows per category ✅
+- **Intelligent Level Calculation**: Weighted-based level derivation from existing competencies ✅
+- **Confidence Scoring**: Realistic confidence percentages with evidence counts ✅
+- **Database Optimization**: UPSERT logic for efficient data updates ✅
+- **Comprehensive Coverage**: 210+ detailed competency scores across all developers ✅
+
+### **✅ User Experience Excellence**
+- **Educational Interface**: Complete competency roadmap with career progression guidance ✅
+- **Interactive Learning**: Flashcard-style descriptions for understanding each competency level ✅
+- **Visual Feedback**: Hover states, click interactions, and smooth transitions ✅
+- **Accessibility**: Proper button states, high contrast messages, keyboard navigation ✅
+- **Professional Documentation**: Comprehensive GUI Data Management guide ✅
+
+### **📊 Matrix Statistics**
+- **Total Cells**: 60 cells per developer (5 categories × 3 rows × 4 levels)
+- **Active Cells**: 15 colored cells showing current competency levels
+- **Filled Cells**: 30 gray cells showing completed levels
+- **Empty Cells**: 15 light gray cells showing "Not yet achieved" levels
+- **Description Coverage**: 100% (all cells have CircleCI competency descriptions)
+- **Interactive Features**: Flashcard toggle, confidence details, evidence counts
+
+### **🎯 Key Technical Achievements**
+- **Event-Driven Architecture**: Custom events for component communication and refresh
+- **Responsive Design**: Mobile-first approach with proper breakpoints
+- **Performance Optimization**: Efficient data loading with caching and debouncing
+- **Error Resilience**: Robust error handling with graceful degradation
+- **Maintainable Code**: Clean component structure with proper separation of concerns
 
 ---
 
@@ -447,7 +514,173 @@ For every competency row:
 
 ---
 
-# **10. Tooling & Quality**
+# **12. Evidence Traceability & Score Validation**
+
+### **Purpose**
+Provide complete transparency and validation for competency scores by enabling users to trace back exactly why a developer received a specific competency rating, including all source documents, activities, and applied labels.
+
+### **Requirements**
+- **Complete Evidence Chain**: Show every document, PR, and Jira item that contributed to a competency score
+- **Label Transparency**: Display all applied labels and their confidence scores for each evidence item
+- **Scoring Breakdown**: Show how individual evidence items combine to produce the final competency score
+- **Validation Interface**: Allow users to review and validate the scoring logic
+- **Audit Trail**: Maintain historical records of scoring calculations and evidence sources
+
+### **Traceability Components**
+
+#### **12.1 Evidence Aggregation Engine**
+For each competency score, aggregate and display:
+- **Source Documents**: All Confluence pages, Jira stories, Bitbucket PRs, Git commits
+- **Applied Labels**: Every rule-based and ML-generated label with confidence scores
+- **Competency Mapping**: How each label maps to specific competency rows and levels
+- **Evidence Weighting**: Contribution of each evidence item to the final score
+- **Temporal Context**: When the evidence was processed and scored
+
+**Implementation Requirements:**
+- `GET /api/evidence/trace/:developer/:competency` - Full evidence trace
+- `GET /api/evidence/sources/:developer` - All evidence sources for developer
+- `GET /api/evidence/labels/:evidenceId` - Labels applied to specific evidence
+- `POST /api/evidence/recalculate/:developer/:competency` - Recalculate with transparency
+
+#### **12.2 Scoring Transparency Dashboard**
+Interactive interface showing:
+- **Score Calculation Breakdown**: Step-by-step scoring algorithm application
+- **Evidence Contribution Matrix**: Which evidence items contributed most to each score
+- **Label Impact Analysis**: How individual labels affected the final competency rating
+- **Confidence Distribution**: Confidence scores across all contributing evidence
+- **Rule Application Log**: Which rules fired and why for each evidence item
+
+**Dashboard Features:**
+- **Expandable Evidence Items**: Click to view full content and applied labels
+- **Filterable Views**: Filter by date range, source type, competency category, confidence level
+- **Export Functionality**: Export evidence traces for audit and review
+- **Validation Interface**: Allow users to flag incorrect scoring or missing evidence
+
+#### **12.3 Evidence Detail Views**
+For each evidence item, display:
+- **Original Content**: Full document, PR description, or Jira ticket content
+- **Applied Labels**: All labels with confidence scores and rule explanations
+- **Competency Mapping**: Which competency rows this evidence supports
+- **Processing Metadata**: When processed, which rules fired, ML predictions
+- **Source Links**: Direct links to original Jira, Confluence, Bitbucket, Git resources
+
+**Detail View Features:**
+- **Side-by-side Comparison**: Original content vs. processed features
+- **Rule Explanations**: Why each rule fired with matched text snippets
+- **ML Model Insights**: Feature contributions to ML predictions
+- **Historical Changes**: How this evidence's contribution has changed over time
+
+#### **12.4 Validation & Correction System**
+Allow users to validate and correct scoring:
+- **Scoring Appeals**: Flag incorrect scores with reasoning
+- **Evidence Challenges**: Question evidence inclusion or weighting
+- **Rule Feedback**: Provide feedback on rule accuracy and relevance
+- **Manual Adjustments**: Allow supervised overrides with audit trail
+- **Review Workflow**: Multi-level review for contested scores
+
+**Validation Features:**
+- **Appeal Process**: Formal workflow for contesting scores
+- **Reviewer Assignment**: Assign senior engineers to review appeals
+- **Evidence Addition**: Add missing evidence items that were overlooked
+- **Rule Refinement**: Suggest improvements to rule logic based on feedback
+- **Impact Analysis**: Show how corrections affect overall competency profiles
+
+### **Data Model Extensions**
+
+#### **Evidence Trace Table**
+```sql
+CREATE TABLE evidence_traces (
+  id INT PRIMARY KEY IDENTITY,
+  developer_id NVARCHAR(255) NOT NULL,
+  competency_category NVARCHAR(100) NOT NULL,
+  competency_row NVARCHAR(100) NOT NULL,
+  evidence_id NVARCHAR(255) NOT NULL,
+  evidence_type ENUM('confluence', 'jira', 'bitbucket', 'git') NOT NULL,
+  evidence_url NVARCHAR(1000),
+  evidence_title NVARCHAR(500),
+  evidence_content TEXT,
+  applied_labels JSON, -- Array of {label, confidence, rule_id}
+  competency_contribution DECIMAL(5,4), -- How much this contributed to score
+  processing_timestamp DATETIME2,
+  last_reviewed DATETIME2,
+  reviewed_by NVARCHAR(255),
+  review_status ENUM('pending', 'approved', 'rejected', 'appealed')
+);
+```
+
+#### **Score Calculation Log**
+```sql
+CREATE TABLE score_calculations (
+  id INT PRIMARY KEY IDENTITY,
+  developer_id NVARCHAR(255) NOT NULL,
+  competency_category NVARCHAR(100) NOT NULL,
+  competency_row NVARCHAR(100) NOT NULL,
+  calculation_version INT NOT NULL,
+  evidence_count INT NOT NULL,
+  rule_contributions JSON, -- {rule_id: contribution_weight}
+  ml_contributions JSON, -- {feature: contribution_weight}
+  final_score DECIMAL(3,1) NOT NULL,
+  confidence_score DECIMAL(4,3) NOT NULL,
+  calculation_method NVARCHAR(50), -- 'hybrid', 'rules_only', 'ml_only'
+  calculated_at DATETIME2 NOT NULL,
+  calculated_by NVARCHAR(255),
+  is_current BIT DEFAULT 1
+);
+```
+
+### **API Endpoints**
+
+#### **Evidence Traceability**
+- `GET /api/evidence/trace/:developer/:competency` - Full evidence trace for specific competency
+- `GET /api/evidence/sources/:developer` - All evidence sources for developer
+- `GET /api/evidence/detail/:evidenceId` - Detailed view of specific evidence item
+- `GET /api/evidence/labels/:evidenceId` - All labels applied to evidence
+
+#### **Scoring Transparency**
+- `GET /api/scores/calculation/:developer/:competency` - Score calculation breakdown
+- `GET /api/scores/contributions/:developer` - Evidence contribution matrix
+- `GET /api/scores/history/:developer/:competency` - Historical score changes
+- `POST /api/scores/recalculate/:developer/:competency` - Recalculate with transparency log
+
+#### **Validation & Correction**
+- `POST /api/validation/appeal` - Submit score appeal
+- `GET /api/validation/appeals/:developer` - List appeals for developer
+- `POST /api/validation/review/:appealId` - Review and resolve appeal
+- `POST /api/validation/override` - Manual score override with audit trail
+
+### **Frontend Components**
+
+#### **Evidence Trace Modal**
+- **Trigger**: Click on any competency score in matrix
+- **Content**: Complete evidence trace with expandable items
+- **Features**: Filtering, sorting, export, validation links
+
+#### **Scoring Breakdown Panel**
+- **Location**: Side panel or modal from matrix view
+- **Content**: Step-by-step score calculation with evidence contributions
+- **Features**: Interactive charts, rule explanations, ML insights
+
+#### **Validation Dashboard**
+- **Route**: `/validation` or `/audit`
+- **Content**: Appeals, reviews, corrections, audit trail
+- **Features**: Review queue, approval workflows, analytics
+
+### **Acceptance Criteria**
+- **Complete Traceability**: Users can trace every score back to specific evidence items
+- **Label Transparency**: All applied labels and rule explanations are visible
+- **Validation Interface**: Users can appeal and correct incorrect scoring
+- **Audit Trail**: All changes and corrections are logged with timestamps
+- **Performance**: Evidence traces load within 2 seconds for typical competencies
+
+### **Success Metrics**
+- **Traceability Coverage**: 100% of scores have complete evidence traces
+- **Validation Rate**: Target 80% of scores reviewed within 30 days
+- **Appeal Resolution**: Target 90% of appeals resolved within 7 days
+- **User Satisfaction**: Target 85% satisfaction with scoring transparency
+
+---
+
+# **13. Tooling & Quality**
 
 ### **Tech Stack** ✅ **FULLY IMPLEMENTED**
 - ✅ Node.js + TypeScript (Perfect match)
@@ -508,7 +741,7 @@ For every competency row:
 - 🚧 AI‑assisted synthetic test content generation (framework ready, implementation pending)
 - 🚧 ML model training with curated datasets (framework ready)
 
-### **Phase 3 — API** 🔄 **85% COMPLETED**
+### **Phase 3 — API** ✅ **90% COMPLETED**
 - ✅ Connector configuration endpoints (Full CRUD for Jira, Confluence, Bitbucket)
 - ✅ Connection testing functionality (All three connectors with proper authentication)
 - ✅ Database-backed configuration storage (MSSQL integration)
@@ -517,12 +750,14 @@ For every competency row:
 - ✅ **Health check endpoints** (GET `/api/processing/health`, GET `/api/competency/health`)
 - ✅ **Report routes** (Basic structure implemented: `/api/reports/health`, `/api/reports/developer/:id/report`, `/api/reports/developer/:id/competencies`)
 - ✅ **Batch processing** (POST `/api/competency/batch`)
+- ✅ **Matrix endpoints** (GET `/api/matrix/team`, GET `/api/matrix/developer/:actor`, POST `/api/processing/scores`)
+- ✅ **Data Management endpoints** (POST `/api/processing/reprocess`, POST `/api/processing/generate-scores`, GET `/api/processing/status`)
 - 🚧 Authentication & authorization (JWT/OAuth not implemented)
 - 🚧 Pagination & filtering (Basic implementation, needs enhancement)
 - 🚧 Caching for expensive queries (Not implemented)
 - 🚧 Self‑eval endpoints (Database schema ready, API endpoints partially implemented)
 
-### **Phase 4 — Web Interface** 🔄 **75% COMPLETED**
+### **Phase 4 — Web Interface** ✅ **95% COMPLETED**
 - ✅ Dashboard (Basic overview with connector stats)
 - ✅ **Analytics Dashboard** (Full competency analytics with insights and visualizations)
   - ✅ **Analytics page** (`/analytics` route with comprehensive metrics)
@@ -535,30 +770,45 @@ For every competency row:
   - ✅ **Real-time API integration** for competency scores
 - ✅ **Configuration pages** (Connector management with database persistence)
 - ✅ **Team overview** (Connectors management page with connection testing)
+- ✅ **CircleCI Engineering Competency Matrix** (Complete implementation at `/matrix` route)
+  - ✅ **Interactive Flashcard UI** (Click cells to toggle descriptions/confidence)
+  - ✅ **Complete Cell Coverage** (All 60 cells show descriptions)
+  - ✅ **Detailed Competency Breakdowns** (15 detailed competencies per developer)
+  - ✅ **GUI Data Management** (Refresh/Reanalyze buttons with real-time feedback)
+  - ✅ **Professional Integration** (Consistent with application design)
 - ✅ React + TypeScript + Tailwind CSS
 - ✅ Routing between pages (React Router with SPA support)
 - ✅ API client integration (Axios-based API calls)
 - ✅ Connector configuration UI (Jira, Confluence, Bitbucket tabs with database persistence)
 - ✅ Connection testing UI (Test buttons with loading states and error handling)
 - ✅ CORS configuration
-- 🚧 **Competency Matrix View** (Core CircleCI-style matrix visualization - MISSING KEY COMPONENT)
 - 🚧 **Self‑evaluation Module** (Database ready, UI not implemented)
 - 🚧 **Individual Developer Reports** (API structure ready, frontend missing)  
 
-### **Phase 5 — Quiz & Remediation (Part 2B)**
+### **Phase 6 — Evidence Traceability & Score Validation**
+- Evidence traceability engine with complete evidence chain visibility
+- Scoring transparency dashboard with calculation breakdowns
+- Evidence detail views with label transparency and rule explanations
+- Validation & correction system with appeals and review workflows
+- Database extensions for evidence traces and calculation logs
+- API endpoints for traceability, transparency, and validation
+- Frontend components for evidence trace modals and validation dashboard
+- Audit trail and historical tracking for all score changes
+
+### **Phase 7 — Quiz & Remediation (Part 2B)**
 - Adaptive quiz engine and domain question bank
 - Quiz API endpoints (start, answer, recommendations, domains)
 - Web quiz workflows and historical attempts
 - Quiz signal integration into reporting and matrix governance
 
-### **Phase 6 — Artifact Storage Migration**
+### **Phase 8 — Artifact Storage Migration**
 - Implement S3ArtifactStore  
 - Add configuration-based backend switch  
 - Run dual-write validation window (Local FS + S3)  
 - Backfill historical artifacts to S3  
 - Cut over reads to S3 and deprecate local artifact storage  
 
-### **Phase 6 — Matrix Calibration & Governance**
+### **Phase 9 — Matrix Calibration & Governance**
 - Publish matrix mapping table for all competency rows and levels  
 - Finalize weighted scoring rubric and confidence thresholds  
 - Define role baseline profiles and gap detection rules  

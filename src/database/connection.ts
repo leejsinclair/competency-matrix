@@ -25,25 +25,36 @@ export class DatabaseConnection {
   }
 
   public async connect(database?: string): Promise<sql.ConnectionPool> {
-    if (!this.pool) {
-      const config: DatabaseConfig = {
-        server: process.env.DB_SERVER || "localhost",
-        database: database || process.env.DB_NAME || "competency_matrix",
-        user: process.env.DB_USER || "sa",
-        password: process.env.DB_PASSWORD || "sa-Password@01",
-        options: {
-          encrypt: process.env.DB_ENCRYPT === "true",
-          trustServerCertificate: true,
-        },
-      };
+    // If we already have a connection pool, reuse it
+    if (this.pool) {
+      console.log("🔄 Reusing existing database connection pool");
+      return this.pool;
+    }
 
-      try {
-        this.pool = await sql.connect(config);
-        console.log(`Connected to MSSQL database: ${config.database}`);
-      } catch (error) {
-        console.error("Database connection failed:", error);
-        throw error;
-      }
+    const config: DatabaseConfig = {
+      server: process.env.DB_SERVER || "localhost",
+      database: database || process.env.DB_NAME || "competency_matrix",
+      user: process.env.DB_USER || "sa",
+      password: process.env.DB_PASSWORD || "sa-Password@01",
+      options: {
+        encrypt: process.env.DB_ENCRYPT === "true",
+        trustServerCertificate: true,
+        // Add connection pooling settings
+        pool: {
+          max: 10,
+          min: 2,
+          idleTimeoutMillis: 30000,
+        },
+      },
+    };
+
+    try {
+      this.pool = await sql.connect(config);
+      console.log(` Connected to MSSQL database: ${config.database}`);
+    } catch (error) {
+      console.error(" Database connection failed:", error);
+      console.error("❌ Database connection failed:", error);
+      throw error;
     }
     return this.pool;
   }
@@ -53,11 +64,10 @@ export class DatabaseConnection {
   }
 
   public async disconnect(): Promise<void> {
-    if (this.pool) {
-      await this.pool.close();
-      this.pool = null;
-      console.log("Disconnected from MSSQL database");
-    }
+    // Don't disconnect the pool - keep it alive for reuse
+    // This prevents connection closing issues between requests
+    console.log("🔄 Keeping database connection pool alive for reuse");
+    // Only disconnect on application shutdown, not after each request
   }
 
   public async query(query: string, params?: any[]): Promise<any> {

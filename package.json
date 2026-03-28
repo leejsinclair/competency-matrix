@@ -8,6 +8,7 @@
     "start": "./scripts/with-nvm.sh node dist/index.js",
     "start:all": "./scripts/start-all.sh",
     "dev": "./scripts/with-nvm.sh ts-node-dev --respawn --transpile-only src/api/server.ts",
+    "dev:all": "./scripts/dev-all.sh",
     "test": "./scripts/with-nvm.sh jest",
     "test:watch": "./scripts/with-nvm.sh jest --watch",
     "test:coverage": "./scripts/with-nvm.sh jest --coverage",

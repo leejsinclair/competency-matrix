@@ -29,6 +29,62 @@
       }
     },
     {
+      "id": "language-fundamentals-detection",
+      "name": "Language Fundamentals Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "variable",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "programming-languages",
+          "competencyRow": "language-fundamentals",
+          "level": {
+            "level": 1,
+            "name": "Beginner",
+            "description": "Demonstrates understanding of programming fundamentals"
+          },
+          "confidence": 0.7
+        }
+      }
+    },
+    {
+      "id": "advanced-concepts-detection",
+      "name": "Advanced Concepts Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "design pattern",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "programming-languages",
+          "competencyRow": "advanced-concepts",
+          "level": {
+            "level": 3,
+            "name": "Advanced",
+            "description": "Demonstrates knowledge of advanced programming concepts"
+          },
+          "confidence": 0.8
+        }
+      }
+    },
+    {
       "id": "javascript-detection",
       "name": "JavaScript Detection",
       "category": "technical-skills",
@@ -81,6 +137,90 @@
             "description": "Demonstrates practical knowledge of Python programming"
           },
           "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "database-management-detection",
+      "name": "Database Management Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "database",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "databases",
+          "competencyRow": "database-management",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates practical knowledge of database management"
+          },
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "query-optimization-detection",
+      "name": "Query Optimization Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "query optimization",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "databases",
+          "competencyRow": "query-optimization",
+          "level": {
+            "level": 3,
+            "name": "Advanced",
+            "description": "Demonstrates knowledge of query optimization techniques"
+          },
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "data-modeling-detection",
+      "name": "Data Modeling Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "data model",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "databases",
+          "competencyRow": "data-modeling",
+          "level": {
+            "level": 3,
+            "name": "Advanced",
+            "description": "Demonstrates knowledge of data modeling principles"
+          },
+          "confidence": 0.8
         }
       }
     },
@@ -141,6 +281,34 @@
       }
     },
     {
+      "id": "containerization-detection",
+      "name": "Containerization Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "container",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "containers-orchestration",
+          "competencyRow": "containerization",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates knowledge of containerization principles"
+          },
+          "confidence": 0.8
+        }
+      }
+    },
+    {
       "id": "kubernetes-detection",
       "name": "Kubernetes Detection",
       "category": "technical-skills",
@@ -158,13 +326,97 @@
         "type": "label",
         "params": {
           "competencyCategory": "containers-orchestration",
-          "competencyRow": "devops-platform-engineering",
+          "competencyRow": "kubernetes",
           "level": {
             "level": 3,
             "name": "Advanced",
             "description": "Demonstrates advanced knowledge of Kubernetes orchestration"
           },
           "confidence": 0.9
+        }
+      }
+    },
+    {
+      "id": "quality-assurance-detection",
+      "name": "Quality Assurance Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "quality",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "testing",
+          "competencyRow": "quality-assurance",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates knowledge of quality assurance practices"
+          },
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "test-automation-detection",
+      "name": "Test Automation Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "test automation",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "testing",
+          "competencyRow": "test-automation",
+          "level": {
+            "level": 3,
+            "name": "Advanced",
+            "description": "Demonstrates knowledge of test automation frameworks"
+          },
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "performance-testing-detection",
+      "name": "Performance Testing Detection",
+      "category": "technical-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "performance test",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "testing",
+          "competencyRow": "performance-testing",
+          "level": {
+            "level": 3,
+            "name": "Advanced",
+            "description": "Demonstrates knowledge of performance testing methodologies"
+          },
+          "confidence": 0.8
         }
       }
     },
@@ -253,6 +505,62 @@
       }
     },
     {
+      "id": "code-review-detection",
+      "name": "Code Review Detection",
+      "category": "process-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "code review",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "collaboration-process",
+          "competencyRow": "code-review",
+          "level": {
+            "level": 3,
+            "name": "Advanced",
+            "description": "Demonstrates advanced code review practices"
+          },
+          "confidence": 0.8
+        }
+      }
+    },
+    {
+      "id": "documentation-detection",
+      "name": "Documentation Detection",
+      "category": "process-skills",
+      "enabled": true,
+      "priority": 1,
+      "conditions": [
+        {
+          "field": "content",
+          "operator": "contains",
+          "value": "documentation",
+          "caseSensitive": false
+        }
+      ],
+      "action": {
+        "type": "label",
+        "params": {
+          "competencyCategory": "collaboration-process",
+          "competencyRow": "documentation",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates good documentation practices"
+          },
+          "confidence": 0.7
+        }
+      }
+    },
+    {
       "id": "microservices-detection",
       "name": "Microservices Detection",
       "category": "technical-skills",
@@ -297,8 +605,8 @@
       "action": {
         "type": "label",
         "params": {
-          "competencyCategory": "testing-quality",
-          "competencyRow": "software-engineering",
+          "competencyCategory": "testing",
+          "competencyRow": "quality-assurance",
           "level": {
             "level": 2,
             "name": "Intermediate",
@@ -331,34 +639,6 @@
             "level": 2,
             "name": "Intermediate",
             "description": "Demonstrates knowledge of Scrum methodology"
-          },
-          "confidence": 0.9
-        }
-      }
-    },
-    {
-      "id": "code-review-detection",
-      "name": "Code Review Detection",
-      "category": "process-skills",
-      "enabled": true,
-      "priority": 1,
-      "conditions": [
-        {
-          "field": "content",
-          "operator": "contains",
-          "value": "code review",
-          "caseSensitive": false
-        }
-      ],
-      "action": {
-        "type": "label",
-        "params": {
-          "competencyCategory": "collaboration-process",
-          "competencyRow": "git-version-control",
-          "level": {
-            "level": 3,
-            "name": "Advanced",
-            "description": "Demonstrates advanced code review practices"
           },
           "confidence": 0.9
         }

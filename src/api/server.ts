@@ -11,6 +11,8 @@ import {
   SimpleProcessingController,
 } from "./processing-routes-simple";
 import { competencyRoutes } from "./routes/competency-routes";
+import { matrixRoutes } from "./routes/matrix-routes";
+import processingRoutes from "./routes/processing-routes";
 import { reportRoutes } from "./routes/report-routes";
 
 export class ApiServer {
@@ -47,11 +49,19 @@ export class ApiServer {
       // Register report routes
       await reportRoutes(this.server);
 
+      // Register matrix routes
+      await matrixRoutes(this.server);
+
       // Register processing routes
       const db = DatabaseConnection.getInstance();
       await db.connect();
       const processingController = new SimpleProcessingController(db);
-      registerSimpleProcessingRoutes(this.server, processingController);
+      await registerSimpleProcessingRoutes(this.server, processingController);
+
+      // Register new processing routes
+      await this.server.register(processingRoutes, {
+        prefix: "/api/processing",
+      });
 
       // TODO: Register local processing routes once imports are fixed
       // const localProcessingController = new LocalProcessingControllerImpl();

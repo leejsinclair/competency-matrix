@@ -1,5 +1,6 @@
 import {
     BarChart3,
+    Grid3X3,
     Home,
     Plug,
     Settings
@@ -17,6 +18,7 @@ export default function Layout({ children }: LayoutProps) {
   const navigation = [
     { name: 'Dashboard', href: '/', icon: Home },
     { name: 'Analytics', href: '/analytics', icon: BarChart3 },
+    { name: 'Matrix', href: '/matrix', icon: Grid3X3 },
     { name: 'Configuration', href: '/configuration', icon: Settings },
     { name: 'Connectors', href: '/connectors', icon: Plug },
   ];
@@ -46,7 +48,7 @@ export default function Layout({ children }: LayoutProps) {
                           : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
                       } inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`}
                     >
-                      <item.icon className="h-4 w-4 mr-2" />
+                      {item.icon && <item.icon className="h-4 w-4 mr-2" />}
                       {item.name}
                     </Link>
                   );

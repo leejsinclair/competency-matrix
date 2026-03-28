@@ -1,0 +1,176 @@
+{
+  "dataSource": "confluence",
+  "totalEvents": 1577,
+  "processedEvents": 1577,
+  "labelsGenerated": 2181,
+  "errors": 0,
+  "competencyCategories": 5,
+  "topCompetencyAreas": [
+    {
+      "area": "containers-orchestration/devops-platform-engineering",
+      "category": "containers-orchestration",
+      "count": 808
+    },
+    {
+      "area": "testing/quality-assurance",
+      "category": "testing",
+      "count": 438
+    },
+    {
+      "area": "databases/database-management",
+      "category": "databases",
+      "count": 429
+    },
+    {
+      "area": "collaboration-process/git-version-control",
+      "category": "collaboration-process",
+      "count": 264
+    },
+    {
+      "area": "programming-languages/software-engineering",
+      "category": "programming-languages",
+      "count": 242
+    }
+  ],
+  "contributors": [
+    {
+      "actor": "lsinclair",
+      "events": 666,
+      "labelsGenerated": 1010,
+      "competencyAreas": [
+        "collaboration-process",
+        "containers-orchestration",
+        "databases",
+        "programming-languages",
+        "testing"
+      ],
+      "averageConfidence": 0.7700990099009909,
+      "topCompetency": "collaboration-process"
+    },
+    {
+      "actor": "Dalila Katia Leo",
+      "events": 259,
+      "labelsGenerated": 309,
+      "competencyAreas": [
+        "collaboration-process",
+        "containers-orchestration",
+        "databases",
+        "programming-languages",
+        "testing"
+      ],
+      "averageConfidence": 0.7425566343042074,
+      "topCompetency": "collaboration-process"
+    },
+    {
+      "actor": "Fiona Wrigley",
+      "events": 71,
+      "labelsGenerated": 116,
+      "competencyAreas": [
+        "collaboration-process",
+        "containers-orchestration",
+        "databases",
+        "programming-languages",
+        "testing"
+      ],
+      "averageConfidence": 0.795689655172414,
+      "topCompetency": "collaboration-process"
+    },
+    {
+      "actor": "danieljsmith",
+      "events": 77,
+      "labelsGenerated": 97,
+      "competencyAreas": [
+        "collaboration-process",
+        "containers-orchestration",
+        "databases",
+        "programming-languages",
+        "testing"
+      ],
+      "averageConfidence": 0.7252577319587634,
+      "topCompetency": "collaboration-process"
+    },
+    {
+      "actor": "Alex Stenlake (Deactivated)",
+      "events": 76,
+      "labelsGenerated": 95,
+      "competencyAreas": [
+        "collaboration-process",
+        "containers-orchestration",
+        "databases",
+        "programming-languages",
+        "testing"
+      ],
+      "averageConfidence": 0.7778947368421053,
+      "topCompetency": "collaboration-process"
+    },
+    {
+      "actor": "dsheehan-creditsense (Deactivated)",
+      "events": 105,
+      "labelsGenerated": 90,
+      "competencyAreas": [
+        "collaboration-process",
+        "containers-orchestration",
+        "databases",
+        "programming-languages",
+        "testing"
+      ],
+      "averageConfidence": 0.75,
+      "topCompetency": "collaboration-process"
+    },
+    {
+      "actor": "ldaoud",
+      "events": 42,
+      "labelsGenerated": 74,
+      "competencyAreas": [
+        "collaboration-process",
+        "containers-orchestration",
+        "databases",
+        "programming-languages",
+        "testing"
+      ],
+      "averageConfidence": 0.7364864864864866,
+      "topCompetency": "collaboration-process"
+    },
+    {
+      "actor": "jaredleonmorgs (Deactivated)",
+      "events": 62,
+      "labelsGenerated": 60,
+      "competencyAreas": [
+        "collaboration-process",
+        "containers-orchestration",
+        "testing"
+      ],
+      "averageConfidence": 0.7033333333333336,
+      "topCompetency": "collaboration-process"
+    },
+    {
+      "actor": "trieker (Deactivated)",
+      "events": 17,
+      "labelsGenerated": 46,
+      "competencyAreas": [
+        "collaboration-process",
+        "containers-orchestration",
+        "databases",
+        "programming-languages",
+        "testing"
+      ],
+      "averageConfidence": 0.7945652173913043,
+      "topCompetency": "collaboration-process"
+    },
+    {
+      "actor": "Mike Park",
+      "events": 16,
+      "labelsGenerated": 40,
+      "competencyAreas": [
+        "collaboration-process",
+        "containers-orchestration",
+        "databases",
+        "programming-languages",
+        "testing"
+      ],
+      "averageConfidence": 0.7874999999999999,
+      "topCompetency": "collaboration-process"
+    }
+  ],
+  "generatedAt": "2026-03-06T23:19:11.696Z"
+}

@@ -13,7 +13,7 @@ describe("BitbucketConnector", () => {
   const config = {
     baseUrl: "https://api.bitbucket.org/2.0",
     username: "user",
-    appPassword: "pass",
+    apiToken: "pass",
   };
 
   const pullRequest = {
@@ -34,12 +34,18 @@ describe("BitbucketConnector", () => {
     },
     participants: [
       {
-        user: { display_name: "Reviewer", nickname: "reviewer", account_id: "u2" },
+        user: {
+          display_name: "Reviewer",
+          nickname: "reviewer",
+          account_id: "u2",
+        },
         role: "REVIEWER",
         approved: true,
       },
     ],
-    reviewers: [{ display_name: "Reviewer", nickname: "reviewer", account_id: "u2" }],
+    reviewers: [
+      { display_name: "Reviewer", nickname: "reviewer", account_id: "u2" },
+    ],
     created_on: "2024-01-01T00:00:00.000Z",
     updated_on: "2024-01-02T00:00:00.000Z",
   };
@@ -76,7 +82,11 @@ describe("BitbucketConnector", () => {
               {
                 id: 9,
                 content: { raw: "Nice work", html: "", markup: "markdown" },
-                user: { display_name: "Reviewer", nickname: "reviewer", account_id: "u2" },
+                user: {
+                  display_name: "Reviewer",
+                  nickname: "reviewer",
+                  account_id: "u2",
+                },
                 created_on: "2024-01-01T10:00:00.000Z",
                 updated_on: "2024-01-01T10:00:00.000Z",
                 deleted: false,
@@ -93,7 +103,11 @@ describe("BitbucketConnector", () => {
               {
                 uuid: "{pipe-1}",
                 state: { name: "COMPLETED", result: { name: "SUCCESSFUL" } },
-                target: { ref_type: "branch", ref_name: "main", commit: { hash: "abc123" } },
+                target: {
+                  ref_type: "branch",
+                  ref_name: "main",
+                  commit: { hash: "abc123" },
+                },
                 created_on: "2024-01-01T11:00:00.000Z",
               },
             ],
@@ -104,7 +118,9 @@ describe("BitbucketConnector", () => {
       return Promise.resolve({ data: {} });
     });
 
-    const events = await connector.retrievePullRequests({ repositories: ["workspace/repo"] });
+    const events = await connector.retrievePullRequests({
+      repositories: ["workspace/repo"],
+    });
 
     expect(events).toHaveLength(6);
     expect(events.map((event) => event.type)).toEqual(
@@ -147,7 +163,10 @@ describe("BitbucketConnector", () => {
       },
     });
 
-    const events = await connector.getRepositoryCommits("workspace/repo", new Date("2024-01-01T00:00:00.000Z"));
+    const events = await connector.getRepositoryCommits(
+      "workspace/repo",
+      new Date("2024-01-01T00:00:00.000Z")
+    );
 
     expect(events).toHaveLength(1);
     expect(events[0]).toMatchObject({

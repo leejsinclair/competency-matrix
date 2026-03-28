@@ -30,7 +30,7 @@
           "confidence": 0.9,
           "source": "rule",
           "evidence": "Rule \"Programming Language Detection\" matched event 12345",
-          "createdAt": "2026-03-28T01:51:14.361Z"
+          "createdAt": "2026-03-28T01:59:55.364Z"
         },
         {
           "id": "rule-javascript-detection-12345",
@@ -45,7 +45,7 @@
           "confidence": 0.9,
           "source": "rule",
           "evidence": "Rule \"JavaScript Detection\" matched event 12345",
-          "createdAt": "2026-03-28T01:51:14.361Z"
+          "createdAt": "2026-03-28T01:59:55.364Z"
         },
         {
           "id": "rule-python-detection-12345",
@@ -60,7 +60,7 @@
           "confidence": 0.9,
           "source": "rule",
           "evidence": "Rule \"Python Detection\" matched event 12345",
-          "createdAt": "2026-03-28T01:51:14.361Z"
+          "createdAt": "2026-03-28T01:59:55.364Z"
         },
         {
           "id": "rule-react-detection-12345",
@@ -75,7 +75,7 @@
           "confidence": 0.9,
           "source": "rule",
           "evidence": "Rule \"React Detection\" matched event 12345",
-          "createdAt": "2026-03-28T01:51:14.361Z"
+          "createdAt": "2026-03-28T01:59:55.364Z"
         },
         {
           "id": "rule-docker-detection-12345",
@@ -90,7 +90,7 @@
           "confidence": 0.9,
           "source": "rule",
           "evidence": "Rule \"Docker Detection\" matched event 12345",
-          "createdAt": "2026-03-28T01:51:14.361Z"
+          "createdAt": "2026-03-28T01:59:55.364Z"
         },
         {
           "id": "rule-kubernetes-detection-12345",
@@ -105,7 +105,7 @@
           "confidence": 0.9,
           "source": "rule",
           "evidence": "Rule \"Kubernetes Detection\" matched event 12345",
-          "createdAt": "2026-03-28T01:51:14.361Z"
+          "createdAt": "2026-03-28T01:59:55.364Z"
         },
         {
           "id": "rule-aws-services-detection-12345",
@@ -120,7 +120,7 @@
           "confidence": 0.9,
           "source": "rule",
           "evidence": "Rule \"AWS Services Detection\" matched event 12345",
-          "createdAt": "2026-03-28T01:51:14.361Z"
+          "createdAt": "2026-03-28T01:59:55.364Z"
         },
         {
           "id": "rule-jira-detection-12345",
@@ -135,7 +135,7 @@
           "confidence": 0.9,
           "source": "rule",
           "evidence": "Rule \"Jira Detection\" matched event 12345",
-          "createdAt": "2026-03-28T01:51:14.361Z"
+          "createdAt": "2026-03-28T01:59:55.364Z"
         },
         {
           "id": "rule-git-detection-12345",
@@ -150,7 +150,7 @@
           "confidence": 0.9,
           "source": "rule",
           "evidence": "Rule \"Git Detection\" matched event 12345",
-          "createdAt": "2026-03-28T01:51:14.361Z"
+          "createdAt": "2026-03-28T01:59:55.364Z"
         },
         {
           "id": "rule-microservices-detection-12345",
@@ -165,7 +165,7 @@
           "confidence": 0.9,
           "source": "rule",
           "evidence": "Rule \"Microservices Detection\" matched event 12345",
-          "createdAt": "2026-03-28T01:51:14.361Z"
+          "createdAt": "2026-03-28T01:59:55.364Z"
         },
         {
           "id": "rule-testing-detection-12345",
@@ -180,7 +180,7 @@
           "confidence": 0.9,
           "source": "rule",
           "evidence": "Rule \"Testing Detection\" matched event 12345",
-          "createdAt": "2026-03-28T01:51:14.361Z"
+          "createdAt": "2026-03-28T01:59:55.364Z"
         },
         {
           "id": "rule-agile-detection-12345",
@@ -195,7 +195,7 @@
           "confidence": 0.9,
           "source": "rule",
           "evidence": "Rule \"Agile Detection\" matched event 12345",
-          "createdAt": "2026-03-28T01:51:14.361Z"
+          "createdAt": "2026-03-28T01:59:55.364Z"
         }
       ],
       "features": []

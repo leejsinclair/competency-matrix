@@ -1,1 +1,210 @@
-[]
+[
+  {
+    "original": {
+      "id": "12345",
+      "title": "Java Microservices Architecture Guide",
+      "space": "ABT",
+      "content": "This guide covers building microservices using Java and Spring Boot. We explore Docker containerization and Kubernetes deployment strategies. The architecture follows domain-driven design principles with event-driven patterns. We also cover testing strategies including unit testing and integration testing approaches.",
+      "author": "john.doe@company.com",
+      "created": "2024-01-15T10:00:00Z",
+      "updated": "2024-01-20T15:30:00Z",
+      "labels": [
+        "architecture",
+        "java",
+        "microservices"
+      ],
+      "version": 5
+    },
+    "classification": {
+      "labels": [
+        {
+          "id": "rule-programming-language-detection-12345",
+          "eventId": "12345",
+          "competencyCategory": "programming-languages",
+          "competencyRow": "software-engineering",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates practical knowledge of Java programming"
+          },
+          "confidence": 0.9,
+          "source": "rule",
+          "evidence": "Rule \"Programming Language Detection\" matched event 12345",
+          "createdAt": "2026-03-28T01:51:14.361Z"
+        },
+        {
+          "id": "rule-javascript-detection-12345",
+          "eventId": "12345",
+          "competencyCategory": "programming-languages",
+          "competencyRow": "software-engineering",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates practical knowledge of JavaScript programming"
+          },
+          "confidence": 0.9,
+          "source": "rule",
+          "evidence": "Rule \"JavaScript Detection\" matched event 12345",
+          "createdAt": "2026-03-28T01:51:14.361Z"
+        },
+        {
+          "id": "rule-python-detection-12345",
+          "eventId": "12345",
+          "competencyCategory": "programming-languages",
+          "competencyRow": "software-engineering",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates practical knowledge of Python programming"
+          },
+          "confidence": 0.9,
+          "source": "rule",
+          "evidence": "Rule \"Python Detection\" matched event 12345",
+          "createdAt": "2026-03-28T01:51:14.361Z"
+        },
+        {
+          "id": "rule-react-detection-12345",
+          "eventId": "12345",
+          "competencyCategory": "web-development",
+          "competencyRow": "frontend",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates practical knowledge of React framework"
+          },
+          "confidence": 0.9,
+          "source": "rule",
+          "evidence": "Rule \"React Detection\" matched event 12345",
+          "createdAt": "2026-03-28T01:51:14.361Z"
+        },
+        {
+          "id": "rule-docker-detection-12345",
+          "eventId": "12345",
+          "competencyCategory": "containers-orchestration",
+          "competencyRow": "devops-platform-engineering",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates practical knowledge of Docker containers"
+          },
+          "confidence": 0.9,
+          "source": "rule",
+          "evidence": "Rule \"Docker Detection\" matched event 12345",
+          "createdAt": "2026-03-28T01:51:14.361Z"
+        },
+        {
+          "id": "rule-kubernetes-detection-12345",
+          "eventId": "12345",
+          "competencyCategory": "containers-orchestration",
+          "competencyRow": "devops-platform-engineering",
+          "level": {
+            "level": 3,
+            "name": "Advanced",
+            "description": "Demonstrates advanced knowledge of Kubernetes orchestration"
+          },
+          "confidence": 0.9,
+          "source": "rule",
+          "evidence": "Rule \"Kubernetes Detection\" matched event 12345",
+          "createdAt": "2026-03-28T01:51:14.361Z"
+        },
+        {
+          "id": "rule-aws-services-detection-12345",
+          "eventId": "12345",
+          "competencyCategory": "infrastructure-cloud",
+          "competencyRow": "infrastructure-cloud",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates knowledge of AWS EC2 compute services"
+          },
+          "confidence": 0.9,
+          "source": "rule",
+          "evidence": "Rule \"AWS Services Detection\" matched event 12345",
+          "createdAt": "2026-03-28T01:51:14.361Z"
+        },
+        {
+          "id": "rule-jira-detection-12345",
+          "eventId": "12345",
+          "competencyCategory": "collaboration-tools",
+          "competencyRow": "atlassian",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates practical knowledge of Jira project management"
+          },
+          "confidence": 0.9,
+          "source": "rule",
+          "evidence": "Rule \"Jira Detection\" matched event 12345",
+          "createdAt": "2026-03-28T01:51:14.361Z"
+        },
+        {
+          "id": "rule-git-detection-12345",
+          "eventId": "12345",
+          "competencyCategory": "collaboration-process",
+          "competencyRow": "git-version-control",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates practical knowledge of Git version control"
+          },
+          "confidence": 0.9,
+          "source": "rule",
+          "evidence": "Rule \"Git Detection\" matched event 12345",
+          "createdAt": "2026-03-28T01:51:14.361Z"
+        },
+        {
+          "id": "rule-microservices-detection-12345",
+          "eventId": "12345",
+          "competencyCategory": "architecture-design",
+          "competencyRow": "software-engineering",
+          "level": {
+            "level": 3,
+            "name": "Advanced",
+            "description": "Demonstrates knowledge of microservices architecture"
+          },
+          "confidence": 0.9,
+          "source": "rule",
+          "evidence": "Rule \"Microservices Detection\" matched event 12345",
+          "createdAt": "2026-03-28T01:51:14.361Z"
+        },
+        {
+          "id": "rule-testing-detection-12345",
+          "eventId": "12345",
+          "competencyCategory": "testing-quality",
+          "competencyRow": "software-engineering",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates knowledge of unit testing practices"
+          },
+          "confidence": 0.9,
+          "source": "rule",
+          "evidence": "Rule \"Testing Detection\" matched event 12345",
+          "createdAt": "2026-03-28T01:51:14.361Z"
+        },
+        {
+          "id": "rule-agile-detection-12345",
+          "eventId": "12345",
+          "competencyCategory": "agile-delivery",
+          "competencyRow": "collaboration-process",
+          "level": {
+            "level": 2,
+            "name": "Intermediate",
+            "description": "Demonstrates knowledge of Scrum methodology"
+          },
+          "confidence": 0.9,
+          "source": "rule",
+          "evidence": "Rule \"Agile Detection\" matched event 12345",
+          "createdAt": "2026-03-28T01:51:14.361Z"
+        }
+      ],
+      "features": []
+    },
+    "contributionType": "created",
+    "contributorInfo": {
+      "email": "john.doe@company.com",
+      "displayName": "john.doe",
+      "contributionType": "created"
+    }
+  }
+]

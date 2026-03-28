@@ -1,1 +1,103 @@
-[]
+[
+  {
+    "email": "john.doe@company.com",
+    "displayName": "john.doe",
+    "competencyAreas": [
+      {
+        "category": "programming-languages",
+        "row": "software-engineering",
+        "level": "Intermediate",
+        "confidence": 0.9,
+        "evidence": "Rule \"Programming Language Detection\" matched event 12345"
+      },
+      {
+        "category": "web-development",
+        "row": "frontend",
+        "level": "Intermediate",
+        "confidence": 0.9,
+        "evidence": "Rule \"React Detection\" matched event 12345"
+      },
+      {
+        "category": "containers-orchestration",
+        "row": "devops-platform-engineering",
+        "level": "Intermediate",
+        "confidence": 0.9,
+        "evidence": "Rule \"Docker Detection\" matched event 12345"
+      },
+      {
+        "category": "infrastructure-cloud",
+        "row": "infrastructure-cloud",
+        "level": "Intermediate",
+        "confidence": 0.9,
+        "evidence": "Rule \"AWS Services Detection\" matched event 12345"
+      },
+      {
+        "category": "collaboration-tools",
+        "row": "atlassian",
+        "level": "Intermediate",
+        "confidence": 0.9,
+        "evidence": "Rule \"Jira Detection\" matched event 12345"
+      },
+      {
+        "category": "collaboration-process",
+        "row": "git-version-control",
+        "level": "Intermediate",
+        "confidence": 0.9,
+        "evidence": "Rule \"Git Detection\" matched event 12345"
+      },
+      {
+        "category": "architecture-design",
+        "row": "software-engineering",
+        "level": "Advanced",
+        "confidence": 0.9,
+        "evidence": "Rule \"Microservices Detection\" matched event 12345"
+      },
+      {
+        "category": "testing-quality",
+        "row": "software-engineering",
+        "level": "Intermediate",
+        "confidence": 0.9,
+        "evidence": "Rule \"Testing Detection\" matched event 12345"
+      },
+      {
+        "category": "agile-delivery",
+        "row": "collaboration-process",
+        "level": "Intermediate",
+        "confidence": 0.9,
+        "evidence": "Rule \"Agile Detection\" matched event 12345"
+      }
+    ],
+    "totalCompetencies": 9,
+    "topAreas": [
+      {
+        "area": "programming-languages/software-engineering",
+        "count": 1,
+        "percentage": 11.11111111111111
+      },
+      {
+        "area": "web-development/frontend",
+        "count": 1,
+        "percentage": 11.11111111111111
+      },
+      {
+        "area": "containers-orchestration/devops-platform-engineering",
+        "count": 1,
+        "percentage": 11.11111111111111
+      },
+      {
+        "area": "infrastructure-cloud/infrastructure-cloud",
+        "count": 1,
+        "percentage": 11.11111111111111
+      },
+      {
+        "area": "collaboration-tools/atlassian",
+        "count": 1,
+        "percentage": 11.11111111111111
+      }
+    ],
+    "contributionsByType": {
+      "created": 1,
+      "edited": 0
+    }
+  }
+]

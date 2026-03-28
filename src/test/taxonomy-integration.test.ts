@@ -3,12 +3,12 @@ import { RuleService } from "../services/rule-service";
 import { ActivityEvent } from "../types/activity";
 
 describe("Taxonomy Integration", () => {
-  let ruleEngine: RuleEngine;
+  let _ruleEngine: RuleEngine;
   let ruleService: RuleService;
 
   beforeEach(() => {
     ruleService = new RuleService();
-    ruleEngine = new RuleEngine([]); // Start with empty rules for clean testing
+    _ruleEngine = new RuleEngine([]); // Start with empty rules for clean testing
   });
 
   describe("Taxonomy-based rule expansion", () => {

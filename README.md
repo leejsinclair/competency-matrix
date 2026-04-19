@@ -2,52 +2,66 @@
 
 ## 🎯 Overview
 
-A sophisticated engineering competency assessment platform that automatically analyzes developer activities from multiple sources (Jira, Confluence, Git, Bitbucket) to classify engineering behavior against the CircleCI Engineering Competency Matrix using rule-based and ML-based analysis.
+A sophisticated engineering competency assessment platform that automatically analyzes developer activities from multiple sources (Confluence, Jira, Git, Bitbucket) to classify engineering behavior against the CircleCI Engineering Competency Matrix using detailed taxonomy-based analysis with evidence traceability.
 
-## 🏗️ Project Status: **Work In Progress**
+## 🏗️ Project Status: **Production Ready**
 
-This is an active development project implementing a comprehensive competency intelligence system with automated activity analysis, machine learning classification, and self-assessment capabilities.
+This is a complete competency intelligence system with automated activity analysis, detailed taxonomy processing, evidence traceability, and interactive matrix visualization.
 
 ## 🚀 What This Project Does
 
 ### Core Functionality
-- **Multi-source Data Retrieval**: Automatically fetches engineering activities from Jira, Confluence, Git, and Bitbucket
-- **Intelligent Processing**: Uses rule-based engines and ML models to classify activities into competency levels
-- **Competency Matrix Mapping**: Maps activities to CircleCI's 21 competency categories across 5 levels (L1-L4)
-- **Evidence Generation**: Provides detailed evidence for competency assessments
-- **Self-Assessment Tools**: Allows developers to evaluate their own competencies
-- **Comprehensive Reporting**: Generates CircleCI-style competency reports
+- **Multi-source Data Retrieval**: Automatically fetches engineering activities from Confluence, Jira, Git, and Bitbucket
+- **Detailed Taxonomy Processing**: Uses comprehensive tech taxonomy with 23+ sub-competencies across 8 categories
+- **Evidence Generation**: Provides detailed evidence with keyword matching and confidence scoring
+- **Interactive Matrix UI**: Green-highlighted achieved competencies with evidence modals
+- **Full Reprocessing**: One-click complete data reprocessing pipeline
+- **Comprehensive Reporting**: Generates detailed competency reports with contributing factors
 
 ### Technology Stack
-- **Backend**: Node.js + TypeScript
+- **Backend**: Node.js + TypeScript + Fastify
 - **Database**: Microsoft SQL Server (MSSQL)
-- **ML Framework**: TensorFlow.js
-- **API**: Express/Fastify
+- **Frontend**: React + TypeScript + Tailwind CSS
+- **Processing**: Custom taxonomy-based rule engine
+- **API**: Fastify with comprehensive endpoints
 - **Testing**: Jest with comprehensive test coverage
-- **Artifact Storage**: Local filesystem (with S3 migration planned)
 
 ## 📊 Current Implementation Status
 
 ### ✅ **Completed Components**
 
 #### **1. Data Retrieval Layer**
-- [x] Jira connector for issues and events
+- [x] Confluence connector for pages and content
 - [x] Local filesystem artifact store
 - [x] Unified event schema
 - [x] Comprehensive test coverage
 
 #### **2. Processing Engine**
-- [x] Rule-based labeling system with 21 competency categories
-- [x] ML processor with TensorFlow.js integration
-- [x] Feature extraction from engineering activities
-- [x] Synthetic test data generation for ML training
-- [x] Competency aggregation (rules + ML + evidence)
-- [x] Full test suite for all processing components
+- [x] Detailed taxonomy-based processing with 23 sub-competencies
+- [x] Evidence generation with keyword matching and confidence scoring
+- [x] Competency aggregation with detailed contributing factors
+- [x] Full processing pipeline automation
+- [x] Evidence traceability and audit trails
 
-#### **3. Core Infrastructure**
+#### **3. Interactive Frontend**
+- [x] React-based competency matrix visualization
+- [x] Green-highlighted achieved competencies
+- [x] Evidence modal with Ctrl+Click functionality
+- [x] Developer selection and filtering
+- [x] Real-time data refresh
+
+#### **4. API Infrastructure**
+- [x] Fastify-based REST API
+- [x] Matrix endpoints for developers and teams
+- [x] Processing endpoints for full reprocessing
+- [x] Evidence traceability endpoints
+- [x] Comprehensive error handling
+
+#### **5. Core Infrastructure**
 - [x] TypeScript configuration and build system
-- [x] Comprehensive testing framework (66 tests passing)
-- [x] VS Code development environment with tasks
+- [x] Comprehensive testing framework
+- [x] Development environment with hot reload
+- [x] Docker containerization support
 - [x] NVM integration for Node.js version management
 - [x] Assessment runner for competency evaluation
 
@@ -60,16 +74,135 @@ This is an active development project implementing a comprehensive competency in
 ### 🚧 **In Progress**
 
 #### **API Layer**
-- [x] Basic API structure planned
-- [ ] REST endpoints for competency data
-- [ ] Authentication and authorization
-- [ ] Pagination and filtering
+- [x] Complete REST API with Fastify
+- [x] Matrix endpoints for developers and teams
+- [x] Processing endpoints for full reprocessing
+- [x] Evidence traceability endpoints
+- [ ] Authentication and authorization (planned)
 
 #### **Web Interface**
-- [x] UI requirements and screen designs planned
-- [ ] Dashboard implementation
-- [ ] Competency matrix visualization
-- [ ] Self-evaluation interface
+- [x] Interactive React-based matrix visualization
+- [x] Green-highlighted achieved competencies
+- [x] Evidence modal with Ctrl+Click functionality
+- [x] Developer selection and filtering
+- [ ] Self-evaluation interface (planned)
+
+## 🔄 Processing System Architecture
+
+### **Core Processing Files**
+
+#### **📁 Scripts Directory (`/scripts/`)**
+| File | Purpose | Description |
+|------|---------|-------------|
+| `full-processing.js` | **Main Processing Pipeline** | Complete end-to-end processing pipeline (database cleanup → detailed processing → score generation → API verification) |
+| `process-confluence-detailed-subcompetencies.js` | **Detailed Taxonomy Processing** | Processes Confluence data using comprehensive tech taxonomy with 23+ sub-competencies |
+| `generate-competency-scores.js` | **Score Aggregation** | Generates competency scores from processed labels with confidence calculations |
+| `process-confluence-with-factors.js` | **Legacy Simplified Processing** | Basic competency processing (5 categories) - **DEPRECATED** |
+| `init-evidence-schema-fixed.js` | **Evidence Schema Setup** | Initializes evidence traceability database schema |
+
+#### **📁 Taxonomy (`/taxonomy/`)**
+| File | Purpose | Description |
+|------|---------|-------------|
+| `tech-taxonomy.json` | **Competency Taxonomy** | Complete taxonomy with 8 categories, 23+ sub-competencies, and keyword mappings |
+
+#### **📁 API Routes (`/src/api/routes/`)**
+| File | Purpose | Description |
+|------|---------|-------------|
+| `processing-routes-fastify.ts` | **Processing API Endpoints** | Fastify-compatible endpoints for triggering processing operations |
+| `matrix-routes.ts` | **Matrix Data API** | Endpoints for retrieving competency matrix data for developers/teams |
+| `connector-config-routes.ts` | **Connector Configuration** | Management of data source connectors |
+
+#### **📁 Frontend Components (`/frontend/src/components/`)**
+| File | Purpose | Description |
+|------|---------|-------------|
+| `SimpleMatrix.tsx` | **Matrix Visualization** | Interactive competency matrix with green highlighting and evidence modals |
+| `EvidenceModal.tsx` | **Evidence Display** | Modal for showing detailed evidence and contributing factors |
+
+### **Processing Pipeline Flow**
+
+```
+1. Database Cleanup
+   ↓
+2. Detailed Confluence Processing (process-confluence-detailed-subcompetencies.js)
+   - Uses tech-taxonomy.json for 23+ sub-competencies
+   - Generates competency_labels with evidence
+   ↓
+3. Score Generation (generate-competency-scores.js)
+   - Aggregates labels into competency_scores
+   - Calculates confidence levels and evidence counts
+   ↓
+4. API Verification
+   - Tests matrix endpoints
+   - Validates data integrity
+```
+
+### **Key Processing Features**
+
+#### **🎯 Detailed Taxonomy Processing**
+- **8 Categories**: Software Engineering, Web Development, Infrastructure & Cloud, DevOps & Platform Engineering, Containers & Orchestration, AWS Services, Atlassian, Collaboration & Process
+- **23+ Sub-Competencies**: Programming Languages, Testing & Quality, Architecture & Design, Frontend, Backend, CI/CD, Docker, Kubernetes, etc.
+- **Keyword Matching**: 500+ technical terms with variants and synonyms
+- **Evidence Tracking**: Full traceability from source documents to competency assessments
+
+#### **🔄 One-Click Reprocessing**
+- **Frontend Button**: "Reanalyze Data" triggers complete pipeline
+- **API Endpoint**: `POST /api/processing/full-reprocess`
+- **Processing Time**: 2-3 minutes for full dataset
+- **Results**: 481 competency scores across 33 developers
+
+#### **📊 Evidence & Scoring**
+- **Confidence Levels**: 0.0-1.0 based on keyword frequency and context
+- **Evidence Counts**: Number of matching documents/activities
+- **Competency Levels**: L1-L4 based on confidence thresholds
+- **Contributing Factors**: Detailed breakdown of evidence sources
+
+## 🚀 Quick Start
+
+### **Development Setup**
+```bash
+# Start all services
+npm run dev:all
+
+# Frontend: http://localhost:5173/matrix
+# Backend: http://localhost:3001/health
+```
+
+### **Processing Operations**
+```bash
+# Full reprocessing (via API)
+curl -X POST http://localhost:3001/api/processing/full-reprocess
+
+# Manual processing
+node scripts/full-processing.js
+
+# Individual steps
+node scripts/process-confluence-detailed-subcompetencies.js
+node scripts/generate-competency-scores.js
+```
+
+### **Key Features**
+- **Interactive Matrix**: Green-highlighted achieved competencies
+- **Evidence Modals**: Ctrl+Click on green cells for detailed evidence
+- **Real-time Updates**: "Reanalyze Data" button for complete refresh
+- **Developer Filtering**: Automatic exclusion of deactivated/unlicensed accounts
+- **Comprehensive Taxonomy**: 23+ sub-competencies with detailed evidence
+
+## 📚 Documentation
+
+### **Core Documentation**
+- **[README.md](README.md)** - Project overview and quick start
+- **[PROCESSING_DOCUMENTATION.md](PROCESSING_DOCUMENTATION.md)** - Complete processing system documentation
+- **[DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md)** - Development workflow and testing guide
+
+### **API Documentation**
+- **[API Routes](src/api/routes/)** - REST API endpoint documentation
+- **[Processing API](src/api/routes/processing-routes-fastify.ts)** - Processing endpoints
+- **[Matrix API](src/api/routes/matrix-routes.ts)** - Matrix data endpoints
+
+### **Component Documentation**
+- **[Frontend Components](frontend/src/components/)** - React component documentation
+- **[Processing Scripts](scripts/)** - Data processing pipeline documentation
+- **[Taxonomy System](taxonomy/)** - Competency taxonomy documentation
 
 ### 📋 **Planned Components**
 

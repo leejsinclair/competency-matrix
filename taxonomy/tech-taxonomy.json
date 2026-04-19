@@ -9,31 +9,63 @@
           "terms": [
             {
               "canonical": "Java",
-              "variants": ["java", "Java SE", "Java EE"]
+              "variants": [
+                "java",
+                "Java SE",
+                "Java EE"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Kotlin",
-              "variants": ["kotlin"]
+              "variants": [
+                "kotlin"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Python",
-              "variants": ["python", "CPython"]
+              "variants": [
+                "python",
+                "CPython"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "JavaScript",
-              "variants": ["javascript", "js", "ECMAScript", "ES6", "ES2015"]
+              "variants": [
+                "javascript",
+                "ECMAScript",
+                "ES6",
+                "ES2015"
+              ],
+              "difficulty": "easy"
             },
             {
               "canonical": "TypeScript",
-              "variants": ["typescript", "ts"]
+              "variants": [
+                "typescript",
+                "ts"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Go",
-              "variants": ["go", "golang"]
+              "variants": [
+                "golang"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "C#",
-              "variants": ["csharp", "c#", ".NET", ".NET Core", ".NET 6"]
+              "variants": [
+                "csharp",
+                "c#",
+                ".NET",
+                ".NET Core",
+                ".NET 6"
+              ],
+              "difficulty": "medium"
             }
           ]
         },
@@ -42,31 +74,220 @@
           "terms": [
             {
               "canonical": "Microservices",
-              "variants": ["microservice", "microservices architecture"]
+              "variants": [
+                "microservice",
+                "microservices architecture"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Monolith",
-              "variants": ["monolithic", "monolithic application"]
+              "variants": [
+                "monolithic",
+                "monolithic application"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Event-driven architecture",
-              "variants": ["event driven", "event-driven", "EDA"]
+              "variants": [
+                "event driven",
+                "event-driven",
+                "sqs",
+                "sns",
+                "kafka",
+                "pub/sub",
+                "message queue",
+                "message queues"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "Hexagonal architecture",
-              "variants": ["hexagonal architecture", "ports and adapters"]
+              "variants": [
+                "hexagonal architecture",
+                "ports and adapters"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Component Driven architecture",
+              "variants": [
+                "component driven architecture",
+                "component architecture"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Service-oriented architecture",
+              "variants": [
+                "service oriented architecture",
+                "service driven architecture"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Modular architecture",
+              "variants": [
+                "modular architecture"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Object Driven Design",
+              "variants": [
+                "object driven design",
+                "object-oriented design",
+                "object oriented"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Layered architecture",
+              "variants": [
+                "layered architecture",
+                "architectural layers"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "Domain-driven design",
-              "variants": ["domain driven design", "DDD"]
+              "variants": [
+                "domain driven design"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "CQRS",
-              "variants": ["cqrs", "command query responsibility segregation"]
+              "variants": [
+                "cqrs",
+                "command query responsibility segregation"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "Event sourcing",
-              "variants": ["event sourcing", "event-sourced"]
+              "variants": [
+                "event sourcing",
+                "event-sourced"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Architectural Decision Records",
+              "variants": [
+                "adr",
+                "architecture decision record",
+                "architectural decision record"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Separation of Concerns",
+              "variants": [
+                "separation of concerns",
+                "soc",
+                "single responsibility principle"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Contract-based Design",
+              "variants": [
+                "contract based design",
+                "contract-based design",
+                "contracts"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Design Patterns",
+              "variants": [
+                "design pattern",
+                "design patterns"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Factory Pattern",
+              "variants": [
+                "factory pattern",
+                "factory method"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Repository Pattern",
+              "variants": [
+                "repository pattern",
+                "repository"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Singleton Pattern",
+              "variants": [
+                "singleton",
+                "singleton pattern"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Observer Pattern",
+              "variants": [
+                "observer",
+                "observer pattern",
+                "pub-sub",
+                "publish-subscribe"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Adapter Pattern",
+              "variants": [
+                "adapter",
+                "adapter pattern"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Facade Pattern",
+              "variants": [
+                "facade",
+                "facade pattern"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Strategy Pattern",
+              "variants": [
+                "strategy",
+                "strategy pattern"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "SOLID Principles",
+              "variants": [
+                "solid",
+                "solid principles",
+                "single responsibility",
+                "open closed",
+                "liskov substitution",
+                "interface segregation",
+                "dependency inversion"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Data Flow Architecture",
+              "variants": [
+                "data flow",
+                "data flow diagram",
+                "dfd",
+                "data flow design"
+              ],
+              "difficulty": "hard"
             }
           ]
         },
@@ -75,27 +296,169 @@
           "terms": [
             {
               "canonical": "Unit testing",
-              "variants": ["unit test", "unit tests", "unit testing"]
+              "variants": [
+                "unit test",
+                "unit tests",
+                "unit testing",
+                "testing"
+              ],
+              "difficulty": "easy"
             },
             {
               "canonical": "Integration testing",
-              "variants": ["integration test", "integration tests", "integration testing"]
+              "variants": [
+                "integration test",
+                "integration tests",
+                "integration testing"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "End-to-end testing",
-              "variants": ["e2e test", "e2e tests", "end to end test", "end-to-end test"]
+              "variants": [
+                "e2e test",
+                "e2e tests",
+                "end to end test",
+                "end-to-end test"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Test-driven development",
-              "variants": ["tdd", "test driven development"]
+              "variants": [
+                "tdd",
+                "test driven development"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Behavior-driven development",
-              "variants": ["bdd", "behavior driven development", "behaviour driven development"]
+              "variants": [
+                "bdd",
+                "behavior driven development",
+                "behaviour driven development"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Code coverage",
-              "variants": ["coverage", "test coverage", "code coverage"]
+              "variants": [
+                "coverage",
+                "test coverage",
+                "code coverage"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Load testing",
+              "variants": [
+                "load test",
+                "load tests",
+                "stress testing",
+                "performance load testing"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Performance testing",
+              "variants": [
+                "performance test",
+                "profiling",
+                "performance profiling",
+                "performance metrics",
+                "RPS measurement",
+                "requests per second"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Smoke testing",
+              "variants": [
+                "smoke test",
+                "smoke tests",
+                "sanity check"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Quality assurance",
+              "variants": [
+                "qa",
+                "QA",
+                "quality assurance",
+                "QA process"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Input validation",
+              "variants": [
+                "input validation",
+                "schema validation",
+                "data validation",
+                "field validation"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Contract verification",
+              "variants": [
+                "contract verification",
+                "contract testing",
+                "promise verification",
+                "field verification"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Error handling",
+              "variants": [
+                "error handling",
+                "error reporting",
+                "error codes",
+                "exception handling"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Edge case testing",
+              "variants": [
+                "edge case",
+                "edge cases",
+                "corner cases",
+                "boundary testing"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Code review",
+              "variants": [
+                "code review",
+                "peer review",
+                "code review process",
+                "review process"
+              ],
+              "difficulty": "easy"
+            },
+            {
+              "canonical": "Reliability",
+              "variants": [
+                "reliability",
+                "robustness",
+                "resilience",
+                "fault tolerance"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Error prioritization",
+              "variants": [
+                "error prioritization",
+                "impact analysis",
+                "frequency analysis",
+                "priority-based handling"
+              ],
+              "difficulty": "medium"
             }
           ]
         }
@@ -109,27 +472,59 @@
           "terms": [
             {
               "canonical": "HTML",
-              "variants": ["html", "html5"]
+              "variants": [
+                "html",
+                "html5"
+              ],
+              "difficulty": "easy"
             },
             {
               "canonical": "CSS",
-              "variants": ["css", "css3"]
+              "variants": [
+                "css",
+                "css3",
+                "tailwind"
+              ],
+              "difficulty": "easy"
             },
             {
               "canonical": "React",
-              "variants": ["react", "reactjs", "react.js"]
+              "variants": [
+                "react",
+                "reactjs",
+                "react.js",
+                "ant",
+                "ant",
+                "antd"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Vue",
-              "variants": ["vue", "vuejs", "vue.js"]
+              "variants": [
+                "vue",
+                "vuejs",
+                "vue.js"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Angular",
-              "variants": ["angular", "angularjs", "angular.js"]
+              "variants": [
+                "angular",
+                "angularjs",
+                "angular.js"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "SPA",
-              "variants": ["single page app", "single-page application", "spa"]
+              "variants": [
+                "single page app",
+                "single-page application",
+                "spa"
+              ],
+              "difficulty": "medium"
             }
           ]
         },
@@ -138,27 +533,156 @@
           "terms": [
             {
               "canonical": "REST API",
-              "variants": ["rest", "rest api", "restful api", "restful service"]
+              "variants": [
+                "rest",
+                "rest api",
+                "restful api",
+                "restful service"
+              ],
+              "difficulty": "easy"
             },
             {
               "canonical": "GraphQL",
-              "variants": ["graphql"]
+              "variants": [
+                "graphql"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "gRPC",
-              "variants": ["grpc"]
+              "variants": [
+                "grpc"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "WebSocket",
-              "variants": ["websocket", "web sockets", "web socket"]
+              "variants": [
+                "websocket",
+                "web sockets",
+                "web socket"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "Spring Boot",
-              "variants": ["spring boot", "spring-boot"]
+              "variants": [
+                "spring boot",
+                "spring-boot"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Express",
-              "variants": ["express", "expressjs", "express.js"]
+              "variants": [
+                "express",
+                "expressjs",
+                "express.js"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Fastify",
+              "variants": [
+                "fastify",
+                "fastifyjs"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Knex.js",
+              "variants": [
+                "knex",
+                "knex.js",
+                "query builder"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "TypeDI",
+              "variants": [
+                "typedi",
+                "type-di",
+                "dependency injection"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "class-validator",
+              "variants": [
+                "class-validator",
+                "class validator"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "class-transformer",
+              "variants": [
+                "class-transformer",
+                "class transformer"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Caching",
+              "variants": [
+                "caching",
+                "cache",
+                "cache strategy",
+                "cache invalidation",
+                "in-memory cache"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Database transactions",
+              "variants": [
+                "transaction",
+                "acid",
+                "transaction management",
+                "commit",
+                "rollback"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Database indexing",
+              "variants": [
+                "indexing",
+                "database index",
+                "query optimization",
+                "index strategy"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Lambda functions",
+              "variants": [
+                "lambda",
+                "aws lambda",
+                "serverless function",
+                "function as a service"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Middleware",
+              "variants": [
+                "middleware",
+                "request middleware",
+                "middleware handler"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "API design",
+              "variants": [
+                "api design",
+                "api architecture",
+                "endpoint design",
+                "api specification"
+              ],
+              "difficulty": "medium"
             }
           ]
         }
@@ -172,27 +696,116 @@
           "terms": [
             {
               "canonical": "Continuous integration",
-              "variants": ["continuous integration", "ci pipeline", "ci pipelines"]
+              "variants": [
+                "continuous integration",
+                "ci pipeline",
+                "ci pipelines"
+              ],
+              "difficulty": "easy"
             },
             {
               "canonical": "Continuous delivery",
-              "variants": ["continuous delivery", "cd pipeline", "cd pipelines"]
+              "variants": [
+                "continuous delivery",
+                "cd pipeline",
+                "cd pipelines"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "CircleCI",
-              "variants": ["circleci", "circle ci"]
+              "variants": [
+                "circleci",
+                "circle ci"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "GitHub Actions",
-              "variants": ["github actions", "gh actions"]
+              "variants": [
+                "github actions",
+                "gh actions"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "GitLab CI",
-              "variants": ["gitlab ci", "gitlab-ci", "gitlab pipeline", "gitlab pipelines"]
+              "variants": [
+                "gitlab ci",
+                "gitlab-ci",
+                "gitlab pipeline",
+                "gitlab pipelines"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Jenkins",
-              "variants": ["jenkins", "jenkins pipeline", "jenkinsfile"]
+              "variants": [
+                "jenkins",
+                "jenkins pipeline",
+                "jenkinsfile"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Deployment",
+              "variants": [
+                "deployment",
+                "deploying",
+                "deploy process",
+                "staging",
+                "production deployment"
+              ],
+              "difficulty": "easy"
+            },
+            {
+              "canonical": "Release management",
+              "variants": [
+                "release management",
+                "release strategy",
+                "version management",
+                "release planning"
+              ],
+              "difficulty": "easy"
+            },
+            {
+              "canonical": "Artifact management",
+              "variants": [
+                "artifact repository",
+                "artifact management",
+                "build artifact",
+                "artifactory"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Build automation",
+              "variants": [
+                "build automation",
+                "automated build",
+                "build process"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Code linting",
+              "variants": [
+                "linting",
+                "code linting",
+                "lint",
+                "pycodestyle"
+              ],
+              "difficulty": "easy"
+            },
+            {
+              "canonical": "Version control",
+              "variants": [
+                "version control",
+                "git",
+                "source control",
+                "scm"
+              ],
+              "difficulty": "easy"
             }
           ]
         },
@@ -201,27 +814,288 @@
           "terms": [
             {
               "canonical": "Logging",
-              "variants": ["logs", "logging", "application logs"]
+              "variants": [
+                "logs",
+                "logging",
+                "application logs"
+              ],
+              "difficulty": "easy"
             },
             {
               "canonical": "Metrics",
-              "variants": ["metrics", "time series metrics"]
+              "variants": [
+                "metrics",
+                "time series metrics",
+                "datadog",
+                "newrelic"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Tracing",
-              "variants": ["distributed tracing", "traces", "trace ids"]
+              "variants": [
+                "distributed tracing",
+                "traces",
+                "trace ids"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Prometheus",
-              "variants": ["prometheus", "prom metrics"]
+              "variants": [
+                "prometheus",
+                "prom metrics"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Grafana",
-              "variants": ["grafana", "grafana dashboards"]
+              "variants": [
+                "grafana",
+                "grafana dashboards"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "OpenTelemetry",
-              "variants": ["opentelemetry", "otel"]
+              "variants": [
+                "opentelemetry",
+                "otel"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "New Relic",
+              "variants": [
+                "new relic",
+                "newrelic",
+                "apm"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Pino",
+              "variants": [
+                "pino",
+                "pino logger"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Flamegraph",
+              "variants": [
+                "flamegraph",
+                "flame graph",
+                "profiling"
+              ],
+              "difficulty": "hard"
+            }
+          ]
+        },
+        {
+          "name": "Testing & Performance",
+          "terms": [
+            {
+              "canonical": "Apache Bench",
+              "variants": [
+                "apache bench",
+                "ab",
+                "benchmark"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "JMeter",
+              "variants": [
+                "jmeter",
+                "apache jmeter"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Locust",
+              "variants": [
+                "locust",
+                "locustio"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "k6",
+              "variants": [
+                "k6",
+                "load testing tool"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Gatling",
+              "variants": [
+                "gatling",
+                "gatling load testing"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Artillery",
+              "variants": [
+                "artillery",
+                "artillery load testing"
+              ],
+              "difficulty": "medium"
+            }
+          ]
+        },
+        {
+          "name": "Security",
+          "terms": [
+            {
+              "canonical": "JWT",
+              "variants": [
+                "jwt",
+                "json web token",
+                "bearer token"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "OAuth",
+              "variants": [
+                "oauth",
+                "oauth2",
+                "authorization"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "OIDC",
+              "variants": [
+                "oidc",
+                "openid connect",
+                "open id connect"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "MTLS",
+              "variants": [
+                "mtls",
+                "mutual tls",
+                "mutual tls authentication",
+                "client certificate"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Encryption",
+              "variants": [
+                "encryption",
+                "encrypted",
+                "rc4",
+                "encryption algorithm"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Authentication",
+              "variants": [
+                "authentication",
+                "auth",
+                "login",
+                "identity verification"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Authorization",
+              "variants": [
+                "authorization",
+                "access control",
+                "permissions",
+                "role-based access"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "OWASP",
+              "variants": [
+                "owasp",
+                "owasp top 10",
+                "owasp top ten",
+                "application security verification standard",
+                "asvs"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "SQL Injection",
+              "variants": [
+                "sql injection",
+                "sqli",
+                "injection"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Cross-Site Scripting",
+              "variants": [
+                "cross-site scripting",
+                "xss",
+                "stored xss",
+                "reflected xss",
+                "dom xss"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Cross-Site Request Forgery",
+              "variants": [
+                "cross-site request forgery",
+                "csrf",
+                "xsrf",
+                "anti csrf token"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Server-Side Request Forgery",
+              "variants": [
+                "server-side request forgery",
+                "ssrf"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Security Misconfiguration",
+              "variants": [
+                "security misconfiguration",
+                "misconfiguration",
+                "insecure configuration",
+                "hardening"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Broken Access Control",
+              "variants": [
+                "broken access control",
+                "bac",
+                "privilege escalation",
+                "idor",
+                "insecure direct object reference"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Vulnerability Scanning",
+              "variants": [
+                "vulnerability scan",
+                "vulnerability scanning",
+                "sast",
+                "dast",
+                "dependency scanning"
+              ],
+              "difficulty": "hard"
             }
           ]
         }
@@ -235,15 +1109,37 @@
           "terms": [
             {
               "canonical": "Virtual machine",
-              "variants": ["vm", "virtual machine", "virtual machines"]
+              "variants": [
+                "vm",
+                "virtual machine",
+                "virtual machines"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "Autoscaling",
-              "variants": ["auto scaling", "autoscaling", "auto-scaling"]
+              "variants": [
+                "auto scaling",
+                "autoscaling",
+                "auto-scaling"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "Serverless",
-              "variants": ["serverless", "serverless compute"]
+              "variants": [
+                "serverless",
+                "serverless compute"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "AWS Fargate",
+              "variants": [
+                "fargate",
+                "aws fargate"
+              ],
+              "difficulty": "hard"
             }
           ]
         },
@@ -252,23 +1148,55 @@
           "terms": [
             {
               "canonical": "VPC",
-              "variants": ["vpc", "virtual private cloud"]
+              "variants": [
+                "vpc",
+                "virtual private cloud"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "Subnet",
-              "variants": ["subnet", "subnets"]
+              "variants": [
+                "subnet",
+                "subnets"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "Load balancer",
-              "variants": ["load balancer", "lb", "application load balancer", "network load balancer"]
+              "variants": [
+                "load balancer",
+                "application load balancer",
+                "network load balancer"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "DNS",
-              "variants": ["dns", "domain name system"]
+              "variants": [
+                "dns",
+                "domain name system"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "VPN",
-              "variants": ["vpn", "virtual private network"]
+              "variants": [
+                "vpn",
+                "virtual private network"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Health checks",
+              "variants": [
+                "health check",
+                "health endpoint",
+                "status check",
+                "liveness probe",
+                "readiness probe"
+              ],
+              "difficulty": "hard"
             }
           ]
         },
@@ -277,15 +1205,84 @@
           "terms": [
             {
               "canonical": "Relational database",
-              "variants": ["relational database", "rdbms", "sql database"]
+              "variants": [
+                "relational database",
+                "rdbms",
+                "sql database"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "PostgreSQL",
+              "variants": [
+                "postgres",
+                "postgresql"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "MySQL",
+              "variants": [
+                "mysql",
+                "mariadb"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Oracle Database",
+              "variants": [
+                "oracle",
+                "oracle database"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "CockroachDB",
+              "variants": [
+                "cockroachdb",
+                "cockroach"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "SQLite",
+              "variants": [
+                "sqlite",
+                "sqlite3"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Microsoft SQL Server",
+              "variants": [
+                "mssql",
+                "stored procedure"
+              ],
+              "difficulty": "hard"
+            },
+            {
+              "canonical": "Redis",
+              "variants": [
+                "redis",
+                "ioredis"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "NoSQL database",
-              "variants": ["nosql", "nosql database"]
+              "variants": [
+                "nosql",
+                "nosql database"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "Object storage",
-              "variants": ["object storage", "blob storage"]
+              "variants": [
+                "object storage",
+                "blob storage"
+              ],
+              "difficulty": "hard"
             }
           ]
         },
@@ -294,19 +1291,36 @@
           "terms": [
             {
               "canonical": "Message queue",
-              "variants": ["message queue", "mq", "message broker"]
+              "variants": [
+                "message queue",
+                "mq",
+                "message broker"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "Kafka",
-              "variants": ["kafka", "apache kafka"]
+              "variants": [
+                "kafka",
+                "apache kafka"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "RabbitMQ",
-              "variants": ["rabbitmq"]
+              "variants": [
+                "rabbitmq",
+                "rabbit mq",
+                "amqp"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "MQTT",
-              "variants": ["mqtt"]
+              "variants": [
+                "mqtt"
+              ],
+              "difficulty": "hard"
             }
           ]
         }
@@ -320,35 +1334,78 @@
           "terms": [
             {
               "canonical": "Docker",
-              "variants": ["docker", "docker engine"]
+              "variants": [
+                "docker",
+                "docker engine"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Docker image",
-              "variants": ["docker image", "container image", "images"]
+              "variants": [
+                "docker image",
+                "container image",
+                "images"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Docker container",
-              "variants": ["docker container", "container", "containers"]
+              "variants": [
+                "docker container",
+                "container",
+                "containers"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Dockerfile",
-              "variants": ["dockerfile", "docker file"]
+              "variants": [
+                "dockerfile",
+                "docker file"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "docker build",
-              "variants": ["docker build", "docker buildx"]
+              "variants": [
+                "docker build",
+                "docker buildx"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "docker run",
-              "variants": ["docker run"]
+              "variants": [
+                "docker run"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "docker compose",
-              "variants": ["docker compose", "docker-compose", "docker-compose.yml"]
+              "variants": [
+                "docker compose",
+                "docker-compose",
+                "docker-compose.yml"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Container registry",
-              "variants": ["container registry", "docker registry", "image registry"]
+              "variants": [
+                "container registry",
+                "docker registry",
+                "image registry"
+              ],
+              "difficulty": "medium"
+            },
+            {
+              "canonical": "Webpack",
+              "variants": [
+                "webpack",
+                "module bundler"
+              ],
+              "difficulty": "medium"
             }
           ]
         },
@@ -357,55 +1414,115 @@
           "terms": [
             {
               "canonical": "Kubernetes",
-              "variants": ["kubernetes", "k8s"]
+              "variants": [
+                "kubernetes",
+                "k8s"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "Pod",
-              "variants": ["pod", "pods"]
+              "variants": [
+                "pod",
+                "pods"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Deployment",
-              "variants": ["deployment", "deployments"]
+              "variants": [
+                "deployment",
+                "deployments"
+              ],
+              "difficulty": "easy"
             },
             {
               "canonical": "StatefulSet",
-              "variants": ["statefulset", "stateful set"]
+              "variants": [
+                "statefulset",
+                "stateful set"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "DaemonSet",
-              "variants": ["daemonset", "daemon set"]
+              "variants": [
+                "daemonset",
+                "daemon set"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Service",
-              "variants": ["kubernetes service", "service", "clusterip", "nodeport", "loadbalancer service"]
+              "variants": [
+                "kubernetes service",
+                "service",
+                "clusterip",
+                "nodeport",
+                "loadbalancer service"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Ingress",
-              "variants": ["ingress", "ingress controller"]
+              "variants": [
+                "ingress",
+                "ingress controller"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "ConfigMap",
-              "variants": ["configmap", "config map"]
+              "variants": [
+                "configmap",
+                "config map"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Secret",
-              "variants": ["kubernetes secret", "secret", "secrets"]
+              "variants": [
+                "kubernetes secret",
+                "secret",
+                "secrets"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Helm",
-              "variants": ["helm", "helm chart", "helm charts"]
+              "variants": [
+                "helm",
+                "helm chart",
+                "helm charts"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "kubectl",
-              "variants": ["kubectl", "kubectl apply", "kubectl get", "kubectl describe", "kubectl logs"]
+              "variants": [
+                "kubectl",
+                "kubectl apply",
+                "kubectl get",
+                "kubectl describe",
+                "kubectl logs"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Kubeconfig",
-              "variants": ["kubeconfig", "kube config"]
+              "variants": [
+                "kubeconfig",
+                "kube config"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "RBAC",
-              "variants": ["rbac", "role based access control"]
+              "variants": [
+                "rbac",
+                "role based access control"
+              ],
+              "difficulty": "medium"
             }
           ]
         }
@@ -419,23 +1536,46 @@
           "terms": [
             {
               "canonical": "EC2",
-              "variants": ["ec2", "elastic compute cloud"]
+              "variants": [
+                "ec2",
+                "elastic compute cloud"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "ECS",
-              "variants": ["ecs", "elastic container service"]
+              "variants": [
+                "ecs",
+                "elastic container service"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "EKS",
-              "variants": ["eks", "elastic kubernetes service"]
+              "variants": [
+                "eks",
+                "elastic kubernetes service"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Lambda",
-              "variants": ["lambda", "aws lambda", "lambda function", "lambda functions"]
+              "variants": [
+                "lambda",
+                "aws lambda",
+                "lambda function",
+                "lambda functions"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Fargate",
-              "variants": ["fargate", "ecs fargate", "aws fargate"]
+              "variants": [
+                "fargate",
+                "ecs fargate",
+                "aws fargate"
+              ],
+              "difficulty": "medium"
             }
           ]
         },
@@ -444,23 +1584,43 @@
           "terms": [
             {
               "canonical": "VPC",
-              "variants": ["vpc", "aws vpc"]
+              "variants": [
+                "vpc",
+                "aws vpc"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Route 53",
-              "variants": ["route 53", "route53"]
+              "variants": [
+                "route 53",
+                "route53"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "API Gateway",
-              "variants": ["api gateway", "aws api gateway"]
+              "variants": [
+                "api gateway",
+                "aws api gateway"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Application Load Balancer",
-              "variants": ["alb", "application load balancer"]
+              "variants": [
+                "alb",
+                "application load balancer"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Network Load Balancer",
-              "variants": ["nlb", "network load balancer"]
+              "variants": [
+                "nlb",
+                "network load balancer"
+              ],
+              "difficulty": "medium"
             }
           ]
         },
@@ -469,23 +1629,45 @@
           "terms": [
             {
               "canonical": "S3",
-              "variants": ["s3", "simple storage service", "s3 bucket", "s3 buckets"]
+              "variants": [
+                "s3",
+                "simple storage service",
+                "s3 bucket",
+                "s3 buckets"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "RDS",
-              "variants": ["rds", "relational database service"]
+              "variants": [
+                "rds",
+                "relational database service"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Aurora",
-              "variants": ["aurora", "amazon aurora"]
+              "variants": [
+                "aurora",
+                "amazon aurora"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "DynamoDB",
-              "variants": ["dynamodb", "amazon dynamodb"]
+              "variants": [
+                "dynamodb",
+                "amazon dynamodb"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "EFS",
-              "variants": ["efs", "elastic file system"]
+              "variants": [
+                "efs",
+                "elastic file system"
+              ],
+              "difficulty": "medium"
             }
           ]
         },
@@ -494,23 +1676,46 @@
           "terms": [
             {
               "canonical": "SQS",
-              "variants": ["sqs", "simple queue service"]
+              "variants": [
+                "sqs",
+                "simple queue service"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "SNS",
-              "variants": ["sns", "simple notification service"]
+              "variants": [
+                "sns",
+                "simple notification service"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "AmazonMQ",
-              "variants": ["amazonmq", "amazon mq", "aws amazonmq"]
+              "variants": [
+                "amazonmq",
+                "amazon mq",
+                "aws amazonmq"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "EventBridge",
-              "variants": ["eventbridge", "amazon eventbridge", "cloudwatch events"]
+              "variants": [
+                "eventbridge",
+                "amazon eventbridge",
+                "cloudwatch events"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Kinesis",
-              "variants": ["kinesis", "kinesis streams", "kinesis firehose"]
+              "variants": [
+                "kinesis",
+                "kinesis streams",
+                "kinesis firehose"
+              ],
+              "difficulty": "medium"
             }
           ]
         },
@@ -519,19 +1724,40 @@
           "terms": [
             {
               "canonical": "IAM",
-              "variants": ["iam", "identity and access management", "iam role", "iam roles", "iam policy", "iam policies"]
+              "variants": [
+                "iam",
+                "identity and access management",
+                "iam role",
+                "iam roles",
+                "iam policy",
+                "iam policies"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "KMS",
-              "variants": ["kms", "key management service"]
+              "variants": [
+                "kms",
+                "key management service"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "Secrets Manager",
-              "variants": ["secrets manager", "aws secrets manager"]
+              "variants": [
+                "secrets manager",
+                "aws secrets manager"
+              ],
+              "difficulty": "hard"
             },
             {
               "canonical": "SSM Parameter Store",
-              "variants": ["parameter store", "ssm parameter store", "systems manager parameter store"]
+              "variants": [
+                "parameter store",
+                "ssm parameter store",
+                "systems manager parameter store"
+              ],
+              "difficulty": "hard"
             }
           ]
         },
@@ -540,31 +1766,63 @@
           "terms": [
             {
               "canonical": "CloudFormation",
-              "variants": ["cloudformation", "cfn", "cloud formation"]
+              "variants": [
+                "cloudformation",
+                "cfn",
+                "cloud formation"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "CDK",
-              "variants": ["cdk", "aws cdk", "cloud development kit"]
+              "variants": [
+                "cdk",
+                "aws cdk",
+                "cloud development kit"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "CodePipeline",
-              "variants": ["codepipeline", "code pipeline"]
+              "variants": [
+                "codepipeline",
+                "code pipeline"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "CodeBuild",
-              "variants": ["codebuild", "code build"]
+              "variants": [
+                "codebuild",
+                "code build"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "CodeDeploy",
-              "variants": ["codedeploy", "code deploy"]
+              "variants": [
+                "codedeploy",
+                "code deploy"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "CloudWatch",
-              "variants": ["cloudwatch", "cloud watch", "cloudwatch logs", "cloudwatch metrics"]
+              "variants": [
+                "cloudwatch",
+                "cloud watch",
+                "cloudwatch logs",
+                "cloudwatch metrics"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "CloudTrail",
-              "variants": ["cloudtrail", "cloud trail"]
+              "variants": [
+                "cloudtrail",
+                "cloud trail"
+              ],
+              "difficulty": "medium"
             }
           ]
         }
@@ -578,47 +1836,102 @@
           "terms": [
             {
               "canonical": "Jira",
-              "variants": ["jira", "JIRA"]
+              "variants": [
+                "jira",
+                "JIRA"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Jira project",
-              "variants": ["jira project", "jira projects"]
+              "variants": [
+                "jira project",
+                "jira projects"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Jira issue",
-              "variants": ["jira issue", "jira issues", "jira ticket", "jira tickets"]
+              "variants": [
+                "jira issue",
+                "jira issues",
+                "jira ticket",
+                "jira tickets"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Epic",
-              "variants": ["epic", "epics", "jira epic", "jira epics"]
+              "variants": [
+                "epic",
+                "epics",
+                "jira epic",
+                "jira epics"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Story",
-              "variants": ["story", "stories", "user story", "user stories"]
+              "variants": [
+                "story",
+                "stories",
+                "user story",
+                "user stories"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Sub-task",
-              "variants": ["subtask", "sub-task", "sub task", "jira subtask"]
+              "variants": [
+                "subtask",
+                "sub-task",
+                "sub task",
+                "jira subtask"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Jira workflow",
-              "variants": ["jira workflow", "workflow", "workflows"]
+              "variants": [
+                "jira workflow",
+                "workflow",
+                "workflows"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Jira board",
-              "variants": ["jira board", "scrum board", "kanban board"]
+              "variants": [
+                "jira board",
+                "scrum board",
+                "kanban board"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "JQL",
-              "variants": ["jql", "jira query language"]
+              "variants": [
+                "jql",
+                "jira query language"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Sprint",
-              "variants": ["sprint", "sprints", "jira sprint"]
+              "variants": [
+                "sprint",
+                "sprints",
+                "jira sprint"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Backlog",
-              "variants": ["backlog", "jira backlog"]
+              "variants": [
+                "backlog",
+                "jira backlog"
+              ],
+              "difficulty": "medium"
             }
           ]
         },
@@ -627,27 +1940,57 @@
           "terms": [
             {
               "canonical": "Bitbucket",
-              "variants": ["bitbucket"]
+              "variants": [
+                "bitbucket"
+              ],
+              "difficulty": "easy"
             },
             {
               "canonical": "Bitbucket repository",
-              "variants": ["bitbucket repo", "bitbucket repos", "bitbucket repository", "bitbucket repositories"]
+              "variants": [
+                "bitbucket repo",
+                "bitbucket repos",
+                "bitbucket repository",
+                "bitbucket repositories"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Pull request",
-              "variants": ["pull request", "pull requests", "pr", "prs", "bitbucket pull request"]
+              "variants": [
+                "pull request",
+                "pull requests",
+                "pr",
+                "prs",
+                "bitbucket pull request"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Bitbucket Pipelines",
-              "variants": ["bitbucket pipelines", "bitbucket pipeline", "pipelines yaml", "bitbucket-pipelines.yml"]
+              "variants": [
+                "bitbucket pipelines",
+                "bitbucket pipeline",
+                "pipelines yaml",
+                "bitbucket-pipelines.yml"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Merge check",
-              "variants": ["merge check", "merge checks"]
+              "variants": [
+                "merge check",
+                "merge checks"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Branch permissions",
-              "variants": ["branch permission", "branch permissions"]
+              "variants": [
+                "branch permission",
+                "branch permissions"
+              ],
+              "difficulty": "medium"
             }
           ]
         },
@@ -656,23 +1999,42 @@
           "terms": [
             {
               "canonical": "Confluence",
-              "variants": ["confluence"]
+              "variants": [
+                "confluence"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Confluence page",
-              "variants": ["confluence page", "confluence pages"]
+              "variants": [
+                "confluence page",
+                "confluence pages"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Confluence space",
-              "variants": ["confluence space", "confluence spaces"]
+              "variants": [
+                "confluence space",
+                "confluence spaces"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Confluence macro",
-              "variants": ["confluence macro", "confluence macros"]
+              "variants": [
+                "confluence macro",
+                "confluence macros"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Confluence template",
-              "variants": ["confluence template", "confluence templates"]
+              "variants": [
+                "confluence template",
+                "confluence templates"
+              ],
+              "difficulty": "medium"
             }
           ]
         }
@@ -686,35 +2048,72 @@
           "terms": [
             {
               "canonical": "Git",
-              "variants": ["git"]
+              "variants": [
+                "git"
+              ],
+              "difficulty": "easy"
             },
             {
               "canonical": "Git branch",
-              "variants": ["git branch", "branches", "feature branch", "release branch"]
+              "variants": [
+                "git branch",
+                "branches",
+                "feature branch",
+                "release branch"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Git commit",
-              "variants": ["git commit", "commit", "commits"]
+              "variants": [
+                "git commit",
+                "commit",
+                "commits"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Git merge",
-              "variants": ["git merge", "merge commit"]
+              "variants": [
+                "git merge",
+                "merge commit"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Git rebase",
-              "variants": ["git rebase", "rebase"]
+              "variants": [
+                "git rebase",
+                "rebase"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Git tag",
-              "variants": ["git tag", "tags"]
+              "variants": [
+                "git tag",
+                "tags"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Pull request",
-              "variants": ["pull request", "pull requests", "pr", "prs"]
+              "variants": [
+                "pull request",
+                "pull requests",
+                "pr",
+                "prs"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Code review",
-              "variants": ["code review", "code reviews", "review comments"]
+              "variants": [
+                "code review",
+                "code reviews",
+                "review comments"
+              ],
+              "difficulty": "easy"
             }
           ]
         },
@@ -723,27 +2122,52 @@
           "terms": [
             {
               "canonical": "Scrum",
-              "variants": ["scrum"]
+              "variants": [
+                "scrum"
+              ],
+              "difficulty": "easy"
             },
             {
               "canonical": "Kanban",
-              "variants": ["kanban"]
+              "variants": [
+                "kanban"
+              ],
+              "difficulty": "easy"
             },
             {
               "canonical": "Standup",
-              "variants": ["standup", "stand-up", "daily standup", "daily scrum"]
+              "variants": [
+                "standup",
+                "stand-up",
+                "daily standup",
+                "daily scrum"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Retrospective",
-              "variants": ["retro", "retrospective", "sprint retrospective"]
+              "variants": [
+                "retro",
+                "retrospective",
+                "sprint retrospective"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Sprint planning",
-              "variants": ["sprint planning", "planning session"]
+              "variants": [
+                "sprint planning",
+                "planning session"
+              ],
+              "difficulty": "medium"
             },
             {
               "canonical": "Backlog refinement",
-              "variants": ["backlog refinement", "backlog grooming"]
+              "variants": [
+                "backlog refinement",
+                "backlog grooming"
+              ],
+              "difficulty": "medium"
             }
           ]
         }

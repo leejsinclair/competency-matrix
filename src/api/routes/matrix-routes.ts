@@ -1,8 +1,80 @@
 import { FastifyInstance } from "fastify";
+import taxonomy from "../../../taxonomy/tech-taxonomy.json";
 import { DatabaseConnection } from "../../database/connection";
 
 export async function matrixRoutes(fastify: FastifyInstance) {
   const db = DatabaseConnection.getInstance();
+
+  // Input validation schemas
+
+  const normalizeName = (value: string): string =>
+    (value || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+
+  const getTermsForSubcategory = (subcategoryPath: string) => {
+    if (!subcategoryPath) {
+      return [] as Array<{ canonical: string; variants: string[] }>;
+    }
+
+    const pathParts = subcategoryPath.split(" > ").map((part) => part.trim());
+
+    let currentNode: any = taxonomy;
+    for (const pathPart of pathParts) {
+      const childNode = (currentNode.children || []).find(
+        (child: any) => normalizeName(child.name) === normalizeName(pathPart)
+      );
+
+      if (!childNode) {
+        return [] as Array<{ canonical: string; variants: string[] }>;
+      }
+
+      currentNode = childNode;
+    }
+
+    return (currentNode.terms || []).map((term: any) => ({
+      canonical: term.canonical,
+      variants: term.variants || [],
+    }));
+  };
+
+  fastify.get(
+    "/api/matrix/taxonomy/terms",
+    {
+      schema: {
+        querystring: {
+          type: "object",
+          properties: {
+            subcategory: { type: "string", minLength: 1, maxLength: 200 },
+          },
+          required: ["subcategory"],
+        },
+      },
+    },
+    async (request: any, reply: any) => {
+      try {
+        const { subcategory } = request.query;
+        const terms = getTermsForSubcategory(subcategory);
+
+        return {
+          success: true,
+          data: {
+            subcategory,
+            terms,
+            totalTerms: terms.length,
+          },
+        };
+      } catch (error) {
+        reply.code(500);
+        return {
+          success: false,
+          error: "Failed to resolve taxonomy terms",
+          message: (error as Error).message,
+        };
+      }
+    }
+  );
 
   // Get full competency matrix for all developers
   fastify.get("/api/matrix/team", async () => {
@@ -99,12 +171,30 @@ export async function matrixRoutes(fastify: FastifyInstance) {
   // Get competency matrix for specific developer
   fastify.get(
     "/api/matrix/developer/:actor",
+    {
+      schema: {
+        params: {
+          type: "object",
+          properties: {
+            actor: {
+              type: "string",
+              pattern: "^[a-zA-Z0-9._\\s-]+$",
+              minLength: 1,
+              maxLength: 100,
+            },
+          },
+          required: ["actor"],
+        },
+      },
+    },
     async (request: any, reply: any) => {
       const { actor } = request.params;
       await db.connect();
 
       try {
-        const result = await db.query(`
+        // Get competency scores
+        const scoresResult = await db.query(
+          `
         SELECT 
           competency_category,
           competency_row,
@@ -113,26 +203,125 @@ export async function matrixRoutes(fastify: FastifyInstance) {
           evidence_count,
           last_updated
         FROM competency_scores
-        WHERE actor = '${actor}'
+        WHERE actor = @param0
         ORDER BY competency_category, competency_row
-      `);
+      `,
+          [actor]
+        );
 
-        const scores = Array.isArray(result) ? result : result.recordset || [];
+        const scores = Array.isArray(scoresResult)
+          ? scoresResult
+          : scoresResult.recordset || [];
 
-        // Group by category
+        // Get detailed evidence for each competency
+        const evidenceResult = await db.query(
+          `
+        SELECT 
+          cl.competency_category,
+          cl.competency_row,
+          cl.evidence,
+          cl.confidence as label_confidence,
+          e.event_id,
+          e.metadata,
+          e.timestamp
+        FROM competency_labels cl
+        JOIN events e ON cl.event_id = e.event_id
+        WHERE e.actor = @param0
+        ORDER BY cl.competency_category, cl.competency_row, cl.confidence DESC
+        `,
+          [actor]
+        );
+
+        const evidence = Array.isArray(evidenceResult)
+          ? evidenceResult
+          : evidenceResult.recordset || [];
+
+        // Group by category using detailed sub-competency structure matching frontend
         const categories = {};
         scores.forEach((score) => {
-          if (!categories[score.competency_category]) {
-            categories[score.competency_category] = [];
+          const categoryKey = score.competency_row.split(" > ")[0]; // Extract main category from full path
+
+          // Map simplified database names to proper frontend category names
+          let properCategoryName = categoryKey;
+          if (categoryKey === "software-engineering") {
+            properCategoryName = "Software Engineering";
+          } else if (categoryKey === "devops-platform-engineering") {
+            properCategoryName = "DevOps & Platform Engineering";
+          } else if (categoryKey === "database-management") {
+            properCategoryName = "Infrastructure & Cloud";
+          } else if (categoryKey === "git-version-control") {
+            properCategoryName = "Collaboration & Process";
+          } else if (categoryKey === "quality-assurance") {
+            properCategoryName = "Collaboration & Process";
+          } else if (categoryKey === "containers-orchestration") {
+            properCategoryName = "Containers & Orchestration";
+          } else if (categoryKey === "web-development") {
+            properCategoryName = "Web Development";
+          } else if (categoryKey === "atlassian") {
+            properCategoryName = "Atlassian";
           }
 
-          categories[score.competency_category].push({
-            row: score.competency_row,
-            level: score.level,
-            confidence: score.confidence,
-            evidenceCount: score.evidence_count,
-            lastUpdated: score.last_updated,
-          });
+          if (!categories[properCategoryName]) {
+            categories[properCategoryName] = {
+              displayName: properCategoryName,
+              rows: [], // Use rows structure like frontend
+            };
+          }
+
+          // Find or create the row entry
+          let existingRow = categories[properCategoryName]?.rows?.find(
+            (r) => r.id === score.competency_row
+          );
+          if (!existingRow) {
+            if (!categories[properCategoryName]) {
+              categories[properCategoryName] = {
+                displayName: properCategoryName,
+                rows: [], // Use rows structure like frontend
+              };
+            }
+            existingRow = {
+              id: score.competency_row,
+              displayName:
+                score.competency_row.split(" > ")[1] || score.competency_row, // Extract sub-competency name
+              level: score.level,
+              confidence: score.confidence,
+              evidenceCount: score.evidence_count,
+              lastUpdated: score.last_updated,
+              evidence: evidence
+                .filter((e) => e.competency_row === score.competency_row)
+                .map((e) => ({
+                  eventId: e.event_id,
+                  evidence: e.evidence,
+                  confidence: e.label_confidence,
+                  metadata: JSON.parse(e.metadata || "{}"),
+                  timestamp: e.timestamp,
+                })),
+            };
+            categories[properCategoryName].rows.push(existingRow);
+          } else {
+            // Update existing row with new evidence
+            existingRow.level = Math.max(existingRow.level, score.level);
+            existingRow.confidence = Math.max(
+              existingRow.confidence,
+              score.confidence
+            );
+            existingRow.evidenceCount =
+              (existingRow.evidenceCount || 0) + score.evidence_count;
+            existingRow.lastUpdated = score.last_updated;
+            if (existingRow.evidence) {
+              existingRow.evidence = existingRow.evidence.concat(
+                evidence
+                  .filter((e) => e.competency_row === score.competency_row)
+                  .map((e) => ({
+                    eventId: e.event_id,
+                    evidence: e.evidence,
+                    confidence: e.label_confidence,
+                    metadata: JSON.parse(e.metadata || "{}"),
+                    timestamp: e.timestamp,
+                  }))
+              );
+            }
+          }
         });
 
         // Calculate summary

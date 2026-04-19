@@ -73,7 +73,7 @@ describe("Confluence Content Processor", () => {
     expect(categories).toContain("programming-languages"); // Java, JavaScript, Python
     expect(categories).toContain("architecture-design"); // microservices
     expect(categories).toContain("containers-orchestration"); // Docker, Kubernetes
-    expect(categories).toContain("testing-quality"); // testing
-    expect(categories).toContain("web-development"); // React
+    expect(categories).toContain("testing"); // testing strategies
+    expect(categories).toContain("web-development"); // web development patterns
   });
 });

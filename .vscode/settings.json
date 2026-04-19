@@ -1,5 +1,5 @@
 {
-  "typescript.preferences.importModuleSpecifier": "relative",
+  "js/ts.preferences.importModuleSpecifier": "relative",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
@@ -23,13 +23,19 @@
     "**/coverage": true
   },
   "jest.jestCommandLine": "npm test",
-  "typescript.preferences.includePackageJsonAutoImports": "on",
+  "js/ts.preferences.includePackageJsonAutoImports": "on",
   "editor.suggest.insertMode": "replace",
   "editor.quickSuggestions": {
     "strings": true
   },
-  "editor.bracketPairColorization.enabled": {
-    "enabled": true,
-    "useEditorLanguageService": true
-  }
+  "editor.bracketPairColorization.enabled": true,
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.profiles.linux": {
+    "bash": {
+      "path": "/bin/bash"
+    }
+  },
+  "terminal.integrated.inheritEnv": true,
+  "terminal.integrated.gpuAcceleration": "off",
+  "terminal.integrated.enablePersistentSessions": false
 }

@@ -80,4 +80,9 @@ _content/confluence/
 
 # Test data with sensitive information
 test-data/*.json
-test-data/confluence/
+test-data/contributing-factors/*.txt
+test-data/detailed-contributing-factors/*.txt
+test-data/corrected-detailed-factors/*.txt
+test-data/contributing-factors/processing_summary.json
+test-data/corrected-detailed-factors/corrected_summary.json
+test-data/detailed-contributing-factors/detailed_processing_summary.json

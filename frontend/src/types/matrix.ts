@@ -69,162 +69,258 @@ export interface MatrixOverview {
   generatedAt: string;
 }
 
-// CircleCI Engineering Competency Matrix structure
+// CircleCI Engineering Competency Matrix structure - Updated to match detailed taxonomy
 export const COMPETENCY_CATEGORIES = {
-  "programming-languages": {
-    displayName: "Programming Languages",
+  "Software Engineering": {
+    displayName: "Software Engineering",
     rows: [
       {
-        id: "software-engineering",
-        displayName: "Software Engineering",
+        id: "Software Engineering > Programming Languages",
+        displayName: "Programming Languages",
         description:
-          "Designs, develops, and maintains software systems following best practices and architectural principles",
+          "Proficiency in various programming languages and software development fundamentals",
       },
       {
-        id: "language-fundamentals",
-        displayName: "Language Fundamentals",
+        id: "Software Engineering > Architecture & Design",
+        displayName: "Architecture & Design",
         description:
-          "Understanding of core programming concepts, data structures, algorithms, and language-specific features",
+          "Understanding of software architecture patterns, design principles, and system design",
       },
       {
-        id: "advanced-concepts",
-        displayName: "Advanced Concepts",
+        id: "Software Engineering > Testing & Quality",
+        displayName: "Testing & Quality",
         description:
-          "Knowledge of design patterns, architectural patterns, performance optimization, and advanced language features",
+          "Knowledge of testing methodologies, quality assurance, and code quality practices",
       },
     ],
   },
-  databases: {
-    displayName: "Databases",
+  "Web Development": {
+    displayName: "Web Development",
     rows: [
       {
-        id: "database-management",
-        displayName: "Database Management",
+        id: "Web Development > Frontend",
+        displayName: "Frontend",
         description:
-          "Ability to design, implement, and maintain database systems with proper indexing and optimization",
+          "Frontend web development skills including HTML, CSS, JavaScript, and modern frameworks",
       },
       {
-        id: "query-optimization",
-        displayName: "Query Optimization",
+        id: "Web Development > Backend",
+        displayName: "Backend",
         description:
-          "Skills in analyzing and optimizing database queries for performance and efficiency",
-      },
-      {
-        id: "data-modeling",
-        displayName: "Data Modeling",
-        description:
-          "Designing effective database schemas, relationships, and data structures for scalability and performance",
+          "Backend web development skills including APIs, server-side programming, and databases",
       },
     ],
   },
-  "containers-orchestration": {
+  "DevOps & Platform Engineering": {
+    displayName: "DevOps & Platform Engineering",
+    rows: [
+      {
+        id: "DevOps & Platform Engineering > CI/CD",
+        displayName: "CI/CD",
+        description:
+          "Continuous integration and continuous deployment practices and tools",
+      },
+      {
+        id: "DevOps & Platform Engineering > Observability",
+        displayName: "Observability",
+        description:
+          "Monitoring, logging, tracing, and observability practices",
+      },
+    ],
+  },
+  "Infrastructure & Cloud": {
+    displayName: "Infrastructure & Cloud",
+    rows: [
+      {
+        id: "Infrastructure & Cloud > Compute",
+        displayName: "Compute",
+        description:
+          "Cloud computing services, virtualization, and serverless computing",
+      },
+      {
+        id: "Infrastructure & Cloud > Networking",
+        displayName: "Networking",
+        description:
+          "Network infrastructure, VPC, load balancing, and network security",
+      },
+      {
+        id: "Infrastructure & Cloud > Storage & Databases",
+        displayName: "Storage & Databases",
+        description:
+          "Storage solutions, database management, and data persistence",
+      },
+      {
+        id: "Infrastructure & Cloud > Messaging & Eventing",
+        displayName: "Messaging & Eventing",
+        description:
+          "Message queuing, event streaming, and asynchronous communication",
+      },
+    ],
+  },
+  "Containers & Orchestration": {
     displayName: "Containers & Orchestration",
     rows: [
       {
-        id: "devops-platform-engineering",
-        displayName: "DevOps Platform Engineering",
+        id: "Containers & Orchestration > Docker",
+        displayName: "Docker",
         description:
-          "Building and maintaining CI/CD pipelines, infrastructure as code, and deployment automation",
+          "Containerization using Docker, Dockerfiles, and container management",
       },
       {
-        id: "containerization",
-        displayName: "Containerization",
-        description:
-          "Packaging applications in containers, managing container lifecycles, and ensuring portability",
-      },
-      {
-        id: "kubernetes",
+        id: "Containers & Orchestration > Kubernetes",
         displayName: "Kubernetes",
         description:
-          "Managing containerized applications at scale, including orchestration, scaling, and self-healing",
+          "Container orchestration using Kubernetes and related ecosystem tools",
       },
     ],
   },
-  testing: {
-    displayName: "Testing",
+  "AWS Services": {
+    displayName: "AWS Services",
     rows: [
       {
-        id: "quality-assurance",
-        displayName: "Quality Assurance",
+        id: "AWS Services > Compute",
+        displayName: "Compute",
         description:
-          "Ensuring software quality through comprehensive testing strategies and quality metrics",
+          "AWS compute services including EC2, ECS, EKS, Lambda, and Fargate",
       },
       {
-        id: "test-automation",
-        displayName: "Test Automation",
+        id: "AWS Services > Storage & Databases",
+        displayName: "Storage & Databases",
         description:
-          "Creating and maintaining automated test suites, including unit, integration, and end-to-end tests",
+          "AWS storage and database services including S3, RDS, Aurora, and DynamoDB",
       },
       {
-        id: "performance-testing",
-        displayName: "Performance Testing",
+        id: "AWS Services > Networking & Delivery",
+        displayName: "Networking & Delivery",
         description:
-          "Analyzing and optimizing application performance, including load testing and bottleneck identification",
+          "AWS networking services including VPC, Route 53, and load balancing",
+      },
+      {
+        id: "AWS Services > Security & Secrets",
+        displayName: "Security & Secrets",
+        description:
+          "AWS security services including IAM, KMS, and Secrets Manager",
+      },
+      {
+        id: "AWS Services > Messaging & Integration",
+        displayName: "Messaging & Integration",
+        description:
+          "AWS messaging services including SQS, SNS, and EventBridge",
+      },
+      {
+        id: "AWS Services > DevOps & Management",
+        displayName: "DevOps & Management",
+        description:
+          "AWS DevOps and management services including CloudFormation, CDK, and CloudWatch",
       },
     ],
   },
-  "collaboration-process": {
+  Atlassian: {
+    displayName: "Atlassian",
+    rows: [
+      {
+        id: "Atlassian > Jira",
+        displayName: "Jira",
+        description:
+          "Jira project management, issue tracking, and workflow management",
+      },
+      {
+        id: "Atlassian > Bitbucket",
+        displayName: "Bitbucket",
+        description:
+          "Bitbucket Git repositories, pull requests, and code collaboration",
+      },
+      {
+        id: "Atlassian > Confluence",
+        displayName: "Confluence",
+        description:
+          "Confluence documentation, knowledge management, and collaboration",
+      },
+    ],
+  },
+  "Collaboration & Process": {
     displayName: "Collaboration & Process",
     rows: [
       {
-        id: "git-version-control",
-        displayName: "Git Version Control",
+        id: "Collaboration & Process > Git & Version Control",
+        displayName: "Git & Version Control",
         description:
-          "Managing source code with Git, including branching strategies, merge conflicts, and repository management",
+          "Git version control, branching strategies, and code collaboration workflows",
       },
       {
-        id: "code-review",
-        displayName: "Code Review",
+        id: "Collaboration & Process > Agile & Delivery",
+        displayName: "Agile & Delivery",
         description:
-          "Conducting thorough code reviews, providing constructive feedback, and maintaining code quality standards",
-      },
-      {
-        id: "documentation",
-        displayName: "Documentation",
-        description:
-          "Creating and maintaining comprehensive technical documentation for code, systems, and processes",
+          "Agile methodologies, Scrum, Kanban, and software delivery practices",
       },
     ],
   },
 };
 
-export const COMPETENCY_LEVELS: Record<
-  number,
-  { name: string; color: string; description: string }
-> = {
+export function getLevelName(level: number): string {
+  switch (level) {
+    case 1:
+      return "L1 - Fundamental";
+    case 2:
+      return "L2 - Working";
+    case 3:
+      return "L3 - Strong";
+    case 4:
+      return "L4 - Expert";
+    default:
+      return `L${level}`;
+  }
+}
+
+export function formatConfidenceColor(confidence: number): string {
+  if (confidence >= 0.8) return "text-green-600";
+  if (confidence >= 0.6) return "text-yellow-600";
+  if (confidence >= 0.4) return "text-orange-600";
+  return "text-red-600";
+}
+
+export function formatConfidenceColorBg(confidence: number): string {
+  if (confidence >= 0.8) return "bg-green-100";
+  if (confidence >= 0.6) return "bg-yellow-100";
+  if (confidence >= 0.4) return "bg-orange-100";
+  return "bg-red-100";
+}
+
+// Competency levels for matrix display
+export const COMPETENCY_LEVELS = {
   1: {
-    name: "Beginner",
-    color: "#ef4444",
-    description: "Basic understanding and limited application",
+    name: "L1 - Fundamental",
+    description: "Basic awareness and capability",
+    color: "bg-red-100",
   },
   2: {
-    name: "Intermediate",
-    color: "#f59e0b",
-    description: "Competent with moderate experience",
+    name: "L2 - Working",
+    description: "Working capability with supervision",
+    color: "bg-orange-100",
   },
   3: {
-    name: "Advanced",
-    color: "#10b981",
-    description: "Skilled with extensive experience",
+    name: "L3 - Strong",
+    description: "Strong capability without supervision",
+    color: "bg-yellow-100",
   },
   4: {
-    name: "Expert",
-    color: "#8b5cf6",
-    description: "Mastery and can teach others",
+    name: "L4 - Expert",
+    description: "Expert capability and can teach others",
+    color: "bg-green-100",
   },
 };
 
-export function formatConfidenceColor(confidence: number): string {
-  if (confidence >= 0.8) return "#10b981"; // High confidence - green
-  if (confidence >= 0.6) return "#f59e0b"; // Medium confidence - amber
-  if (confidence >= 0.4) return "#f97316"; // Low confidence - orange
-  return "#ef4444"; // Very low confidence - red
-}
-
 export function getLevelColor(level: number): string {
-  return COMPETENCY_LEVELS[level]?.color || "#6b7280";
-}
-
-export function getLevelName(level: number): string {
-  return COMPETENCY_LEVELS[level]?.name || "Unknown";
+  switch (level) {
+    case 1:
+      return "bg-red-100";
+    case 2:
+      return "bg-orange-100";
+    case 3:
+      return "bg-yellow-100";
+    case 4:
+      return "bg-green-100";
+    default:
+      return "bg-gray-100";
+  }
 }

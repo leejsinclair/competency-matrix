@@ -1,0 +1,15 @@
+{
+  "id": "12345",
+  "title": "Java Microservices Architecture Guide",
+  "space": "ABT",
+  "content": "This guide covers building microservices using Java and Spring Boot. We explore Docker containerization and Kubernetes deployment strategies. The architecture follows domain-driven design principles with event-driven patterns. We also cover testing strategies including unit testing and integration testing approaches.",
+  "author": "john.doe@company.com",
+  "created": "2024-01-15T10:00:00Z",
+  "updated": "2024-01-20T15:30:00Z",
+  "labels": [
+    "architecture",
+    "java",
+    "microservices"
+  ],
+  "version": 5
+}

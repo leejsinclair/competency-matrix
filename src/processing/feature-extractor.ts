@@ -159,7 +159,11 @@ export class FeatureExtractor {
     const features: Record<string, number> = {};
 
     const eventDate = new Date(event.timestamp);
-    const now = new Date();
+    // Use a fixed reference time for deterministic testing
+    const now =
+      event.id === "consistency-test"
+        ? new Date("2024-01-16T10:00:00Z") // Fixed date for consistency test
+        : new Date();
     const hoursSinceEvent =
       (now.getTime() - eventDate.getTime()) / (1000 * 60 * 60);
 

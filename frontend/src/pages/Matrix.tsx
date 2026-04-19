@@ -10,43 +10,45 @@ const Matrix: React.FC = () => {
   // Handle data reanalysis
   const handleReanalysis = async () => {
     setIsProcessing(true);
-    setProcessingStatus('Starting data reanalysis...');
+    setProcessingStatus('Starting complete data reanalysis...');
     
     try {
-      // Step 1: Try to trigger score generation first (most reliable)
-      setProcessingStatus('Generating competency scores...');
-      const scoresResponse = await fetch('/api/processing/scores', {
+      // Step 1: Trigger full reprocessing
+      setProcessingStatus('🔄 Running complete data reprocessing...');
+      const reprocessResponse = await fetch('/api/processing/full-reprocess', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        }
+        },
+        body: JSON.stringify({})
       });
       
-      if (scoresResponse.ok) {
-        const scoresResult = await scoresResponse.json();
-        setProcessingStatus(`✅ Generated ${scoresResult.scores || 0} competency scores!`);
+      if (reprocessResponse.ok) {
+        const reprocessResult = await reprocessResponse.json();
+        setProcessingStatus(`✅ Processed ${reprocessResult.results?.developers || 0} developers with ${reprocessResult.results?.scores || 0} competency scores!`);
+        
+        // Step 2: Refresh the matrix data
+        setProcessingStatus('Refreshing matrix display...');
+        
+        // Trigger a refresh of the SimpleMatrix component
+        window.dispatchEvent(new CustomEvent('refreshMatrix'));
+        
+        setProcessingStatus('✅ Complete reanalysis finished!');
+        setLastUpdated(new Date().toLocaleString());
+        
+        // Clear status after 3 seconds
+        setTimeout(() => {
+          setProcessingStatus('');
+        }, 3000);
+        
       } else {
-        // Fallback to manual notification
-        setProcessingStatus('⚠️ Backend processing unavailable. Please run scripts manually.');
+        const errorData = await reprocessResponse.json();
+        throw new Error(errorData.message || 'Reprocessing failed');
       }
-      
-      // Step 2: Refresh the matrix data
-      setProcessingStatus('Refreshing matrix display...');
-      
-      // Trigger a refresh of the SimpleMatrix component
-      window.dispatchEvent(new CustomEvent('refreshMatrix'));
-      
-      setProcessingStatus('✅ Reanalysis completed!');
-      setLastUpdated(new Date().toLocaleString());
-      
-      // Clear status after 3 seconds
-      setTimeout(() => {
-        setProcessingStatus('');
-      }, 3000);
       
     } catch (error) {
       console.error('Reanalysis failed:', error);
-      setProcessingStatus('⚠️ Processing unavailable. Use "Refresh Data" to update display.');
+      setProcessingStatus(`⚠️ Processing failed: ${error instanceof Error ? error.message : 'Unknown error'}. Use "Refresh Data" to update display.`);
       
       // Still refresh the matrix
       window.dispatchEvent(new CustomEvent('refreshMatrix'));

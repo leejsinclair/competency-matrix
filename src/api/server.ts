@@ -6,13 +6,9 @@ import {
   ConnectorConfigController,
   registerConnectorConfigRoutes,
 } from "./connector-config-routes";
-import {
-  registerSimpleProcessingRoutes,
-  SimpleProcessingController,
-} from "./processing-routes-simple";
 import { competencyRoutes } from "./routes/competency-routes";
 import { matrixRoutes } from "./routes/matrix-routes";
-import processingRoutes from "./routes/processing-routes";
+import { processingRoutes } from "./routes/processing-routes-fastify";
 import { reportRoutes } from "./routes/report-routes";
 
 export class ApiServer {
@@ -32,11 +28,31 @@ export class ApiServer {
 
   async start(): Promise<void> {
     try {
-      // Register CORS
+      // Register CORS with environment-based configuration
+      const allowedOrigins = process.env.ALLOWED_ORIGINS
+        ? process.env.ALLOWED_ORIGINS.split(",")
+        : [
+            "http://localhost:5173",
+            "http://localhost:5174",
+            "http://localhost:5175",
+            "http://localhost:3000",
+          ];
+
       await this.server.register(cors, {
-        origin: ["http://localhost:5173", "http://localhost:3000"],
+        origin: (origin, callback) => {
+          // Allow requests with no origin (like mobile apps or curl requests)
+          if (!origin) return callback(null, true);
+
+          if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+          } else {
+            callback(new Error("Not allowed by CORS"), false);
+          }
+        },
         methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization"],
+        allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+        credentials: true, // Allow cookies/authorization headers
+        maxAge: 86400, // Cache preflight requests for 24 hours
       });
 
       // Register connector configuration routes
@@ -55,10 +71,8 @@ export class ApiServer {
       // Register processing routes
       const db = DatabaseConnection.getInstance();
       await db.connect();
-      const processingController = new SimpleProcessingController(db);
-      await registerSimpleProcessingRoutes(this.server, processingController);
 
-      // Register new processing routes
+      // Register new processing routes (replaces the old simple processing routes)
       await this.server.register(processingRoutes, {
         prefix: "/api/processing",
       });

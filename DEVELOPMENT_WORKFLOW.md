@@ -2,7 +2,7 @@
 
 ## 🎯 Our Successful Development Process
 
-This document captures the efficient development workflow we've established for building and verifying features step-by-step using Playwright automation.
+This document captures the efficient development workflow we've established for building and verifying features step-by-step using Playwright automation and comprehensive processing workflows.
 
 ## 🔄 Development Process Overview
 
@@ -23,6 +23,44 @@ This document captures the efficient development workflow we've established for 
 2. **Update Documentation** - Update READMEs and story plan
 3. **Final Testing** - End-to-end verification
 4. **Clean Up** - Organize files and remove artifacts
+
+## 🔄 Processing Workflow
+
+### Data Processing Pipeline
+The competency intelligence platform uses a sophisticated processing pipeline that can be triggered manually or via API:
+
+#### **Complete Processing Workflow**
+1. **Database Cleanup** - Clear existing competency data
+2. **Detailed Taxonomy Processing** - Process Confluence data with 23+ sub-competencies
+3. **Score Generation** - Aggregate evidence into competency scores
+4. **API Verification** - Test matrix endpoints and data integrity
+5. **Frontend Update** - Matrix displays updated with green highlighting
+
+#### **Processing Commands**
+```bash
+# Complete pipeline (recommended)
+npm run dev:all                    # Start servers
+# Click "Reanalyze Data" button in UI
+
+# Manual processing
+node scripts/full-processing.js
+
+# Individual processing steps
+node scripts/process-confluence-detailed-subcompetencies.js
+node scripts/generate-competency-scores.js
+
+# API-based processing
+curl -X POST http://localhost:3001/api/processing/full-reprocess \
+  -H "Content-Type: application/json" -d "{}"
+```
+
+#### **Processing Files Overview**
+- **`scripts/full-processing.js`** - Main orchestration script
+- **`scripts/process-confluence-detailed-subcompetencies.js`** - Detailed taxonomy processing
+- **`scripts/generate-competency-scores.js`** - Score aggregation
+- **`taxonomy/tech-taxonomy.json`** - Competency definitions (8 categories, 23+ sub-competencies)
+- **`src/api/routes/processing-routes-fastify.ts`** - API endpoints
+- **`PROCESSING_DOCUMENTATION.md`** - Comprehensive processing documentation
 
 ## 📁 Essential Files for Future Sessions
 

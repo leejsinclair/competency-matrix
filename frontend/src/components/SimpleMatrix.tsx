@@ -1,250 +1,213 @@
 import React, { useEffect, useState } from 'react';
-import { COMPETENCY_CATEGORIES, COMPETENCY_LEVELS, getLevelColor, getLevelName } from '../types/matrix';
+import { COMPETENCY_CATEGORIES } from '../types/matrix';
+import EvidenceModal from './EvidenceModal';
 
 const SimpleMatrix: React.FC = () => {
   console.log('🚀 SimpleMatrix render');
-  
+
   const [developers, setDevelopers] = useState<string[]>([]);
   const [selectedDeveloper, setSelectedDeveloper] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [matrixData, setMatrixData] = useState<any>(null);
-  const [clickedCells, setClickedCells] = useState<Set<string>>(new Set()); // Track clicked cells for flashcard effect
-
-  console.log('🔧 State snapshot:', {
-    developersCount: developers.length,
-    selectedDeveloper,
-    loading,
-    error,
-    hasMatrixData: !!matrixData
+  const [clickedCells, setClickedCells] = useState<Set<string>>(new Set());
+  const [evidenceModal, setEvidenceModal] = useState<{
+    isOpen: boolean;
+    competency: any;
+  }>({
+    isOpen: false,
+    competency: null
   });
 
+  // Fetch developers list
   useEffect(() => {
-    const loadDevelopers = async () => {
+    const fetchDevelopers = async () => {
       try {
-        console.log('🔍 Fetching developers...');
         const response = await fetch('/api/matrix/team');
-        const result = await response.json();
+        const data = await response.json();
 
-        console.log('📡 Developers API response:', result);
-
-        if (result.success) {
-          const developerNames = result.data.developers
+        if (data.success && data.data) {
+          const excludedNamePattern = /(deactivated|inactive|disabled|terminated|former|archived|unlicensed)/i;
+          const developerList = data.data.developers
             .map((dev: any) => dev.actor)
-            .filter((name: string) => {
-              // Filter out deactivated and unlicensed developers (case insensitive)
-              const lowerName = name.toLowerCase();
-              return !lowerName.includes('deactivated') && !lowerName.includes('unlicensed');
-            });
-          console.log('✅ Developers parsed:', developerNames);
-          console.log('📊 Filtered out deactivated/unlicensed developers');
-          setDevelopers(developerNames);
-
-          // safer auto-select (no stale closure issue)
-          setSelectedDeveloper(prev => {
-            if (prev) {
-              console.log('⏭️ Skipping auto-select, already selected:', prev);
-              return prev;
-            }
-
-            const next = developerNames[0] || '';
-            console.log('🎯 Auto-selecting first developer:', next);
-            return next;
-          });
+            .filter((name: string) => !excludedNamePattern.test(name));
+          setDevelopers(developerList);
+          setLoading(false);
         } else {
-          console.error('❌ API returned failure');
-          setError('Failed to fetch developers');
+          setError('Failed to load developers');
+          setLoading(false);
         }
       } catch (err) {
-        console.error('❌ Error fetching developers:', err);
-        setError('Network error fetching developers');
-      } finally {
+        console.error('Error fetching developers:', err);
+        setError('Failed to load developers');
         setLoading(false);
       }
     };
 
-    loadDevelopers();
-
-    // Listen for refresh events
-    const handleRefresh = () => {
-      console.log('🔄 Refresh event received, reloading data...');
-      setLoading(true);
-      loadDevelopers();
-    };
-
-    window.addEventListener('refreshMatrix', handleRefresh);
-
-    return () => {
-      window.removeEventListener('refreshMatrix', handleRefresh);
-    };
+    fetchDevelopers();
   }, []);
 
-  // Track selectedDeveloper changes explicitly
+  // Fetch matrix data when developer is selected
   useEffect(() => {
-    console.log('👀 selectedDeveloper changed:', selectedDeveloper);
-  }, [selectedDeveloper]);
+    if (!selectedDeveloper) return;
 
-  // Load matrix when selection changes
-  useEffect(() => {
-    console.log('📦 useEffect[matrixFetch] triggered');
-
-    if (!selectedDeveloper) {
-      console.log('⛔ No developer selected, skipping fetch');
-      return;
-    }
-
-    const loadMatrixData = async () => {
+    const fetchMatrixData = async () => {
       try {
-        console.log('🧹 Clearing previous matrix data');
-        setMatrixData(null);
+        setLoading(true);
+        setError(null);
 
-        console.log('🔍 Fetching matrix for:', selectedDeveloper);
-        const url = `/api/matrix/developer/${encodeURIComponent(selectedDeveloper)}`;
-        console.log('🌐 Request URL:', url);
+        console.log(`📊 Fetching matrix data for ${selectedDeveloper}...`);
+        const response = await fetch(`/api/matrix/developer/${encodeURIComponent(selectedDeveloper)}`);
+        const data = await response.json();
 
-        const response = await fetch(url);
-        const result = await response.json();
+        console.log('📋 API Response:', data);
 
-        console.log('📡 Matrix API response:', result);
-
-        if (result.success) {
-          console.log('✅ Matrix data loaded');
-          setMatrixData(result.data);
+        if (data.success && data.data) {
+          setMatrixData(data.data);
+          setLoading(false);
         } else {
-          console.error('❌ API error:', result.error);
-          setError('Failed to fetch matrix data');
+          setError('Failed to load matrix data');
+          setLoading(false);
         }
       } catch (err) {
-        console.error('❌ Network error fetching matrix:', err);
-        setError('Network error fetching matrix data');
+        console.error('Error fetching matrix data:', err);
+        setError('Failed to load matrix data');
+        setLoading(false);
       }
     };
 
-    loadMatrixData();
+    fetchMatrixData();
   }, [selectedDeveloper]);
 
   // Handle cell clicks for flashcard effect
-  const handleCellClick = (categoryKey: string, rowKey: string, level: number) => {
-    const cellKey = `${categoryKey}-${rowKey}-${level}`;
+  const handleCellClick = (categoryKey: string, rowKey: string, level: number, event: React.MouseEvent) => {
+    // Check for Ctrl+Click on achieved cells
+    if (event.ctrlKey && matrixData && matrixData.categories) {
+      const categoryData = matrixData.categories[categoryKey];
+      const competencyData = categoryData?.rows?.find((c: any) => c.id === rowKey || c.row === rowKey);
+
+      if (competencyData && competencyData.level >= level) {
+        // This is an achieved cell, show evidence modal
+        setEvidenceModal({
+          isOpen: true,
+          competency: {
+            category: categoryKey,
+            row: competencyData.id || competencyData.row,
+            level: competencyData.level,
+            confidence: competencyData.confidence,
+            evidenceCount: competencyData.evidenceCount,
+            evidence: competencyData.evidence || []
+          }
+        });
+        return; // Don't proceed with regular click handling
+      }
+    }
+
+    // Regular click handling for flashcard effect
     setClickedCells(prev => {
       const newSet = new Set(prev);
+      const cellKey = `${categoryKey}-${rowKey}-${level}`;
+
       if (newSet.has(cellKey)) {
-        newSet.delete(cellKey); // Toggle off
+        newSet.delete(cellKey);
       } else {
-        newSet.add(cellKey); // Toggle on
+        newSet.add(cellKey);
       }
+
       return newSet;
     });
   };
 
-  // Handle select change with logging + same-value guard
-  const handleDeveloperChange = (value: string) => {
-    console.log('🖱️ Select changed:', value);
-
-    setSelectedDeveloper(prev => {
-      if (prev === value) {
-        console.log('⚠️ Same value selected, no state change');
-        return prev; // prevents unnecessary rerender
-      }
-
-      console.log('✅ Updating selectedDeveloper:', value);
-      return value;
-    });
+  const handleDeveloperChange = (developer: string) => {
+    setMatrixData(null);
+    setSelectedDeveloper(developer);
+    setClickedCells(new Set());
+    setEvidenceModal({ isOpen: false, competency: null });
   };
+
+  const normalizeKey = (value: string): string =>
+    (value || '')
+      .toLowerCase()
+      .replace(/\s*>\s*/g, ' ')
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim();
 
   // Transform API data to CircleCI matrix format
   const transformToMatrixFormat = (apiData: any) => {
     const matrix: any = {};
-    
+
     Object.entries(COMPETENCY_CATEGORIES).forEach(([categoryKey, categoryInfo]) => {
+      const apiRows: any[] = apiData.categories?.[categoryKey]?.rows || [];
+      const apiRowById = new Map(apiRows.map((row: any) => [String(row.id || ''), row]));
+      const apiRowByNormalized = new Map(
+        apiRows.map((row: any) => [normalizeKey(String(row.id || row.displayName || '')), row])
+      );
+
       matrix[categoryKey] = {
         displayName: categoryInfo.displayName,
         rows: {}
       };
-      
+
       categoryInfo.rows.forEach(rowInfo => {
-        const categoryData = apiData.categories?.[categoryKey] || [];
-        const apiRow = categoryData.find((item: any) => item.row === rowInfo.id);
-        
+        const normalizedRowId = normalizeKey(rowInfo.id);
+        const normalizedRowName = normalizeKey(rowInfo.displayName);
+        const apiRow =
+          apiRowById.get(rowInfo.id) ||
+          apiRowByNormalized.get(normalizedRowId) ||
+          apiRowByNormalized.get(normalizedRowName);
+
         matrix[categoryKey].rows[rowInfo.id] = {
+          id: rowInfo.id,
+          row: rowInfo.id,
           displayName: rowInfo.displayName,
+          description: rowInfo.description,
           level: apiRow?.level || 0,
           confidence: apiRow?.confidence || 0,
           evidenceCount: apiRow?.evidenceCount || 0,
           lastUpdated: apiRow?.lastUpdated || null,
-          evidenceDetails: apiRow?.evidenceDetails || [],
-          recentActivity: apiRow?.recentActivity || [],
-          hasData: !!apiRow // Flag to indicate if this row has actual data
+          evidence: apiRow?.evidence || []
+        };
+      });
+
+      // Include API-only rows so backend data is never dropped due to taxonomy mismatch.
+      apiRows.forEach((apiRow: any) => {
+        const apiRowId = String(apiRow.id || apiRow.row || '');
+        if (!apiRowId || matrix[categoryKey].rows[apiRowId]) {
+          return;
+        }
+
+        matrix[categoryKey].rows[apiRowId] = {
+          id: apiRowId,
+          row: apiRowId,
+          displayName: apiRow.displayName || apiRowId,
+          description: 'Competency demonstrated through observed activity and evidence.',
+          level: apiRow.level || 0,
+          confidence: apiRow.confidence || 0,
+          evidenceCount: apiRow.evidenceCount || 0,
+          lastUpdated: apiRow.lastUpdated || null,
+          evidence: apiRow.evidence || []
         };
       });
     });
-    
+
+    console.log('🔍 Transform result:', matrix);
     return matrix;
   };
-
-  // Generate specific evidence descriptions based on competency and activity
-  const generateEvidenceDescription = (rowData: any, competencyName: string, categoryKey: string) => {
-    const evidenceCount = rowData.evidenceCount || 0;
-    const recentActivity = rowData.recentActivity || [];
-    
-    if (evidenceCount === 0) {
-      return "No evidence found for this competency in recent activity.";
-    }
-
-    let description = `This assessment is supported by ${evidenceCount} data points`;
-    
-    // Add specific activity types based on category
-    const categoryEvidence: Record<string, string> = {
-      'programming-languages': 'code commits, pull requests, and code reviews',
-      'databases': 'database schema changes, query optimizations, and data modeling tasks',
-      'containers-orchestration': 'Dockerfile updates, Kubernetes deployments, and infrastructure changes',
-      'testing': 'test case additions, test automation improvements, and quality assurance activities',
-      'collaboration-process': 'code reviews, documentation updates, and team collaboration activities'
-    };
-    
-    const activityTypes = categoryEvidence[categoryKey] || 'engineering activities';
-    description += ` from ${activityTypes}`;
-    
-    // Add recent activity details if available
-    if (recentActivity.length > 0) {
-      const recentCount = Math.min(recentActivity.length, 3);
-      description += `. Recent activity includes ${recentCount} notable contributions`;
-      
-      // Add specific examples based on competency level
-      if (rowData.level >= 3) {
-        description += ' demonstrating advanced technical leadership and mentorship';
-      } else if (rowData.level >= 2) {
-        description += ' showing consistent application and growing expertise';
-      } else {
-        description += ' indicating foundational skill development';
-      }
-    }
-    
-    // Add confidence context
-    if (rowData.confidence >= 0.8) {
-      description += ' with high confidence due to consistent patterns across multiple projects';
-    } else if (rowData.confidence >= 0.6) {
-      description += ' with moderate confidence based on regular but varied activity levels';
-    } else {
-      description += ' with developing confidence as this competency area continues to grow';
-    }
-    
-    return description + '.';
-  };
-
-  if (loading) {
-    console.log('⏳ Rendering loading state');
-    return <div>Loading...</div>;
-  }
 
   if (error) {
     console.log('💥 Rendering error state:', error);
     return <div>Error: {error}</div>;
   }
 
-  console.log('🎨 Rendering main UI');
+  if (loading) {
+    return <div className="p-6 text-gray-600">Loading competency data...</div>;
+  }
 
+  // Transform API data to CircleCI matrix format
   const formattedMatrix = matrixData ? transformToMatrixFormat(matrixData) : null;
+
+  // Debug: Log the transformed data
+  console.log('🔍 Formatted Matrix:', formattedMatrix);
 
   return (
     <div className="p-6">
@@ -282,27 +245,35 @@ const SimpleMatrix: React.FC = () => {
           <div className="mt-6">
             <div className="mb-4 p-4 bg-gray-50 rounded-lg">
               <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                {selectedDeveloper} - Competency Overview
+                Competency Matrix for {selectedDeveloper}
               </h3>
-              <div className="text-sm text-gray-600">
-                Total Scores: {matrixData.totalScores || 0}<br />
-                Average Confidence: {matrixData.averageConfidence ? (matrixData.averageConfidence * 100).toFixed(1) : '0.0'}%
+
+              <div className="text-sm text-gray-600 mb-4">
+                <strong>How to read this matrix:</strong> Each cell represents a competency level.
+                <span className="text-green-600 font-semibold">Green cells</span> indicate achieved competencies with supporting evidence.
+                <span className="text-blue-600 font-semibold">Ctrl+Click</span> on green cells to view detailed evidence.
               </div>
             </div>
 
-            {/* Matrix Grid */}
             <div className="overflow-x-auto">
               <table className="min-w-full border-collapse border border-gray-300">
                 <thead>
-                  <tr className="bg-gray-100">
-                    <th className="border border-gray-300 px-4 py-2 text-left text-sm font-medium text-gray-700">
-                      Category / Competency
+                  <tr className="bg-gray-50">
+                    <th className="border border-gray-300 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Competency
                     </th>
-                    {[1, 2, 3, 4].map(level => (
-                      <th key={level} className="border border-gray-300 px-4 py-2 text-center text-sm font-medium text-gray-700">
-                        L{level} - {getLevelName(level)}
-                      </th>
-                    ))}
+                    <th className="border border-gray-300 px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      L1
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      L2
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      L3
+                    </th>
+                    <th className="border border-gray-300 px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      L4
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -310,132 +281,75 @@ const SimpleMatrix: React.FC = () => {
                     <React.Fragment key={categoryKey}>
                       {/* Category Header Row */}
                       <tr className="bg-gray-50">
-                        <td className="border border-gray-300 px-4 py-2 font-semibold text-gray-800" colSpan={5}>
+                        <td colSpan={5} className="border border-gray-300 px-4 py-2 font-semibold text-gray-800">
                           {categoryData.displayName}
                         </td>
                       </tr>
-                      
-                      {/* Category Rows */}
-                      {Object.entries(categoryData.rows).map(([rowKey, rowData]: [string, any]) => (
-                        <tr key={rowKey} className="hover:bg-gray-50">
-                          <td className="border border-gray-300 px-4 py-2 text-sm text-gray-700">
-                            {rowData.displayName}
+
+                      {/* Competency Rows */}
+                      {Object.entries(categoryData.rows).map(([rowKey, rowInfo]: [string, any]) => (
+                        <tr key={rowKey}>
+                          <td className="border border-gray-300 px-4 py-2 font-medium text-gray-700">
+                            {rowInfo.displayName}
                           </td>
-                          {[1, 2, 3, 4].map(level => {
-                            const isActive = rowData.level === level;
-                            const isBeforeActive = rowData.level > 0 && level <= rowData.level;
+
+                          {/* Level Cells */}
+                          {[1, 2, 3, 4].map((level) => {
+                            const isAchieved = rowInfo.level === level;
+                            const isActive = isAchieved;
                             const cellKey = `${categoryKey}-${rowKey}-${level}`;
                             const isClicked = clickedCells.has(cellKey);
-                            
-                            // Get competency description
-                            const categoryInfo = COMPETENCY_CATEGORIES[categoryKey as keyof typeof COMPETENCY_CATEGORIES];
-                            const rowInfo = categoryInfo?.rows.find(row => row.id === rowKey);
-                            const competencyDescription = rowInfo?.description || '';
-                            
-                            let cellContent, cellStyle;
-                            
-                            if (isBeforeActive && rowData.level > 0) {
-                              if (isActive) {
-                                // Active level cell - show description or confidence
-                                cellStyle = {
-                                  backgroundColor: getLevelColor(level),
-                                  color: 'white',
-                                  cursor: 'pointer',
-                                  minHeight: '80px',
-                                  position: 'relative' as const
-                                };
-                                
-                                if (isClicked) {
-                                  // Show confidence details
-                                  cellContent = (
-                                    <div className="p-2 text-center">
-                                      <div className="text-xs font-bold mb-1">
-                                        Level {level} - {getLevelName(level)}
-                                      </div>
-                                      <div className="text-xs opacity-90 mb-1">
-                                        {(rowData.confidence * 100).toFixed(0)}% confidence
-                                      </div>
-                                      <div className="text-xs opacity-75">
-                                        {rowData.evidenceCount} evidences
-                                      </div>
-                                      <div className="text-xs opacity-75 mt-1">
-                                        Click to hide details
-                                      </div>
-                                    </div>
-                                  );
-                                } else {
-                                  // Show competency description
-                                  cellContent = (
-                                    <div className="p-2 text-center">
-                                      <div className="text-xs font-medium mb-1">
-                                        Level {level}
-                                      </div>
-                                      <div className="text-xs opacity-90 leading-tight">
-                                        {competencyDescription.length > 80 
-                                          ? `${competencyDescription.substring(0, 80)}...`
-                                          : competencyDescription
-                                        }
-                                      </div>
-                                      <div className="text-xs opacity-75 mt-1">
-                                        Click for details →
-                                      </div>
-                                    </div>
-                                  );
-                                }
-                              } else {
-                                // Filled cell before active level - show description with gray background
-                                cellStyle = {
-                                  backgroundColor: '#e5e7eb',
-                                  color: '#374151',
-                                  cursor: 'pointer',
-                                  minHeight: '60px'
-                                };
-                                cellContent = (
-                                  <div className="p-2 text-center">
-                                    <div className="text-xs font-medium mb-1">
-                                      Level {level}
-                                    </div>
-                                    <div className="text-xs opacity-75 leading-tight">
-                                      {competencyDescription.length > 60 
-                                        ? `${competencyDescription.substring(0, 60)}...`
-                                        : competencyDescription
-                                      }
-                                    </div>
-                                  </div>
-                                );
-                              }
-                            } else {
-                              // Empty cell - show description with light gray background
-                              cellStyle = {
-                                backgroundColor: '#f3f4f6',
-                                color: '#9ca3af',
-                                cursor: 'default',
-                                minHeight: '60px'
-                              };
+                            const competencyDescription = rowInfo.description || 'Competency demonstrated through consistent application and understanding.';
+
+                            // Determine cell styling based on achievement status
+                            let cellStyle = "bg-white hover:bg-gray-50";
+                            let cellContent;
+
+                            if (isAchieved) {
+                              // Green background for achieved levels
+                              cellStyle = "bg-green-500 text-white";
+
                               cellContent = (
                                 <div className="p-2 text-center">
                                   <div className="text-xs font-medium mb-1">
                                     Level {level}
                                   </div>
-                                  <div className="text-xs opacity-75 leading-tight">
-                                    {competencyDescription.length > 60 
-                                      ? `${competencyDescription.substring(0, 60)}...`
-                                      : competencyDescription
-                                    }
+                                  <div className="text-xs opacity-90 leading-tight">
+                                    {competencyDescription.length > 70
+                                      ? `${competencyDescription.substring(0, 70)}...`
+                                      : competencyDescription}
                                   </div>
-                                  <div className="text-xs opacity-50 mt-1">
-                                    Not yet achieved
+                                  <div className="text-xs opacity-75 mt-1">
+                                    Ctrl+Click for evidence →
+                                  </div>
+                                </div>
+                              );
+                            } else {
+                              // Show the same CircleCI competency description for unachieved levels
+                              cellContent = (
+                                <div className="p-2 text-center text-gray-600">
+                                  <div className="text-xs font-medium mb-1 text-gray-700">
+                                    Level {level}
+                                  </div>
+                                  <div className="text-xs leading-tight">
+                                    {competencyDescription.length > 70
+                                      ? `${competencyDescription.substring(0, 70)}...`
+                                      : competencyDescription}
                                   </div>
                                 </div>
                               );
                             }
-                            
+
                             return (
                               <td
-                                key={level}
-                                className="border border-gray-300 px-2 py-2 text-center transition-all duration-200"
-                                style={cellStyle}
-                                onClick={() => isActive && handleCellClick(categoryKey, rowKey, level)}
+                                key={`${categoryKey}-${rowKey}-${level}`}
+                                className={`border border-gray-300 px-2 py-1 text-center cursor-pointer transition-colors duration-200 ${cellStyle} ${isClicked ? 'ring-2 ring-blue-400' : ''}`}
+                                onClick={(event) => isActive && handleCellClick(categoryKey, rowKey, level, event)}
+                                title={
+                                  isAchieved
+                                    ? `${rowInfo.displayName} - Level ${rowInfo.level} achieved with ${rowInfo.evidenceCount || 0} evidence items`
+                                    : `${rowInfo.displayName} - Level ${level} (not achieved)`
+                                }
                               >
                                 {cellContent}
                               </td>
@@ -448,122 +362,18 @@ const SimpleMatrix: React.FC = () => {
                 </tbody>
               </table>
             </div>
-
-            {/* Legend */}
-            <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-              <h4 className="text-sm font-semibold text-gray-700 mb-2">Competency Levels</h4>
-              <div className="flex flex-wrap gap-4">
-                {Object.entries(COMPETENCY_LEVELS).map(([level, levelInfo]) => (
-                  <div key={level} className="flex items-center gap-2">
-                    <div
-                      className="w-4 h-4 rounded"
-                      style={{ backgroundColor: levelInfo.color }}
-                    />
-                    <span className="text-xs text-gray-600">
-                      L{level} - {levelInfo.name}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-2 text-xs text-gray-500">
-                Numbers indicate confidence percentage. Higher confidence = more reliable assessment.
-              </div>
-            </div>
-
-            {/* Detailed Competency Report */}
-            <div className="mt-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                Detailed Competency Report
-              </h3>
-              
-              {Object.entries(formattedMatrix).map(([categoryKey, categoryData]: [string, any]) => (
-                <div key={categoryKey} className="mb-6 p-4 border border-gray-200 rounded-lg">
-                  <h4 className="text-md font-semibold text-gray-800 mb-3">
-                    {categoryData.displayName}
-                  </h4>
-                  
-                  {Object.entries(categoryData.rows).map(([rowKey, rowData]: [string, any]) => {
-                    if (rowData.level === 0) {
-                      // Show empty competencies with a clear message
-                      return (
-                        <div key={rowKey} className="mb-4 p-3 bg-gray-50 rounded">
-                          <div className="flex items-center justify-between mb-2">
-                            <h5 className="text-sm font-medium text-gray-700">
-                              {rowData.displayName}
-                            </h5>
-                            <span className="text-xs text-gray-500">
-                              No data available
-                            </span>
-                          </div>
-                          <div className="text-sm text-gray-500">
-                            <p>
-                              <strong>Assessment:</strong> No competency data available for {rowData.displayName.toLowerCase()}.
-                            </p>
-                            <p>
-                              <strong>Status:</strong> This competency area requires more activity evidence to generate an assessment.
-                            </p>
-                          </div>
-                        </div>
-                      );
-                    }
-                    
-                    // Show competencies with data
-                    return (
-                      <div key={rowKey} className="mb-4 p-3 bg-gray-50 rounded">
-                        <div className="flex items-center justify-between mb-2">
-                          <h5 className="text-sm font-medium text-gray-700">
-                            {rowData.displayName}
-                          </h5>
-                          <div className="flex items-center gap-2">
-                            <span
-                              className="px-2 py-1 text-xs font-medium text-white rounded"
-                              style={{ backgroundColor: getLevelColor(rowData.level) }}
-                            >
-                              Level {rowData.level} - {getLevelName(rowData.level)}
-                            </span>
-                            <span className="text-xs text-gray-500">
-                              {(rowData.confidence * 100).toFixed(1)}% confidence
-                            </span>
-                          </div>
-                        </div>
-                        
-                        <div className="text-sm text-gray-600">
-                          <p className="mb-2">
-                            <strong>Assessment:</strong> {selectedDeveloper} demonstrates competency at 
-                            Level {rowData.level} ({getLevelName(rowData.level).toLowerCase()}) in {rowData.displayName.toLowerCase()}.
-                          </p>
-                          
-                          <p className="mb-2">
-                            <strong>Confidence Level:</strong> {(rowData.confidence * 100).toFixed(1)}% confidence in this assessment,
-                            based on {rowData.evidenceCount || 0} evidence points from recent activity.
-                          </p>
-                          
-                          <p className="mb-2">
-                            <strong>Level Description:</strong> {COMPETENCY_LEVELS[rowData.level]?.description || 
-                            'Competency demonstrated through consistent application and understanding.'}
-                          </p>
-                          
-                          {rowData.evidenceCount > 0 && (
-                            <p>
-                              <strong>Evidence:</strong> {generateEvidenceDescription(rowData, rowData.displayName, categoryKey)}
-                            </p>
-                          )}
-                          
-                          {rowData.lastUpdated && (
-                            <p className="text-xs text-gray-500 mt-2">
-                              Last updated: {new Date(rowData.lastUpdated).toLocaleDateString()}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
           </div>
         )}
       </div>
+
+      {/* Evidence Modal */}
+      {evidenceModal.competency && (
+        <EvidenceModal
+          isOpen={evidenceModal.isOpen}
+          onClose={() => setEvidenceModal({ isOpen: false, competency: null })}
+          competency={evidenceModal.competency}
+        />
+      )}
     </div>
   );
 };

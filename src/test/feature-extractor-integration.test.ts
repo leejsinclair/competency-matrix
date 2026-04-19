@@ -214,6 +214,9 @@ describe("Feature Extractor Integration", () => {
     });
 
     test("should maintain feature vector consistency across runs", () => {
+      const deterministicExtractor = new FeatureExtractor({
+        nowProvider: () => new Date("2024-01-16T10:00:00Z"),
+      });
       const event: ActivityEvent = {
         id: "consistency-test",
         type: "confluence-page",
@@ -224,8 +227,8 @@ describe("Feature Extractor Integration", () => {
         metadata: {},
       };
 
-      const vector1 = featureExtractor.extractFeatures(event);
-      const vector2 = featureExtractor.extractFeatures(event);
+      const vector1 = deterministicExtractor.extractFeatures(event);
+      const vector2 = deterministicExtractor.extractFeatures(event);
 
       expect(vector1.vector).toEqual(vector2.vector);
       expect(vector1.features).toEqual(vector2.features);

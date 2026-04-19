@@ -26,6 +26,9 @@ export interface FeatureExtractorConfig {
     medium: number; // days
     long: number; // weeks
   };
+
+  // Current time provider (injectable for deterministic tests)
+  nowProvider: () => Date;
 }
 
 export class FeatureExtractor {
@@ -46,6 +49,7 @@ export class FeatureExtractor {
         medium: 72, // 3 days
         long: 168, // 1 week
       },
+      nowProvider: () => new Date(),
       ...config,
     };
   }
@@ -159,7 +163,7 @@ export class FeatureExtractor {
     const features: Record<string, number> = {};
 
     const eventDate = new Date(event.timestamp);
-    const now = new Date();
+    const now = this.config.nowProvider();
     const hoursSinceEvent =
       (now.getTime() - eventDate.getTime()) / (1000 * 60 * 60);
 

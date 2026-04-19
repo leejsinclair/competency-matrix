@@ -1,7 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import type { DeveloperMatrix, TeamMatrix as TeamMatrixType } from '../types/matrix';
-import { COMPETENCY_CATEGORIES, formatConfidenceColor, getLevelName } from '../types/matrix';
+import type { TeamMatrix as TeamMatrixType } from '../types/matrix';
+import { COMPETENCY_CATEGORIES, getLevelName } from '../types/matrix';
 import ComparisonMatrix from './ComparisonMatrix';
+
+interface DeveloperData {
+  actor: string;
+  categories: {
+    [category: string]: Array<{
+      row: string;
+      level: number;
+      confidence: number;
+      evidenceCount: number;
+      lastUpdated: string;
+    }>;
+  };
+  totalScores: number;
+  averageConfidence: number;
+}
 
 interface TeamMatrixProps {
   viewMode?: 'overview' | 'detailed';
@@ -40,35 +55,35 @@ const TeamMatrix: React.FC<TeamMatrixProps> = ({ viewMode: _viewMode = 'overview
     }
   };
 
-  const renderDeveloperMatrixCell = (developer: DeveloperMatrix, category: string, row: any, level: number) => {
+  const renderDeveloperMatrixCell = (developer: DeveloperData, category: string, row: any, level: number) => {
     // Add null checks and array validation
-    if (!developer || !developer.categories || !Array.isArray(developer.categories)) {
+    if (!developer || !developer.categories || !Array.isArray(developer.categories[category])) {
       return null;
     }
     
-    const categoryData = developer.categories.find(c => c.category === category);
-    if (!categoryData) return null;
-    
-    const rowData = categoryData.rows.find(r => r.row === row.id);
-    if (!rowData) return null;
-    
-    const cell = rowData.levels[level];
-    const isEmpty = !cell;
+    const categoryScores = developer.categories[category] || [];
+    const score = categoryScores.find((s: any) => s.row === row.id);
+    const isEmpty = !score;
+    const isAchieved = !isEmpty && score.level >= level; // Check if this level is achieved
     
     return (
       <div
         key={`${developer.actor}-${category}-${row.id}-${level}`}
         className={`
-          w-8 h-8 border border-gray-200 rounded flex items-center justify-center text-xs font-semibold cursor-pointer transition-colors
+          w-8 h-8 border border-gray-200 rounded flex items-center justify-center text-xs font-semibold cursor-pointer transition-all
           ${isEmpty ? 'bg-gray-50 hover:bg-gray-100' : ''}
           ${!isEmpty ? 'hover:scale-105 shadow-sm' : ''}
         `}
         style={!isEmpty ? {
-          backgroundColor: formatConfidenceColor(cell.confidence),
+          backgroundColor: isAchieved ? '#10b981' : '#f59e0b', // Green for achieved, amber for not achieved
           color: 'white'
         } : {}}
-        onClick={() => !isEmpty && setSelectedCell({ ...cell, developer: developer.actor })}
-        title={!isEmpty ? `${developer.actor} - ${getLevelName(level)} - Confidence: ${(cell.confidence * 100).toFixed(1)}%` : 'No data'}
+        onClick={() => !isEmpty && setSelectedCell({ ...score, developer: developer.actor, category, row })}
+        title={
+          isEmpty 
+            ? `${developer.actor} - ${row.displayName} - Level ${level}: Not yet achieved`
+            : `${developer.actor} - ${row.displayName} - Level ${level}: ${getLevelName(level)} - Confidence: ${(score.confidence * 100).toFixed(1)}% - ${score.evidenceCount} evidence items`
+        }
       >
         {!isEmpty ? level : ''}
       </div>

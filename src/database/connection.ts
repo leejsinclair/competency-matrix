@@ -11,9 +11,11 @@ export interface DatabaseConfig {
   };
 }
 
+export type DatabasePool = sql.ConnectionPool;
+
 export class DatabaseConnection {
   private static instance: DatabaseConnection;
-  private pool: sql.ConnectionPool | null = null;
+  private pool: DatabasePool | null = null;
 
   private constructor() {}
 
@@ -27,7 +29,7 @@ export class DatabaseConnection {
   public async connect(database?: string): Promise<sql.ConnectionPool> {
     // If we already have a connection pool, reuse it
     if (this.pool) {
-      console.log("🔄 Reusing existing database connection pool");
+      // console.log("🔄 Reusing existing database connection pool");
       return this.pool;
     }
 
@@ -39,12 +41,6 @@ export class DatabaseConnection {
       options: {
         encrypt: process.env.DB_ENCRYPT === "true",
         trustServerCertificate: true,
-        // Add connection pooling settings
-        pool: {
-          max: 10,
-          min: 2,
-          idleTimeoutMillis: 30000,
-        },
       },
     };
 
@@ -66,7 +62,7 @@ export class DatabaseConnection {
   public async disconnect(): Promise<void> {
     // Don't disconnect the pool - keep it alive for reuse
     // This prevents connection closing issues between requests
-    console.log("🔄 Keeping database connection pool alive for reuse");
+    // console.log("🔄 Keeping database connection pool alive for reuse");
     // Only disconnect on application shutdown, not after each request
   }
 

@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-28T01:59:55.367Z",
+  "generatedAt": "2026-04-19T03:07:00.134Z",
   "totalPages": 1,
   "totalContributors": 1,
-  "totalClassifications": 12,
+  "totalClassifications": 13,
   "topCompetencyAreas": [
     {
       "area": "programming-languages/software-engineering",
@@ -11,16 +11,28 @@
       "row": "software-engineering"
     },
     {
-      "area": "containers-orchestration/devops-platform-engineering",
-      "count": 2,
-      "category": "containers-orchestration",
-      "row": "devops-platform-engineering"
-    },
-    {
       "area": "web-development/frontend",
       "count": 1,
       "category": "web-development",
       "row": "frontend"
+    },
+    {
+      "area": "containers-orchestration/devops-platform-engineering",
+      "count": 1,
+      "category": "containers-orchestration",
+      "row": "devops-platform-engineering"
+    },
+    {
+      "area": "containers-orchestration/containerization",
+      "count": 1,
+      "category": "containers-orchestration",
+      "row": "containerization"
+    },
+    {
+      "area": "containers-orchestration/kubernetes",
+      "count": 1,
+      "category": "containers-orchestration",
+      "row": "kubernetes"
     },
     {
       "area": "infrastructure-cloud/infrastructure-cloud",
@@ -47,10 +59,10 @@
       "row": "software-engineering"
     },
     {
-      "area": "testing-quality/software-engineering",
+      "area": "testing/quality-assurance",
       "count": 1,
-      "category": "testing-quality",
-      "row": "software-engineering"
+      "category": "testing",
+      "row": "quality-assurance"
     },
     {
       "area": "agile-delivery/collaboration-process",
@@ -59,12 +71,12 @@
       "row": "collaboration-process"
     }
   ],
-  "averageCompetenciesPerContributor": 9,
+  "averageCompetenciesPerContributor": 11,
   "contributorsByContributionType": [
     {
       "email": "john.doe@company.com",
       "displayName": "john.doe",
-      "totalCompetencies": 9,
+      "totalCompetencies": 11,
       "contributionsByType": {
         "created": 1,
         "edited": 0
@@ -73,17 +85,17 @@
         {
           "area": "programming-languages/software-engineering",
           "count": 1,
-          "percentage": 11.11111111111111
+          "percentage": 9.090909090909092
         },
         {
           "area": "web-development/frontend",
           "count": 1,
-          "percentage": 11.11111111111111
+          "percentage": 9.090909090909092
         },
         {
           "area": "containers-orchestration/devops-platform-engineering",
           "count": 1,
-          "percentage": 11.11111111111111
+          "percentage": 9.090909090909092
         }
       ]
     }

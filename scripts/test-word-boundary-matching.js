@@ -4,24 +4,19 @@
  */
 
 // Word boundary matching function (same as in processing script)
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 function hasWordBoundaryMatch(text, word) {
-  const pattern = new RegExp(`\\b${word}\\b`, 'i');
+  const escapedWord = escapeRegExp(word);
+  const pattern = new RegExp(`(^|[^A-Za-z0-9])${escapedWord}(?=$|[^A-Za-z0-9])`, 'i');
   return pattern.test(text);
 }
 
 // Advanced word boundary matching for complex cases
 function hasAdvancedWordBoundaryMatch(text, word) {
-  const boundaries = [
-    new RegExp(`\\b${word}\\b`, 'i'),           // Standard word boundaries
-    new RegExp(`\\b${word}-`, 'i'),              // Word followed by hyphen
-    new RegExp(`-${word}\\b`, 'i'),              // Word preceded by hyphen
-    new RegExp(`\\b${word}_`, 'i'),              // Word followed by underscore
-    new RegExp(`_${word}\\b`, 'i'),              // Word preceded by underscore
-    new RegExp(`\\b${word}\\s`, 'i'),            // Word followed by space
-    new RegExp(`\\s${word}\\b`, 'i'),            // Word preceded by space
-  ];
-  
-  return boundaries.some(pattern => pattern.test(text));
+  return hasWordBoundaryMatch(text, word);
 }
 
 // Test cases demonstrating the problem and solution

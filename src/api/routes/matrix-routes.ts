@@ -13,6 +13,18 @@ export async function matrixRoutes(fastify: FastifyInstance) {
       .replace(/[^a-z0-9]+/g, " ")
       .trim();
 
+  const parseEvidenceMetadata = (metadata: string | null | undefined) => {
+    if (!metadata) {
+      return {};
+    }
+
+    try {
+      return JSON.parse(metadata);
+    } catch {
+      return {};
+    }
+  };
+
   const getTermsForSubcategory = (subcategoryPath: string) => {
     if (!subcategoryPath) {
       return [] as Array<{ canonical: string; variants: string[] }>;
@@ -293,7 +305,7 @@ export async function matrixRoutes(fastify: FastifyInstance) {
                   eventId: e.event_id,
                   evidence: e.evidence,
                   confidence: e.label_confidence,
-                  metadata: JSON.parse(e.metadata || "{}"),
+                  metadata: parseEvidenceMetadata(e.metadata),
                   timestamp: e.timestamp,
                 })),
             };
@@ -316,7 +328,7 @@ export async function matrixRoutes(fastify: FastifyInstance) {
                     eventId: e.event_id,
                     evidence: e.evidence,
                     confidence: e.label_confidence,
-                    metadata: JSON.parse(e.metadata || "{}"),
+                    metadata: parseEvidenceMetadata(e.metadata),
                     timestamp: e.timestamp,
                   }))
               );

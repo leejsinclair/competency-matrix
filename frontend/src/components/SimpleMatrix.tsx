@@ -23,7 +23,7 @@ const SimpleMatrix: React.FC = () => {
   useEffect(() => {
     const fetchDevelopers = async () => {
       try {
-        const response = await fetch('http://localhost:5173/api/matrix/team');
+        const response = await fetch('/api/matrix/team');
         const data = await response.json();
 
         if (data.success && data.data) {
@@ -57,7 +57,7 @@ const SimpleMatrix: React.FC = () => {
         setError(null);
 
         console.log(`📊 Fetching matrix data for ${selectedDeveloper}...`);
-        const response = await fetch(`http://localhost:5173/api/matrix/developer/${encodeURIComponent(selectedDeveloper)}`);
+        const response = await fetch(`/api/matrix/developer/${encodeURIComponent(selectedDeveloper)}`);
         const data = await response.json();
 
         console.log('📋 API Response:', data);
@@ -367,11 +367,13 @@ const SimpleMatrix: React.FC = () => {
       </div>
 
       {/* Evidence Modal */}
-      <EvidenceModal
-        isOpen={evidenceModal.isOpen}
-        onClose={() => setEvidenceModal({ isOpen: false, competency: null })}
-        competency={evidenceModal.competency}
-      />
+      {evidenceModal.competency && (
+        <EvidenceModal
+          isOpen={evidenceModal.isOpen}
+          onClose={() => setEvidenceModal({ isOpen: false, competency: null })}
+          competency={evidenceModal.competency}
+        />
+      )}
     </div>
   );
 };

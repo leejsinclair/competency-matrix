@@ -11,11 +11,14 @@ const { DatabaseConnection } = require('../dist/database/connection');
  * @param {string} word - The word to search for
  * @returns {boolean} - True if word is found as a whole word
  */
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 function hasWordBoundaryMatch(text, word) {
-  // Create regex pattern for word boundaries
-  // \b matches word boundaries (start/end of word)
-  // This ensures "ant" matches "ant" but not "distant" or "plant"
-  const pattern = new RegExp(`\\b${word}\\b`, 'i');
+  const escapedWord = escapeRegExp(word);
+  // Use explicit alpha-numeric boundaries so terms like C# and .NET match reliably
+  const pattern = new RegExp(`(^|[^A-Za-z0-9])${escapedWord}(?=$|[^A-Za-z0-9])`, 'i');
   return pattern.test(text);
 }
 
@@ -24,18 +27,7 @@ function hasWordBoundaryMatch(text, word) {
  * Handles hyphens, underscores, and other word separators
  */
 function hasAdvancedWordBoundaryMatch(text, word) {
-  // Handle multiple word boundary scenarios
-  const boundaries = [
-    new RegExp(`\\b${word}\\b`, 'i'),           // Standard word boundaries
-    new RegExp(`\\b${word}-`, 'i'),              // Word followed by hyphen
-    new RegExp(`-${word}\\b`, 'i'),              // Word preceded by hyphen
-    new RegExp(`\\b${word}_`, 'i'),              // Word followed by underscore
-    new RegExp(`_${word}\\b`, 'i'),              // Word preceded by underscore
-    new RegExp(`\\b${word}\\s`, 'i'),            // Word followed by space
-    new RegExp(`\\s${word}\\b`, 'i'),            // Word preceded by space
-  ];
-
-  return boundaries.some(pattern => pattern.test(text));
+  return hasWordBoundaryMatch(text, word);
 }
 
 async function processConfluenceWithDetailedSubCompetencies() {

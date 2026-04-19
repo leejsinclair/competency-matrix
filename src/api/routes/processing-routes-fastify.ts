@@ -7,7 +7,7 @@ const execAsync = promisify(exec);
 
 export async function processingRoutes(fastify: FastifyInstance) {
   // POST /api/processing/full-reprocess - Trigger complete data reprocessing
-  fastify.post("/full-reprocess", async () => {
+  fastify.post("/full-reprocess", async (_request, reply) => {
     try {
       console.log("🚀 Starting FULL data reprocessing...");
 
@@ -32,16 +32,16 @@ export async function processingRoutes(fastify: FastifyInstance) {
       };
     } catch (error) {
       console.error("❌ Full reprocessing failed:", error);
-      throw {
-        statusCode: 500,
+      return reply.code(500).send({
+        success: false,
         error: "Failed to reprocess data",
         message: error instanceof Error ? error.message : "Unknown error",
-      };
+      });
     }
   });
 
   // POST /api/processing/generate-scores - Generate competency scores
-  fastify.post("/generate-scores", async () => {
+  fastify.post("/generate-scores", async (_request, reply) => {
     try {
       console.log("🔄 Generating competency scores...");
 
@@ -67,16 +67,16 @@ export async function processingRoutes(fastify: FastifyInstance) {
       };
     } catch (error) {
       console.error("❌ Score generation failed:", error);
-      throw {
-        statusCode: 500,
+      return reply.code(500).send({
+        success: false,
         error: "Failed to generate competency scores",
         message: error instanceof Error ? error.message : "Unknown error",
-      };
+      });
     }
   });
 
   // GET /api/processing/status - Get processing status
-  fastify.get("/status", async () => {
+  fastify.get("/status", async (_request, reply) => {
     try {
       // This could check database for last processing time, job status, etc.
       // For now, return a simple status
@@ -88,10 +88,10 @@ export async function processingRoutes(fastify: FastifyInstance) {
       };
     } catch (error) {
       console.error("❌ Status check failed:", error);
-      throw {
-        statusCode: 500,
+      return reply.code(500).send({
+        success: false,
         error: "Failed to get processing status",
-      };
+      });
     }
   });
 }

@@ -10,7 +10,8 @@ function escapeRegExp(value) {
 
 function hasWordBoundaryMatch(text, word) {
   const escapedWord = escapeRegExp(word);
-  const pattern = new RegExp(`(^|[^A-Za-z0-9])${escapedWord}(?=$|[^A-Za-z0-9])`, 'i');
+  // Use explicit alpha-numeric boundaries instead of \b so terms like C# and .NET still match.
+  const pattern = new RegExp(`(?:^|[^A-Za-z0-9])${escapedWord}(?=$|[^A-Za-z0-9])`, 'i');
   return pattern.test(text);
 }
 

@@ -1,4 +1,5 @@
 import { exec } from "child_process";
+import rateLimit from "@fastify/rate-limit";
 import { FastifyInstance } from "fastify";
 import path from "path";
 import { promisify } from "util";
@@ -6,8 +7,19 @@ import { promisify } from "util";
 const execAsync = promisify(exec);
 
 export async function processingRoutes(fastify: FastifyInstance) {
+  // Disable global throttling so only expensive command-executing routes are limited.
+  await fastify.register(rateLimit, { global: false });
+
   // POST /api/processing/full-reprocess - Trigger complete data reprocessing
-  fastify.post("/full-reprocess", async (_request, reply) => {
+  fastify.post(
+    "/full-reprocess",
+    {
+      preHandler: fastify.rateLimit({
+        max: 1,
+        timeWindow: 30 * 1000,
+      }),
+    },
+    async (_request, reply) => {
     try {
       console.log("🚀 Starting FULL data reprocessing...");
 
@@ -38,10 +50,19 @@ export async function processingRoutes(fastify: FastifyInstance) {
         message: error instanceof Error ? error.message : "Unknown error",
       });
     }
-  });
+    }
+  );
 
   // POST /api/processing/generate-scores - Generate competency scores
-  fastify.post("/generate-scores", async (_request, reply) => {
+  fastify.post(
+    "/generate-scores",
+    {
+      preHandler: fastify.rateLimit({
+        max: 1,
+        timeWindow: 30 * 1000,
+      }),
+    },
+    async (_request, reply) => {
     try {
       console.log("🔄 Generating competency scores...");
 
@@ -73,7 +94,8 @@ export async function processingRoutes(fastify: FastifyInstance) {
         message: error instanceof Error ? error.message : "Unknown error",
       });
     }
-  });
+    }
+  );
 
   // GET /api/processing/status - Get processing status
   fastify.get("/status", async (_request, reply) => {
